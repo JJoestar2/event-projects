@@ -14,7 +14,7 @@ class CreateEventsinfoTable extends Migration
     public function up()
     {
         Schema::create('eventsinfo', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id', true);
             $table->string('title', 120);
             $table->text('description');
             $table->dateTime('dateStart');

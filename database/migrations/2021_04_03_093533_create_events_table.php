@@ -14,11 +14,11 @@ class CreateEventsTable extends Migration
     public function up()
     {
         Schema::create('events', function (Blueprint $table) {
-            $table->id();
-            $table->integer('categoryId');
-            $table->integer('typeId');
-            $table->integer('creatorId');
-            $table->boolean('isFavorite')->default(0);
+            $table->unsignedBigInteger('id', true);
+            $table->foreignId('category_id')->constrained('category');
+            $table->foreignId('type_id')->constrained('type');
+            $table->foreignId('creator_id')->constrained('users');
+            $table->boolean('is_favorite')->default(0);
             $table->timestamps();
         });
     }
