@@ -17,7 +17,7 @@ class CreateEventsTable extends Migration
             $table->unsignedBigInteger('id', true);
             $table->foreignId('category_id')->constrained('category');
             $table->foreignId('type_id')->constrained('type');
-            $table->foreignId('creator_id')->constrained('users');
+            $table->foreignId('users_id')->constrained('users');
             $table->boolean('is_favorite')->default(0);
             $table->timestamps();
         });

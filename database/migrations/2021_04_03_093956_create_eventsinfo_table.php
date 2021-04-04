@@ -17,8 +17,8 @@ class CreateEventsinfoTable extends Migration
             $table->unsignedBigInteger('id', true);
             $table->string('title', 120);
             $table->text('description');
-            $table->dateTime('dateStart');
-            $table->dateTime('dateEnd');
+            $table->dateTime('date_start');
+            $table->dateTime('date_end');
             $table->string('status', 15);
             $table->string('location', 150);
             $table->text('preview');

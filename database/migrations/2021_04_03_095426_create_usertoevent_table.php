@@ -15,7 +15,7 @@ class CreateUsertoeventTable extends Migration
     {
         Schema::create('usertoevent', function (Blueprint $table) {
             $table->unsignedBigInteger('id', true);
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('users_id')->constrained('users');
             $table->foreignId('event_id')->constrained('events');
             $table->timestamps();
         });
