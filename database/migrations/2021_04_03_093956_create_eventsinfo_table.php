@@ -22,6 +22,7 @@ class CreateEventsinfoTable extends Migration
             $table->string('status', 15);
             $table->string('location', 150);
             $table->text('preview');
+            $table->foreignId('event_id')->constrained('events');
             $table->timestamps();
         });
     }

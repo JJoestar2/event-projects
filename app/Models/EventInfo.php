@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class EventInfo extends Model
 {
     use HasFactory;
+
+    protected $table = 'eventsinfo';
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
 }
