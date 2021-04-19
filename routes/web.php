@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
+Route::get('/', [HomeController::class, 'index'])->name('home');
+/*========== Events Routes =====*/
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/events/all', [EventController::class, 'getAllEvents']);
+Route::get('/event/{id}', [EventController::class, 'getEventById']);
+Route::get('/events/{title}', [EventController::class, 'findEventsByTitle']);
+Route::get('/events/sort/{type}', [EventController::class, 'orderEvents']);
+Route::get('/events/filter/{filter}/{id}', [EventController::class, 'filterEventsByCategoryOrType']);
+

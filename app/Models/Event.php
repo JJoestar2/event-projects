@@ -19,8 +19,7 @@ class Event extends Model
         'date_end',
         'status',
         'location',
-        'preview',
-        'is_favorite'
+        'preview'
     ];
 
     public function category()

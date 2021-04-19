@@ -18,7 +18,6 @@ class CreateEventsTable extends Migration
             $table->foreignId('category_id')->constrained('category');
             $table->foreignId('type_id')->constrained('type');
             $table->foreignId('users_id')->constrained('users');
-            $table->boolean('is_favorite')->default(0);
             $table->timestamps();
         });
     }

@@ -8,11 +8,6 @@
 
     </head>
     <body>
-
-    <!-- React root DOM -->
-    <div id="root"></div>
-
-
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    Welcome page
     </body>
 </html>
