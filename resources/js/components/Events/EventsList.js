@@ -27,11 +27,9 @@ class EventsList extends Component {
                 );
         });
         return (
-
-                        <div>
-                            {items}
-                        </div>
-
+            <div>
+                {items}
+            </div>
         );
     }
 }

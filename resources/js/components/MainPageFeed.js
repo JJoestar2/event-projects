@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import EventsList from './EventsList';
+import EventsList from './Events';
 
-class Example extends Component {
+class MainPageFeed extends Component {
     render() {
         return (
             <div className="container">
@@ -18,8 +18,8 @@ class Example extends Component {
         );
     }
 }
-export default Example;
+export default MainPageFeed;
 
 if (document.getElementById('root')) {
-    ReactDOM.render(<Example />, document.getElementById('root'));
+    ReactDOM.render(<MainPageFeed />, document.getElementById('root'));
 }

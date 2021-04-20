@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EventDetailResource;
 use App\Http\Resources\EventsResource;
 use App\Models\Category;
 use App\Models\Event;
@@ -17,8 +18,10 @@ class EventController extends Controller
 
     public function getEventById($id)
     {
-        $event = Event::find($id);
-        return new EventsResource($event);
+        $event = Event::where('id', $id)
+                ->with(['category', 'type'])
+                ->get();
+        return new EventDetailResource($event);
     }
 
     public function findEventsByTitle($title)
