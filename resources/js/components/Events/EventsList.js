@@ -27,7 +27,7 @@ class EventsList extends Component {
                 );
         });
         return (
-            <div>
+            <div className="d-flex justify-content-around">
                 {items}
             </div>
         );

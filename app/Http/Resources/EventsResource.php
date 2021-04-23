@@ -19,7 +19,8 @@ class EventsResource extends JsonResource
             'title' => $this->title,
             'date_start' => $this->date_start,
             'preview' => $this->preview,
-            'status' => $this->status
+            'status' => $this->status,
+            'location' => $this->location
         ];
     }
 }

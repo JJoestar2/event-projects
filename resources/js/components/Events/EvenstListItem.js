@@ -3,12 +3,19 @@ import './event-card.css';
 
 function EventsListItem(props) {
         return (
-            <a href="#">
-                <div className="cards transition">
-                    <h2 className="transition">{props.event.title}<br /><small>{props.event.date_start}</small>
-                    </h2>
+            <div className="card card-shadow">
+                <div className="card-preview">
+                    <img src="#" alt="image" />
                 </div>
-            </a>
+                <div className="card-body">
+                    <div className="card-info">
+                        <i className="fa fa-calendar" aria-hidden="true"><span className="card-date">{props.event.date_start}</span></i>
+                        <i className="fa fa-map-marker" aria-hidden="true"><span className="card-location">{props.event.location}</span></i>
+                    </div>
+                    <h2 className="card-title">{props.event.title}</h2>
+                </div>
+                <a href="#" className="btn btn-primary btn-more">Read More</a>
+            </div>
         );
 }
 export default EventsListItem;
