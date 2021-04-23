@@ -2056,7 +2056,7 @@ var EventsList = /*#__PURE__*/function (_Component) {
         }, event.id);
       });
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-        className: "d-flex justify-content-around",
+        className: "d-flex flex-wrap justify-content-between",
         children: items
       });
     }
@@ -2101,7 +2101,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var _Events__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Events */ "./resources/js/components/Events/index.js");
 /* harmony import */ var _SearchBox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SearchBox */ "./resources/js/components/SearchBox/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _SortBox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SortBox */ "./resources/js/components/SortBox/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2131,6 +2132,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var MainPageFeed = /*#__PURE__*/function (_Component) {
   _inherits(MainPageFeed, _Component);
 
@@ -2145,14 +2147,23 @@ var MainPageFeed = /*#__PURE__*/function (_Component) {
   _createClass(MainPageFeed, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-        className: "container",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        className: "container-fluid",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "row justify-content-center",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-            className: "col-md-8",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_SearchBox__WEBPACK_IMPORTED_MODULE_3__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Events__WEBPACK_IMPORTED_MODULE_2__.default, {})]
-          })
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+            className: "col-lg-3",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+              className: "filters",
+              children: "Filters"
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+            className: "col-lg-9",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+              className: "d-flex justify-content-between align-items-center mb-1",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SearchBox__WEBPACK_IMPORTED_MODULE_3__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SortBox__WEBPACK_IMPORTED_MODULE_4__.default, {})]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Events__WEBPACK_IMPORTED_MODULE_2__.default, {})]
+          })]
         })
       });
     }
@@ -2164,7 +2175,7 @@ var MainPageFeed = /*#__PURE__*/function (_Component) {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MainPageFeed);
 
 if (document.getElementById('root')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(MainPageFeed, {}), document.getElementById('root'));
+  react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(MainPageFeed, {}), document.getElementById('root'));
 }
 
 /***/ }),
@@ -2265,6 +2276,66 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SearchBox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SearchBox */ "./resources/js/components/SearchBox/SearchBox.js");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_SearchBox__WEBPACK_IMPORTED_MODULE_0__.default);
+
+/***/ }),
+
+/***/ "./resources/js/components/SortBox/SortBox.js":
+/*!****************************************************!*\
+  !*** ./resources/js/components/SortBox/SortBox.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+function SortBox(props) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: "form-group mb-0",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
+      className: "form-control",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        value: "ALL",
+        children: "All"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        value: "DESC",
+        children: "Desc"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        value: "ASC",
+        children: "Asc"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        value: "CITY",
+        children: "City"
+      })]
+    })
+  });
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SortBox);
+
+/***/ }),
+
+/***/ "./resources/js/components/SortBox/index.js":
+/*!**************************************************!*\
+  !*** ./resources/js/components/SortBox/index.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SortBox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SortBox */ "./resources/js/components/SortBox/SortBox.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_SortBox__WEBPACK_IMPORTED_MODULE_0__.default);
 
 /***/ }),
 
@@ -6727,7 +6798,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".card {\n    padding-top: 10px;\n    width: 350px;\n    margin: 10px 0 0 10px;\n    transition: 0.2s all ease;\n    font-family: 'Noto Sans TC', sans-serif;\n    padding-bottom: 15px;\n}\n\n.card:hover {\n    transform: scale(1.05);\n}\n\n.card-shadow {\n    box-shadow: -1px 2px 10px 0px rgba(34, 60, 80, 0.2);\n}\n\n.card-preview {\n    width: 100%;\n    padding-left: 10px;\n    padding-right: 10px;\n}\n\n.card-preview img {\n    display: block;\n    max-width: 100%;\n    border-radius: 10px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n\n.card-title {\n    font-weight: 700;\n    font-size: 1.35rem;\n}\n\n.card-info {\n    display: flex;\n    justify-content: space-between;\n    margin-bottom: 15px;\n}\n\n.card-date, .card-location {\n    font-weight: 300;\n    font-size: 1.05rem;\n    color: #ccd6e6;\n    padding-left: 5px;\n}\n\n.btn-more {\n    width: 200px;\n    margin: 0 auto;\n    font-size: 1.1rem;\n}\n\n.btn-more:hover {\n    color: #333;\n    background-color: transparent;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".card {\n    width: 313px;\n    padding-top: 10px;\n    padding-bottom: 15px;\n    margin-top: 10px;\n    margin-right: 10px;\n    transition: 0.2s all ease;\n    font-family: 'Noto Sans TC', sans-serif;\n}\n\n.card:hover {\n    transform: scale(1.05);\n}\n\n.card-shadow {\n    box-shadow: -1px 2px 10px 0px rgba(34, 60, 80, 0.2);\n}\n\n.card-preview {\n    width: 100%;\n    padding-left: 10px;\n    padding-right: 10px;\n}\n\n.card-preview img {\n    display: block;\n    max-width: 100%;\n    border-radius: 10px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n\n.card-title {\n    font-weight: 700;\n    font-size: 1.35rem;\n}\n\n.card-info {\n    display: flex;\n    flex-direction: column;\n    margin-bottom: 15px;\n}\n.card-date {\n    margin-bottom: 5px;\n}\n.card-date, .card-location {\n    display: inline-block;\n    font-weight: 300;\n    font-size: 1.05rem;\n    color: #ccd6e6;\n    padding-left: 5px;\n}\n\n.btn-more {\n    width: 200px;\n    margin: 0 auto;\n    font-size: 1.1rem;\n}\n\n.btn-more:hover {\n    color: #333;\n    background-color: transparent;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6752,7 +6823,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body {\n    background: #f2f2f2;\n    font-family: 'Noto Sans TC', sans-serif;\n}\n\n.search {\n    width: 100%;\n    position: relative;\n    display: flex;\n}\n\n.searchTerm {\n    width: 100%;\n    border: 1px solid #00B4CC;\n    border-right: none;\n    padding: 5px;\n    height: 25px;\n    border-radius: 5px 0 0 5px;\n    outline: none;\n    color: #9DBFAF;\n}\n\n.searchTerm:focus{\n    color: #00B4CC;\n}\n\n.searchButton {\n    border: 1px solid #00B4CC;\n    background: #00B4CC;\n    text-align: center;\n    color: #fff;\n    border-radius: 0 5px 5px 0;\n    cursor: pointer;\n    font-size: 0.75rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "body {\n    background: #f2f2f2;\n    font-family: 'Noto Sans TC', sans-serif;\n}\n.wrap {\n    width: 40%;\n    position: relative;\n}\n.search {\n    display: flex;\n}\n\n.searchTerm {\n    width: 100%;\n    border: 1px solid #00B4CC;\n    border-right: none;\n    padding: 5px;\n    height: 37px;\n    border-radius: 5px 0 0 5px;\n    outline: none;\n    color: #9DBFAF;\n}\n\n.searchTerm:focus{\n    color: #00B4CC;\n}\n\n.searchButton {\n    border: 1px solid #00B4CC;\n    background: #00B4CC;\n    text-align: center;\n    color: #fff;\n    border-radius: 0 5px 5px 0;\n    cursor: pointer;\n    font-size: 0.75rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

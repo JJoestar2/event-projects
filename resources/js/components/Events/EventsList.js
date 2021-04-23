@@ -27,7 +27,7 @@ class EventsList extends Component {
                 );
         });
         return (
-            <div className="d-flex justify-content-around">
+            <div className="d-flex flex-wrap justify-content-between">
                 {items}
             </div>
         );
