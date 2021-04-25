@@ -2,8 +2,11 @@ import { GET_ALL_EVENTS } from './eventTypes';
 import {getAllEvents} from "../../services";
 
 export const getEvents = () => {
+    let events = getAllEvents();
     return dispatch => {
-        dispatch(grabAllEvents(getAllEvents()));
+        events.then((data) => {
+            dispatch(grabAllEvents(data.data))
+        });
     };
 };
 

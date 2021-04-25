@@ -3,7 +3,7 @@ import './event-card.css';
 
 function EventsListItem(props) {
         return (
-            <div className="event event-shadow">
+            <div className="event event-shadow d-flex justify-content-between flex-column">
                 <div className="event-preview">
                     <img src="#" alt="image" />
                 </div>
