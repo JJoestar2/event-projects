@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
 
-.card {
+.events-row {
+    margin-right: -10px;
+}
+
+.event {
     width: 313px;
     padding-top: 10px;
     padding-bottom: 15px;
@@ -10,41 +14,41 @@
     font-family: 'Noto Sans TC', sans-serif;
 }
 
-.card:hover {
+.event:hover {
     transform: scale(1.05);
 }
 
-.card-shadow {
+.event-shadow {
     box-shadow: -1px 2px 10px 0px rgba(34, 60, 80, 0.2);
 }
 
-.card-preview {
+.event-preview {
     width: 100%;
     padding-left: 10px;
     padding-right: 10px;
 }
 
-.card-preview img {
+.event-preview img {
     display: block;
     max-width: 100%;
     border-radius: 10px;
     object-fit: cover;
 }
 
-.card-title {
+.event-title {
     font-weight: 700;
     font-size: 1.35rem;
 }
 
-.card-info {
+.event-info {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
 }
-.card-date {
+.event-date {
     margin-bottom: 5px;
 }
-.card-date, .card-location {
+.event-date, .event-location {
     display: inline-block;
     font-weight: 300;
     font-size: 1.05rem;
@@ -53,6 +57,7 @@
 }
 
 .btn-more {
+    display: block;
     width: 200px;
     margin: 0 auto;
     font-size: 1.1rem;
