@@ -25,11 +25,8 @@ class EventController extends Controller
 
     public function findEventsByTitle($title)
     {
-        if($title)
-        {
             $events = Event::where('title', 'like', "%$title%")->get();
             return EventsResource::collection($events);
-        }
     }
 
     public function orderEvents($type)

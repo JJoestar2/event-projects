@@ -1,5 +1,6 @@
-import { getAllEvents } from './EventsService';
+import { getAllEvents, searchEventByTitle } from './EventsService';
 
 export {
-    getAllEvents
+    getAllEvents,
+    searchEventByTitle
 };

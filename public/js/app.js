@@ -2061,7 +2061,7 @@ function EventsList(_ref) {
     }, event.id);
   });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    className: "d-flex flex-wrap justify-content-between",
+    className: "d-flex flex-wrap justify-content-between events-row",
     children: items
   });
 }
@@ -2079,7 +2079,8 @@ function EventsList(_ref) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getEvents": () => (/* binding */ getEvents)
+/* harmony export */   "getEvents": () => (/* binding */ getEvents),
+/* harmony export */   "searchEvent": () => (/* binding */ searchEvent)
 /* harmony export */ });
 /* harmony import */ var _eventTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventTypes */ "./resources/js/components/Events/eventTypes.js");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services */ "./resources/js/services/index.js");
@@ -2093,12 +2094,35 @@ var getEvents = function getEvents() {
     });
   };
 };
+var searchEvent = function searchEvent(title) {
+  if (title) {
+    var result = (0,_services__WEBPACK_IMPORTED_MODULE_1__.searchEventByTitle)(title);
+    return function (dispatch) {
+      result.then(function (data) {
+        dispatch(getSearchResult(data.data));
+      });
+    };
+  } else {
+    return function (dispatch) {
+      dispatch(getSearchResult([]));
+    };
+  }
+};
 
 var grabAllEvents = function grabAllEvents(data) {
   return {
     type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.GET_ALL_EVENTS,
     payload: {
       data: data
+    }
+  };
+};
+
+var getSearchResult = function getSearchResult(result) {
+  return {
+    type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.SEARCH_BY_TITLE,
+    payload: {
+      result: result
     }
   };
 };
@@ -2125,7 +2149,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var initialState = {
-  eventsList: []
+  eventsList: [],
+  searchResults: []
 };
 
 function eventsReducer() {
@@ -2136,6 +2161,11 @@ function eventsReducer() {
     case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.GET_ALL_EVENTS:
       return _objectSpread(_objectSpread({}, state), {}, {
         eventsList: action.payload
+      });
+
+    case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.SEARCH_BY_TITLE:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        searchResults: action.payload
       });
 
     default:
@@ -2157,9 +2187,11 @@ function eventsReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "GET_ALL_EVENTS": () => (/* binding */ GET_ALL_EVENTS)
+/* harmony export */   "GET_ALL_EVENTS": () => (/* binding */ GET_ALL_EVENTS),
+/* harmony export */   "SEARCH_BY_TITLE": () => (/* binding */ SEARCH_BY_TITLE)
 /* harmony export */ });
 var GET_ALL_EVENTS = "GET_ALL_EVENTS";
+var SEARCH_BY_TITLE = "SEARCH_BY_TITLE";
 
 
 /***/ }),
@@ -2262,7 +2294,7 @@ var MainPageFeed = /*#__PURE__*/function (_Component) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "col-lg-9",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-              className: "d-flex justify-content-between align-items-center mb-1 events-row",
+              className: "d-flex justify-content-between align-items-center mb-1",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_SearchBox__WEBPACK_IMPORTED_MODULE_3__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_SortBox__WEBPACK_IMPORTED_MODULE_4__.default, {})]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Events__WEBPACK_IMPORTED_MODULE_2__.default, {
               events: this.props.events.data
@@ -2306,8 +2338,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _search_box_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./search-box.css */ "./resources/js/components/SearchBox/search-box.css");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _search_box_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./search-box.css */ "./resources/js/components/SearchBox/search-box.css");
+/* harmony import */ var _SearchResult__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SearchResult */ "./resources/js/components/SearchBox/SearchResult/index.js");
+/* harmony import */ var _Events_eventActions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Events/eventActions */ "./resources/js/components/Events/eventActions.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2330,6 +2365,11 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
 
 
 
@@ -2341,29 +2381,55 @@ var SearchBox = /*#__PURE__*/function (_Component) {
   var _super = _createSuper(SearchBox);
 
   function SearchBox() {
+    var _this;
+
     _classCallCheck(this, SearchBox);
 
-    return _super.apply(this, arguments);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty(_assertThisInitialized(_this), "handleSubmit", function (e) {
+      e.preventDefault();
+
+      _this.props.searchEvent(e.target.title.value);
+    });
+
+    return _this;
   }
 
   _createClass(SearchBox, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      var _this2 = this;
+
+      var results = this.props.results.result ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_SearchResult__WEBPACK_IMPORTED_MODULE_3__.default, {
+        results: this.props.results.result
+      }) : null;
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "wrap",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "search",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
-            type: "text",
-            className: "searchTerm",
-            placeholder: "What are you looking for?"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-            type: "submit",
-            className: "searchButton",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-              className: "fa fa-search"
-            })
-          })]
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("form", {
+            onSubmit: function onSubmit(e) {
+              return _this2.handleSubmit(e);
+            },
+            className: "search-form",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+              type: "text",
+              name: "title",
+              className: "searchTerm",
+              placeholder: "What are you looking for?"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              type: "submit",
+              className: "searchButton",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
+                className: "fa fa-search"
+              })
+            })]
+          }), results]
         })
       });
     }
@@ -2372,7 +2438,106 @@ var SearchBox = /*#__PURE__*/function (_Component) {
   return SearchBox;
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SearchBox);
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    results: state.events.searchResults
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    searchEvent: function searchEvent(title) {
+      return dispatch((0,_Events_eventActions__WEBPACK_IMPORTED_MODULE_4__.searchEvent)(title));
+    }
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(SearchBox));
+
+/***/ }),
+
+/***/ "./resources/js/components/SearchBox/SearchResult/SearchResultItem.js":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/SearchBox/SearchResult/SearchResultItem.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+function SearchResultItem(props) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("li", {
+    className: "search-result-list-item",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("a", {
+      href: "/event/" + props.item.id,
+      children: [" ", props.item.title, " "]
+    })
+  });
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SearchResultItem);
+
+/***/ }),
+
+/***/ "./resources/js/components/SearchBox/SearchResult/SearchResutList.js":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/SearchBox/SearchResult/SearchResutList.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _SearchResultItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SearchResultItem */ "./resources/js/components/SearchBox/SearchResult/SearchResultItem.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+function SearchResultList(props) {
+  var items = props.results.map(function (item) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_SearchResultItem__WEBPACK_IMPORTED_MODULE_1__.default, {
+      item: item
+    }, item.id);
+  });
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    className: "search-result",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
+      className: "search-result-list",
+      children: items
+    })
+  });
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SearchResultList);
+
+/***/ }),
+
+/***/ "./resources/js/components/SearchBox/SearchResult/index.js":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/SearchBox/SearchResult/index.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _SearchResutList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SearchResutList */ "./resources/js/components/SearchBox/SearchResult/SearchResutList.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_SearchResutList__WEBPACK_IMPORTED_MODULE_0__.default);
 
 /***/ }),
 
@@ -2492,7 +2657,8 @@ if (document.getElementById('root')) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getAllEvents": () => (/* binding */ getAllEvents)
+/* harmony export */   "getAllEvents": () => (/* binding */ getAllEvents),
+/* harmony export */   "searchEventByTitle": () => (/* binding */ searchEventByTitle)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
@@ -2538,6 +2704,42 @@ var getAllEvents = /*#__PURE__*/function () {
   };
 }();
 
+var searchEventByTitle = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(title) {
+    var response;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.next = 2;
+            return fetch("/events/".concat(title), {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+
+          case 2:
+            response = _context2.sent;
+            _context2.next = 5;
+            return response.json();
+
+          case 5:
+            return _context2.abrupt("return", _context2.sent);
+
+          case 6:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+
+  return function searchEventByTitle(_x) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
 
 
 /***/ }),
@@ -2551,7 +2753,8 @@ var getAllEvents = /*#__PURE__*/function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getAllEvents": () => (/* reexport safe */ _EventsService__WEBPACK_IMPORTED_MODULE_0__.getAllEvents)
+/* harmony export */   "getAllEvents": () => (/* reexport safe */ _EventsService__WEBPACK_IMPORTED_MODULE_0__.getAllEvents),
+/* harmony export */   "searchEventByTitle": () => (/* reexport safe */ _EventsService__WEBPACK_IMPORTED_MODULE_0__.searchEventByTitle)
 /* harmony export */ });
 /* harmony import */ var _EventsService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EventsService */ "./resources/js/services/EventsService.js");
 
@@ -7068,7 +7271,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body {\n    background: #f2f2f2;\n    font-family: 'Noto Sans TC', sans-serif;\n}\n.wrap {\n    width: 40%;\n    position: relative;\n}\n.search {\n    display: flex;\n}\n\n.searchTerm {\n    width: 100%;\n    border: 1px solid #00B4CC;\n    border-right: none;\n    padding: 5px;\n    height: 37px;\n    border-radius: 5px 0 0 5px;\n    outline: none;\n    color: #9DBFAF;\n}\n\n.searchTerm:focus{\n    color: #00B4CC;\n}\n\n.searchButton {\n    border: 1px solid #00B4CC;\n    background: #00B4CC;\n    text-align: center;\n    color: #fff;\n    border-radius: 0 5px 5px 0;\n    cursor: pointer;\n    font-size: 0.75rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "body {\n    background: #f2f2f2;\n    font-family: 'Noto Sans TC', sans-serif;\n}\n.wrap {\n    width: 40%;\n}\n\n.search {\n    width: 100%;\n    position: relative;\n}\n\n.search-form {\n    display: flex;\n}\n\n.searchTerm {\n    width: 100%;\n    border: 1px solid #00B4CC;\n    border-right: none;\n    padding: 5px;\n    height: 37px;\n    border-radius: 5px 0 0 5px;\n    outline: none;\n    color: #9DBFAF;\n}\n\n.searchTerm:focus{\n    color: #00B4CC;\n}\n\n.searchButton {\n    border: 1px solid #00B4CC;\n    background: #00B4CC;\n    text-align: center;\n    color: #fff;\n    border-radius: 0 5px 5px 0;\n    cursor: pointer;\n    font-size: 0.75rem;\n}\n\n.search-result {\n    width: 100%;\n    position: absolute;\n    left: 0;\n    z-index: 1;\n    background-color: #fff;\n}\n\n.search-result-list {\n    list-style: none;\n    margin: 0;\n    padding: 0\n}\n\n.search-result-list-item {\n    padding: 10px 15px;\n    transition: 0.2s all ease;\n}\n\n.search-result-list-item a {\n    color: #333;\n    font-size: 1rem;\n    text-decoration: none;\n}\n\n.search-result-list-item:hover {\n    background-color: #4aa0e6;\n}\n\n.search-result-list-item:hover a {\n    color: #fff;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

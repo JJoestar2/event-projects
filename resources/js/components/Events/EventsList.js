@@ -9,7 +9,7 @@ function EventsList({events = []}) {
             );
         });
         return (
-            <div className="d-flex flex-wrap justify-content-between">
+            <div className="d-flex flex-wrap justify-content-between events-row">
                 {items}
             </div>
         );

@@ -1,3 +1,4 @@
+
 const getAllEvents = async () =>
  {
      let response = await fetch('/events/all', {
@@ -8,8 +9,18 @@ const getAllEvents = async () =>
      return await response.json();
  }
 
+ const searchEventByTitle = async (title) => {
+    let response = await fetch(`/events/${title}`,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }});
+    return await response.json();
+ }
+
 export {
-    getAllEvents
+    getAllEvents,
+    searchEventByTitle,
 };
 
 

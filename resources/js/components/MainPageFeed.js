@@ -21,7 +21,7 @@ class MainPageFeed extends Component {
                         </div>
                     </div>
                     <div className="col-lg-9">
-                        <div className="d-flex justify-content-between align-items-center mb-1 events-row">
+                        <div className="d-flex justify-content-between align-items-center mb-1">
                             <SearchBox />
                             <SortBox />
                         </div>
