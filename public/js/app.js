@@ -2080,7 +2080,8 @@ function EventsList(_ref) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getEvents": () => (/* binding */ getEvents),
-/* harmony export */   "searchEvent": () => (/* binding */ searchEvent)
+/* harmony export */   "searchEvent": () => (/* binding */ searchEvent),
+/* harmony export */   "sortEvents": () => (/* binding */ sortEvents)
 /* harmony export */ });
 /* harmony import */ var _eventTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventTypes */ "./resources/js/components/Events/eventTypes.js");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services */ "./resources/js/services/index.js");
@@ -2108,6 +2109,27 @@ var searchEvent = function searchEvent(title) {
     };
   }
 };
+var sortEvents = function sortEvents(filter, events) {
+  return function (dispatch) {
+    if (filter !== 'ALL') {
+      if (filter === 'DESC') events.sort(function (a, b) {
+        return a.title > b.title ? 1 : -1;
+      });
+      if (filter === 'ASC') events.sort(function (a, b) {
+        return a.title < b.title ? 1 : -1;
+      });
+      if (filter === 'DATE') events.sort(function (a, b) {
+        return a.date_start > b.date_start ? 1 : -1;
+      });
+    } else {
+      events.sort(function (a, b) {
+        return a.id > b.id ? 1 : -1;
+      });
+    }
+
+    return dispatch(sortEventsAction(filter, events));
+  };
+};
 
 var grabAllEvents = function grabAllEvents(data) {
   return {
@@ -2123,6 +2145,18 @@ var getSearchResult = function getSearchResult(result) {
     type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.SEARCH_BY_TITLE,
     payload: {
       result: result
+    }
+  };
+};
+
+var sortEventsAction = function sortEventsAction(filter, events) {
+  return {
+    type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.SORT_EVENTS,
+    payload: {
+      filter: filter,
+      items: {
+        data: events
+      }
     }
   };
 };
@@ -2150,7 +2184,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var initialState = {
   eventsList: [],
-  searchResults: []
+  searchResults: [],
+  sortFilter: 'ALL'
 };
 
 function eventsReducer() {
@@ -2166,6 +2201,12 @@ function eventsReducer() {
     case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.SEARCH_BY_TITLE:
       return _objectSpread(_objectSpread({}, state), {}, {
         searchResults: action.payload
+      });
+
+    case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.SORT_EVENTS:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        sortFilter: action.payload.filter,
+        eventsList: action.payload.items
       });
 
     default:
@@ -2188,10 +2229,12 @@ function eventsReducer() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "GET_ALL_EVENTS": () => (/* binding */ GET_ALL_EVENTS),
-/* harmony export */   "SEARCH_BY_TITLE": () => (/* binding */ SEARCH_BY_TITLE)
+/* harmony export */   "SEARCH_BY_TITLE": () => (/* binding */ SEARCH_BY_TITLE),
+/* harmony export */   "SORT_EVENTS": () => (/* binding */ SORT_EVENTS)
 /* harmony export */ });
 var GET_ALL_EVENTS = "GET_ALL_EVENTS";
 var SEARCH_BY_TITLE = "SEARCH_BY_TITLE";
+var SORT_EVENTS = "SORT_EVENTS";
 
 
 /***/ }),
@@ -2570,34 +2613,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _Events_eventActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Events/eventActions */ "./resources/js/components/Events/eventActions.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
 
 
 
 
 function SortBox(props) {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
     className: "form-group mb-0",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
       className: "form-control",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+      value: props.filter,
+      onChange: function onChange(e) {
+        return props.sort(e.target.value, props.events.data);
+      },
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
         value: "ALL",
         children: "All"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
         value: "DESC",
         children: "Desc"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
         value: "ASC",
         children: "Asc"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-        value: "CITY",
-        children: "City"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        value: "DATE",
+        children: "Date"
       })]
     })
   });
 }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SortBox);
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    filter: state.events.sortFilter,
+    events: state.events.eventsList
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    sort: function sort(filter, events) {
+      return dispatch((0,_Events_eventActions__WEBPACK_IMPORTED_MODULE_2__.sortEvents)(filter, events));
+    }
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(SortBox));
 
 /***/ }),
 

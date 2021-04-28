@@ -1,8 +1,9 @@
-import {GET_ALL_EVENTS, SEARCH_BY_TITLE} from "./eventTypes";
+import {GET_ALL_EVENTS, SEARCH_BY_TITLE, SORT_EVENTS} from "./eventTypes";
 
 const initialState = {
     eventsList: [],
-    searchResults: []
+    searchResults: [],
+    sortFilter: 'ALL',
 };
 
 function eventsReducer(state = initialState, action) {
@@ -16,6 +17,12 @@ function eventsReducer(state = initialState, action) {
             return {
               ...state,
               searchResults: action.payload
+            };
+        case SORT_EVENTS:
+            return {
+              ...state,
+                sortFilter: action.payload.filter,
+                eventsList: action.payload.items
             };
         default:
             return state;
