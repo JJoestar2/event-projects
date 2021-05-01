@@ -34,7 +34,7 @@ export const sortEvents = (filter, events) => (dispatch) => {
         events.sort((a,b) => (a.id > b.id ? 1 : -1))
     }
 
-    return dispatch(sortEventsAction(filter, events));
+    return dispatch(sortEventsAction(filter, events));bl
 };
 
 const grabAllEvents = data => ({

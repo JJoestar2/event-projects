@@ -5,7 +5,7 @@ function EventsListItem(props) {
         return (
             <div className="event event-shadow d-flex justify-content-between flex-column">
                 <div className="event-preview">
-                    <img src="#" alt="image" />
+                    <img src="/img_lights.jpg" alt="image" />
                 </div>
                 <div className="card-body">
                     <div className="event-info">
@@ -14,7 +14,7 @@ function EventsListItem(props) {
                     </div>
                     <h2 className="event-title">{props.event.title}</h2>
                 </div>
-                <a href="#" className="btn btn-primary btn-more">Read More</a>
+                <a href={"/event/" + props.event.id} className="btn btn-primary btn-more">Read More</a>
             </div>
         );
 }

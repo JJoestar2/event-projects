@@ -1,0 +1,147 @@
+@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap);
+@charset "UTF-8";
+
+body {
+    background-color: azure !important;
+}
+
+h1 {
+    font-size: 1.5rem;
+}
+
+p {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+ul {
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: #333;
+    padding-left: 1.5em;
+}
+
+span {
+    color: #333;
+}
+
+.event-block {
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+.event-description-header {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.event-type {
+    display: inline-flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    margin-top: 5px;
+}
+
+.event-type-category, .event-type-format {
+    display: inline-block;
+}
+
+.event-type-format {
+    margin-left: 15px;
+}
+
+.event-aside {
+    padding-top: 25px;
+}
+
+.event-locations, .event-place, .event-dates {
+    display: block;
+}
+
+.event-place {
+    margin-bottom: 15px;
+}
+
+.event-location {
+    font-weight: 400;
+    color: #000;
+}
+
+.event-date {
+    padding-top: 10px;
+    color: #000;
+}
+
+.event-block
+{
+    max-width: 1080px;
+    margin: 0 auto;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-top: 50px;
+}
+
+.event-block__top {
+    border-bottom: 1px solid #333;
+    background-color: #fffde1;
+}
+
+.event-iamge {
+    width: 720px;
+    min-height: 360px;
+}
+
+.event-iamge img {
+    display: block;
+    width: 100%;
+}
+
+.event-heading {
+    padding: 10px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.event-heading h1 {
+    padding-top: 50px;
+    margin-bottom: 65px;
+}
+
+.event-block__content {
+    padding: 10px 15px;
+    background-color: #fff;
+}
+
+
+.event-description {
+    width: 65%;
+}
+
+.btn-member {
+    display: inline-block;
+    text-transform: uppercase;
+    color: #333;
+    background: transparent;
+    border: 0;
+    outline: none;
+    transition: 0.1s all ease;
+    cursor: pointer;
+    min-width: 284px;
+    align-self: center;
+}
+
+.btn-register {
+    padding: 10px 30px;
+    border: 1px solid #FE4B4B;
+    margin-top: 25px;
+}
+
+.btn-register:hover {
+    background-color: #FE4B4B;
+    color: #fff;
+}
+
+.google-notify-link {
+    display: block;
+}

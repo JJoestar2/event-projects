@@ -20,23 +20,13 @@ class EventController extends Controller
         $event = Event::where('id', $id)
                 ->with(['category', 'type'])
                 ->get();
-        return $event;
+        return view('event-details', ['event' => $event]);
     }
 
     public function findEventsByTitle($title)
     {
             $events = Event::where('title', 'like', "%$title%")->get();
             return EventsResource::collection($events);
-    }
-
-    public function orderEvents($type)
-    {
-        if($type === 'ASC' || $type === 'DESC') {
-            return EventsResource::collection(Event::orderBy('title', $type)->get());
-        } elseif ($type === 'CITY') {
-            return EventsResource::collection(Event::orderBy('location', 'DESC')->get());
-        }
-        return $this->getAllEvents();
     }
 
     public function filterEventsByCategoryOrType($filter, $id)

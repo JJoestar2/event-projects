@@ -1996,7 +1996,7 @@ function EventsListItem(props) {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "event-preview",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-        src: "#",
+        src: "/img_lights.jpg",
         alt: "image"
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -2023,7 +2023,7 @@ function EventsListItem(props) {
         children: props.event.title
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
-      href: "#",
+      href: "/event/" + props.event.id,
       className: "btn btn-primary btn-more",
       children: "Read More"
     })]
@@ -2128,6 +2128,7 @@ var sortEvents = function sortEvents(filter, events) {
     }
 
     return dispatch(sortEventsAction(filter, events));
+    bl;
   };
 };
 
@@ -7312,7 +7313,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".events-row {\n    margin-right: -10px;\n}\n\n.event {\n    width: 313px;\n    padding-top: 10px;\n    padding-bottom: 15px;\n    margin-top: 10px;\n    margin-right: 10px;\n    transition: 0.2s all ease;\n    font-family: 'Noto Sans TC', sans-serif;\n}\n\n.event:hover {\n    transform: scale(1.05);\n}\n\n.event-shadow {\n    box-shadow: -1px 2px 10px 0px rgba(34, 60, 80, 0.2);\n}\n\n.event-preview {\n    width: 100%;\n    padding-left: 10px;\n    padding-right: 10px;\n}\n\n.event-preview img {\n    display: block;\n    max-width: 100%;\n    border-radius: 10px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n\n.event-title {\n    font-weight: 700;\n    font-size: 1.35rem;\n}\n\n.event-info {\n    display: flex;\n    flex-direction: column;\n    margin-bottom: 15px;\n}\n.event-date {\n    margin-bottom: 5px;\n}\n.event-date, .event-location {\n    display: inline-block;\n    font-weight: 300;\n    font-size: 1.05rem;\n    color: #ccd6e6;\n    padding-left: 5px;\n}\n\n.btn-more {\n    display: block;\n    width: 200px;\n    margin: 0 auto;\n    font-size: 1.1rem;\n}\n\n.btn-more:hover {\n    color: #333;\n    background-color: transparent;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@charset \"UTF-8\";\n\n.events-row {\n    margin-right: -10px;\n}\n\n.event {\n    width: 313px;\n    padding-top: 10px;\n    padding-bottom: 15px;\n    margin-top: 10px;\n    margin-right: 10px;\n    transition: 0.2s all ease;\n    font-family: 'Noto Sans TC', sans-serif;\n    background-color: #fff;\n}\n\n.event:hover {\n    transform: scale(1.05);\n}\n\n.event-shadow {\n    box-shadow: -1px 2px 10px 0px rgba(34, 60, 80, 0.2);\n}\n\n.event-preview {\n    width: 100%;\n    padding-left: 10px;\n    padding-right: 10px;\n}\n\n.event-preview img {\n    display: block;\n    max-width: 100%;\n    border-radius: 10px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n\n.event-title {\n    font-weight: 700;\n    font-size: 1.35rem;\n}\n\n.event-info {\n    display: flex;\n    flex-direction: column;\n    margin-bottom: 15px;\n}\n.event-date {\n    margin-bottom: 5px;\n}\n.event-date, .event-location {\n    display: inline-block;\n    font-weight: 300;\n    font-size: 1.05rem;\n    color: #ccd6e6;\n    padding-left: 5px;\n}\n\n.btn-more {\n    display: block;\n    width: 200px;\n    margin: 0 auto;\n    font-size: 1.1rem;\n}\n\n.btn-more:hover {\n    color: #333;\n    background-color: transparent;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -7337,7 +7338,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body {\n    background: #f2f2f2;\n    font-family: 'Noto Sans TC', sans-serif;\n}\n.wrap {\n    width: 40%;\n}\n\n.search {\n    width: 100%;\n    position: relative;\n}\n\n.search-form {\n    display: flex;\n}\n\n.searchTerm {\n    width: 100%;\n    border: 1px solid #00B4CC;\n    border-right: none;\n    padding: 5px;\n    height: 37px;\n    border-radius: 5px 0 0 5px;\n    outline: none;\n    color: #9DBFAF;\n}\n\n.searchTerm:focus{\n    color: #00B4CC;\n}\n\n.searchButton {\n    border: 1px solid #00B4CC;\n    background: #00B4CC;\n    text-align: center;\n    color: #fff;\n    border-radius: 0 5px 5px 0;\n    cursor: pointer;\n    font-size: 0.75rem;\n}\n\n.search-result {\n    width: 100%;\n    position: absolute;\n    left: 0;\n    z-index: 1;\n    background-color: #fff;\n}\n\n.search-result-list {\n    list-style: none;\n    margin: 0;\n    padding: 0\n}\n\n.search-result-list-item {\n    padding: 10px 15px;\n    transition: 0.2s all ease;\n}\n\n.search-result-list-item a {\n    color: #333;\n    font-size: 1rem;\n    text-decoration: none;\n}\n\n.search-result-list-item:hover {\n    background-color: #4aa0e6;\n}\n\n.search-result-list-item:hover a {\n    color: #fff;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@charset \"UTF-8\";\n\n.wrap {\n    width: 40%;\n}\n\n.search {\n    width: 100%;\n    position: relative;\n}\n\n.search-form {\n    display: flex;\n}\n\n.searchTerm {\n    width: 100%;\n    border: 1px solid #00B4CC;\n    border-right: none;\n    padding: 5px;\n    height: 37px;\n    border-radius: 5px 0 0 5px;\n    outline: none;\n    color: #9DBFAF;\n}\n\n.searchTerm:focus{\n    color: #00B4CC;\n}\n\n.searchButton {\n    border: 1px solid #00B4CC;\n    background: #00B4CC;\n    text-align: center;\n    color: #fff;\n    border-radius: 0 5px 5px 0;\n    cursor: pointer;\n    font-size: 0.75rem;\n}\n\n.search-result {\n    width: 100%;\n    position: absolute;\n    left: 0;\n    z-index: 1;\n    background-color: #fff;\n}\n\n.search-result-list {\n    list-style: none;\n    margin: 0;\n    padding: 0\n}\n\n.search-result-list-item {\n    padding: 10px 15px;\n    transition: 0.2s all ease;\n}\n\n.search-result-list-item a {\n    color: #333;\n    font-size: 1rem;\n    text-decoration: none;\n}\n\n.search-result-list-item:hover {\n    background-color: #4aa0e6;\n}\n\n.search-result-list-item:hover a {\n    color: #fff;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
