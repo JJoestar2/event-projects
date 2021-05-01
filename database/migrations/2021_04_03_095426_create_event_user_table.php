@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserEventTable extends Migration
+class CreateEventUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateUserEventTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_event', function (Blueprint $table) {
+        Schema::create('event_user', function (Blueprint $table) {
             $table->unsignedBigInteger('id', true);
-            $table->foreignId('users_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users');
             $table->foreignId('event_id')->constrained('events');
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreateUserEventTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_event');
+        Schema::dropIfExists('event_user');
     }
 }

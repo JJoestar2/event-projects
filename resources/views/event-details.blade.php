@@ -9,9 +9,15 @@
                     <img src="{{asset('img_lights.jpg')}}" alt="#">
                 </div>
                 <div class="event-heading">
-                    <span>APR 14</span>
+                    <span>{{ date("F", strtotime($item->date_start)) }} {{  date("d", strtotime($item->date_start)) }} </span>
                     <h1> {{ $item->title }} </h1>
-                    <button class="btn btn-register">Register</button>
+                    @if(Auth::user()->getAuthIdentifier() !== $item->users_id) <!--- check if user is creator of event --->
+                        @if($member)
+                            <a href="{{"/event/register/" . Auth::user()->getAuthIdentifier(). "/" . $item->id }}" class="btn-member btn-register">Register</a>
+                        @else
+                            <a href="{{"/event/leave/" . Auth::user()->getAuthIdentifier(). "/" . $item->id }}" class="btn-member btn-register">Leave Event</a>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>
@@ -31,7 +37,6 @@
                     </span>
                 </div>
             </div>
-            <button class="btn-member btn-register">Register</button>
             @endforeach
         </div>
     </div>

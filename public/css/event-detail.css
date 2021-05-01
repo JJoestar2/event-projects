@@ -121,6 +121,7 @@ span {
 .btn-member {
     display: inline-block;
     text-transform: uppercase;
+    text-align: center;
     color: #333;
     background: transparent;
     border: 0;

@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Event;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Auth;
 
 class EventController extends Controller
 {
@@ -17,16 +18,18 @@ class EventController extends Controller
 
     public function getEventById($id)
     {
-        $event = Event::where('id', $id)
-                ->with(['category', 'type'])
-                ->get();
-        return view('event-details', ['event' => $event]);
+        $event = Event::find($id);
+        $item =  $event->where('id', $id)->with(['category', 'type'])->get();
+        $member = $this->checkIfUserInEvent($event, Auth::user()->getAuthIdentifier());
+
+        return view('event-details', ['event' => $item, 'member' => $member]);
     }
 
     public function findEventsByTitle($title)
     {
-            $events = Event::where('title', 'like', "%$title%")->get();
-            return EventsResource::collection($events);
+        $events = Event::where('title', 'like', "%$title%")->get();
+
+        return EventsResource::collection($events);
     }
 
     public function filterEventsByCategoryOrType($filter, $id)
@@ -42,5 +45,28 @@ class EventController extends Controller
         }
 
         return EventsResource::collection($events);
+    }
+
+    public function registerInEvent($userId, $eventId)
+    {
+        $event = Event::find($eventId);
+        $event->users()->attach($userId);
+
+        return redirect("/event/$eventId");
+    }
+
+    public function leaveFromEvent($userId, $eventId)
+    {
+        $event = Event::find($eventId);
+        $event->users()->detach($userId);
+
+        return redirect("/event/$eventId");
+    }
+
+    private function checkIfUserInEvent($event, $userId)
+    {
+        $member = $event->users($userId)->select('user_id')->get();
+
+        return sizeof($member) == 0;
     }
 }
