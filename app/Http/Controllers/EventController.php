@@ -32,6 +32,14 @@ class EventController extends Controller
         return EventsResource::collection($events);
     }
 
+    public function createEvent()
+    {
+        $category = Category::all();
+        $type = Type::all();
+
+        return view('create-event', ['category' => $category, 'type' => $type]);
+    }
+
     public function filterEventsByCategoryOrType($filter, $id)
     {
         $events = [];
