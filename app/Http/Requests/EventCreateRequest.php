@@ -24,11 +24,15 @@ class EventCreateRequest extends FormRequest
     public function rules()
     {
         return [
+            'category_id' => 'required',
+            'type_id' => 'required',
+            'users_id' => 'required',
             'title' => 'required|max:45',
-            'location' => 'required|max:45',
             'description' => 'required',
             'date_start' => 'required',
             'date_end' => 'required',
+            'status' => 'required',
+            'location' => 'required|max:45',
         ];
     }
 }

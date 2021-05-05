@@ -33,7 +33,7 @@
                                        class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
 
                                 <div class="col-md-6">
-                                    <select id="category" class="form-control" name="category" required>
+                                    <select id="category" class="form-control" name="category_id">
                                         @foreach($category as $item)
                                             <option value="{{$item->id}}">{{$item->category}}</option>
                                         @endforeach
@@ -46,7 +46,7 @@
                                        class="col-md-4 col-form-label text-md-right">{{ __('Format') }}</label>
 
                                 <div class="col-md-6">
-                                    <select id="type" class="form-control" name="type" required >
+                                    <select id="type" class="form-control" name="type_id">
                                         @foreach($type as $item)
                                             <option value="{{$item->id}}">{{$item->type}}</option>
                                         @endforeach
@@ -76,7 +76,7 @@
                                        class="col-md-4 col-form-label text-md-right">{{ __('Status') }}</label>
 
                                 <div class="col-md-6">
-                                    <select id="status" class="form-control" name="status" required>
+                                    <select id="status" class="form-control" name="status">
                                         <option value="Planing">Planing</option>
                                         <option value="In Process">In Process</option>
                                         <option value="Done">Done</option>
@@ -138,8 +138,8 @@
 
                             <div class="form-group row">
                                 <div class="col-md-6">
-                                    <input id="userId" type="hidden"
-                                           class="form-control" name="userId"
+                                    <input id="users_id" type="hidden"
+                                           class="form-control" name="users_id"
                                            value="{{ Auth::user()->getAuthIdentifier() }}" >
                                 </div>
                             </div>
