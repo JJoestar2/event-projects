@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Models\Event;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use App\Http\Requests\EventCreateRequest;
+
 use Auth;
 
 class EventController extends Controller
@@ -40,20 +42,9 @@ class EventController extends Controller
         return view('create-event', ['category' => $category, 'type' => $type]);
     }
 
-    public function saveEvent(Request $request)
+    public function saveEvent(EventCreateRequest $request)
     {
-        Event::create([
-            'category_id' => $request->input('category'),
-            'type_id' => $request->input('type'),
-            'users_id' => $request->input('userId'),
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'date_start' => $request->input('date_start'),
-            'date_end' => $request->input('date_end'),
-            'status' => $request->input('status'),
-            'location' => $request->input('location'),
-        ]);
-
+        Event::create($request->validated());
         return redirect("/create");
     }
 
