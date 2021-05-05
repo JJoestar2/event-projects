@@ -1,7 +1,7 @@
 
 const getAllEvents = async () =>
  {
-     let response = await fetch('/events/all', {
+     let response = await fetch('/api/events/all', {
          method: 'GET',
          headers: {
              'Content-Type': 'application/json'
@@ -10,7 +10,7 @@ const getAllEvents = async () =>
  }
 
  const searchEventByTitle = async (title) => {
-    let response = await fetch(`/events/${title}`,{
+    let response = await fetch(`/api/events/${title}`,{
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'

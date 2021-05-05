@@ -8,7 +8,7 @@
                     <div class="card-header">{{ __('Create Event') }}</div>
 
                     <div class="card-body">
-                        <form method="POST">
+                        <form method="POST" action="/event-save">
                             @csrf
 
                             <div class="form-group row">
@@ -146,6 +146,14 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <input id="userId" type="hidden"
+                                           class="form-control" name="userId"
+                                           value="{{ Auth::user()->getAuthIdentifier() }}" >
                                 </div>
                             </div>
 

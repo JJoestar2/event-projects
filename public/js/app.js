@@ -2128,7 +2128,6 @@ var sortEvents = function sortEvents(filter, events) {
     }
 
     return dispatch(sortEventsAction(filter, events));
-    bl;
   };
 };
 
@@ -2743,7 +2742,7 @@ var getAllEvents = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return fetch('/events/all', {
+            return fetch('/api/events/all', {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'
@@ -2779,7 +2778,7 @@ var searchEventByTitle = /*#__PURE__*/function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return fetch("/events/".concat(title), {
+            return fetch("/api/events/".concat(title), {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'

@@ -40,6 +40,23 @@ class EventController extends Controller
         return view('create-event', ['category' => $category, 'type' => $type]);
     }
 
+    public function saveEvent(Request $request)
+    {
+        Event::create([
+            'category_id' => $request->input('category'),
+            'type_id' => $request->input('type'),
+            'users_id' => $request->input('userId'),
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'date_start' => $request->input('date_start'),
+            'date_end' => $request->input('date_end'),
+            'status' => $request->input('status'),
+            'location' => $request->input('location'),
+        ]);
+
+        return redirect("/create");
+    }
+
     public function filterEventsByCategoryOrType($filter, $id)
     {
         $events = [];

@@ -20,11 +20,9 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 /*========== Events Routes =====*/
-Route::get('/events/all', [EventController::class, 'getAllEvents']);
 Route::get('/event/{id}', [EventController::class, 'getEventById']);
-Route::get('/events/{title}', [EventController::class, 'findEventsByTitle']);
-Route::get('/events/filter/{filter}/{id}', [EventController::class, 'filterEventsByCategoryOrType']);
 Route::any('/event/register/{userId}/{eventId}', [EventController::class, 'registerInEvent']);
 Route::any('/event/leave/{userId}/{eventId}', [EventController::class, 'leaveFromEvent']);
-Route::any('/create', [EventController::class, 'createEvent']);
+Route::get('/create', [EventController::class, 'createEvent']);
+Route::post('/event-save', [EventController::class, 'saveEvent']);
 
