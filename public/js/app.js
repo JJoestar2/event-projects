@@ -32,6 +32,27 @@ function _extends() {
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _inheritsLoose)
+/* harmony export */ });
+/* harmony import */ var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPrototypeOf.js */ "./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js");
+
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+  (0,_setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__.default)(subClass, superClass);
+}
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js":
 /*!*********************************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js ***!
@@ -56,6 +77,28 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   }
 
   return target;
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _setPrototypeOf)
+/* harmony export */ });
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
 }
 
 /***/ }),
@@ -2070,21 +2113,37 @@ function EventsList(_ref) {
 
 /***/ }),
 
-/***/ "./resources/js/components/Events/eventActions.js":
-/*!********************************************************!*\
-  !*** ./resources/js/components/Events/eventActions.js ***!
-  \********************************************************/
+/***/ "./resources/js/components/Events/index.js":
+/*!*************************************************!*\
+  !*** ./resources/js/components/Events/index.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _EventsList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EventsList */ "./resources/js/components/Events/EventsList.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_EventsList__WEBPACK_IMPORTED_MODULE_0__.default);
+
+/***/ }),
+
+/***/ "./resources/js/components/Events/state/eventActions.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/Events/state/eventActions.js ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getEvents": () => (/* binding */ getEvents),
-/* harmony export */   "searchEvent": () => (/* binding */ searchEvent),
 /* harmony export */   "sortEvents": () => (/* binding */ sortEvents)
 /* harmony export */ });
-/* harmony import */ var _eventTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventTypes */ "./resources/js/components/Events/eventTypes.js");
-/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services */ "./resources/js/services/index.js");
+/* harmony import */ var _eventTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventTypes */ "./resources/js/components/Events/state/eventTypes.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../services */ "./resources/js/services/index.js");
 
 
 var getEvents = function getEvents() {
@@ -2094,20 +2153,6 @@ var getEvents = function getEvents() {
       dispatch(grabAllEvents(data.data));
     });
   };
-};
-var searchEvent = function searchEvent(title) {
-  if (title) {
-    var result = (0,_services__WEBPACK_IMPORTED_MODULE_1__.searchEventByTitle)(title);
-    return function (dispatch) {
-      result.then(function (data) {
-        dispatch(getSearchResult(data.data));
-      });
-    };
-  } else {
-    return function (dispatch) {
-      dispatch(getSearchResult([]));
-    };
-  }
 };
 var sortEvents = function sortEvents(filter, events) {
   return function (dispatch) {
@@ -2119,7 +2164,7 @@ var sortEvents = function sortEvents(filter, events) {
         return a.title < b.title ? 1 : -1;
       });
       if (filter === 'DATE') events.sort(function (a, b) {
-        return a.date_start > b.date_start ? 1 : -1;
+        return a.date_start < b.date_start ? 1 : -1;
       });
     } else {
       events.sort(function (a, b) {
@@ -2140,15 +2185,6 @@ var grabAllEvents = function grabAllEvents(data) {
   };
 };
 
-var getSearchResult = function getSearchResult(result) {
-  return {
-    type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.SEARCH_BY_TITLE,
-    payload: {
-      result: result
-    }
-  };
-};
-
 var sortEventsAction = function sortEventsAction(filter, events) {
   return {
     type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.SORT_EVENTS,
@@ -2163,10 +2199,10 @@ var sortEventsAction = function sortEventsAction(filter, events) {
 
 /***/ }),
 
-/***/ "./resources/js/components/Events/eventReducer.js":
-/*!********************************************************!*\
-  !*** ./resources/js/components/Events/eventReducer.js ***!
-  \********************************************************/
+/***/ "./resources/js/components/Events/state/eventReducer.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/Events/state/eventReducer.js ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2174,7 +2210,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _eventTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventTypes */ "./resources/js/components/Events/eventTypes.js");
+/* harmony import */ var _eventTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventTypes */ "./resources/js/components/Events/state/eventTypes.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2184,7 +2220,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var initialState = {
   eventsList: [],
-  searchResults: [],
   sortFilter: 'ALL'
 };
 
@@ -2196,11 +2231,6 @@ function eventsReducer() {
     case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.GET_ALL_EVENTS:
       return _objectSpread(_objectSpread({}, state), {}, {
         eventsList: action.payload
-      });
-
-    case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.SEARCH_BY_TITLE:
-      return _objectSpread(_objectSpread({}, state), {}, {
-        searchResults: action.payload
       });
 
     case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.SORT_EVENTS:
@@ -2219,30 +2249,28 @@ function eventsReducer() {
 
 /***/ }),
 
-/***/ "./resources/js/components/Events/eventTypes.js":
-/*!******************************************************!*\
-  !*** ./resources/js/components/Events/eventTypes.js ***!
-  \******************************************************/
+/***/ "./resources/js/components/Events/state/eventTypes.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/Events/state/eventTypes.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "GET_ALL_EVENTS": () => (/* binding */ GET_ALL_EVENTS),
-/* harmony export */   "SEARCH_BY_TITLE": () => (/* binding */ SEARCH_BY_TITLE),
 /* harmony export */   "SORT_EVENTS": () => (/* binding */ SORT_EVENTS)
 /* harmony export */ });
 var GET_ALL_EVENTS = "GET_ALL_EVENTS";
-var SEARCH_BY_TITLE = "SEARCH_BY_TITLE";
 var SORT_EVENTS = "SORT_EVENTS";
 
 
 /***/ }),
 
-/***/ "./resources/js/components/Events/index.js":
-/*!*************************************************!*\
-  !*** ./resources/js/components/Events/index.js ***!
-  \*************************************************/
+/***/ "./resources/js/components/FilterDropdown/Dropdown.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/FilterDropdown/Dropdown.js ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2250,16 +2278,175 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _EventsList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EventsList */ "./resources/js/components/Events/EventsList.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/CSSTransition.js");
+/* harmony import */ var _Events_EvenstListItem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Events/EvenstListItem */ "./resources/js/components/Events/EvenstListItem.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_EventsList__WEBPACK_IMPORTED_MODULE_0__.default);
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+var DropdownMenu = function DropdownMenu(_ref) {
+  var _ref$data = _ref.data,
+      data = _ref$data === void 0 ? [] : _ref$data,
+      title = _ref.title;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('main'),
+      _useState2 = _slicedToArray(_useState, 2),
+      activeMenu = _useState2[0],
+      setActiveMenu = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState4 = _slicedToArray(_useState3, 2),
+      menuHeight = _useState4[0],
+      setMenuHeight = _useState4[1];
+
+  function calcHeight(el) {
+    var height = el.offsetHeight;
+    setMenuHeight(height);
+  }
+
+  var DropdownItem = function DropdownItem(props) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("a", {
+      className: "menu-item",
+      onClick: function onClick() {
+        return props.goToMenu && setActiveMenu(props.goToMenu);
+      },
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
+        className: "icon-button",
+        children: [" ", props.leftIcon, " "]
+      }), props.children, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
+        className: "icon-right",
+        children: [" ", props.rightIcon, " "]
+      })]
+    });
+  };
+
+  var items = data.map(function (item) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(DropdownItem, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
+        children: [" ", item.category || item.type, " "]
+      })
+    }, item.id);
+  });
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "dropdown-filter",
+    style: {
+      height: menuHeight
+    },
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_transition_group__WEBPACK_IMPORTED_MODULE_3__.default, {
+      "in": activeMenu === 'main',
+      unmountOnExit: true,
+      timeout: 500,
+      classNames: "menu-primary",
+      onEnter: calcHeight,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "menu",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(DropdownItem, {
+          rightIcon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+            className: "fa fa-angle-double-down",
+            "aria-hidden": "true"
+          }),
+          goToMenu: "settings",
+          children: title
+        })
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_transition_group__WEBPACK_IMPORTED_MODULE_3__.default, {
+      "in": activeMenu === 'settings',
+      unmountOnExit: true,
+      timeout: 500,
+      classNames: "menu-secondary",
+      onEnter: calcHeight,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        className: "menu",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(DropdownItem, {
+          leftIcon: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+            className: "fa fa-angle-double-left",
+            "aria-hidden": "true"
+          }),
+          goToMenu: "main"
+        }), items]
+      })
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DropdownMenu);
 
 /***/ }),
 
-/***/ "./resources/js/components/MainPageFeed.js":
-/*!*************************************************!*\
-  !*** ./resources/js/components/MainPageFeed.js ***!
-  \*************************************************/
+/***/ "./resources/js/components/FilterDropdown/FilterDropdown.js":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/FilterDropdown/FilterDropdown.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Dropdown */ "./resources/js/components/FilterDropdown/Dropdown.js");
+/* harmony import */ var _filter_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./filter.css */ "./resources/js/components/FilterDropdown/filter.css");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+
+var FilterDropdown = function FilterDropdown(props) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    className: "event-filters",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_Dropdown__WEBPACK_IMPORTED_MODULE_1__.default, _objectSpread({}, props))
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FilterDropdown);
+
+/***/ }),
+
+/***/ "./resources/js/components/FilterDropdown/index.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/FilterDropdown/index.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _FilterDropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FilterDropdown */ "./resources/js/components/FilterDropdown/FilterDropdown.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_FilterDropdown__WEBPACK_IMPORTED_MODULE_0__.default);
+
+/***/ }),
+
+/***/ "./resources/js/components/MainPageFeed/MainPageFeed.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/MainPageFeed/MainPageFeed.js ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2269,11 +2456,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _Events__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Events */ "./resources/js/components/Events/index.js");
-/* harmony import */ var _SearchBox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SearchBox */ "./resources/js/components/SearchBox/index.js");
-/* harmony import */ var _SortBox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SortBox */ "./resources/js/components/SortBox/index.js");
-/* harmony import */ var _Events_eventActions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Events/eventActions */ "./resources/js/components/Events/eventActions.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Events__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Events */ "./resources/js/components/Events/index.js");
+/* harmony import */ var _SearchBox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../SearchBox */ "./resources/js/components/SearchBox/index.js");
+/* harmony import */ var _SortBox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../SortBox */ "./resources/js/components/SortBox/index.js");
+/* harmony import */ var _Sidebar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Sidebar */ "./resources/js/components/Sidebar/index.js");
+/* harmony import */ var _Events_state_eventActions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Events/state/eventActions */ "./resources/js/components/Events/state/eventActions.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2305,6 +2493,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var MainPageFeed = /*#__PURE__*/function (_Component) {
   _inherits(MainPageFeed, _Component);
 
@@ -2324,22 +2513,19 @@ var MainPageFeed = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "container-fluid",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "row justify-content-center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
             className: "col-lg-3",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-              className: "filters",
-              children: "Filters"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Sidebar__WEBPACK_IMPORTED_MODULE_5__.default, {})
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "col-lg-9",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
               className: "d-flex justify-content-between align-items-center mb-1",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_SearchBox__WEBPACK_IMPORTED_MODULE_3__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_SortBox__WEBPACK_IMPORTED_MODULE_4__.default, {})]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Events__WEBPACK_IMPORTED_MODULE_2__.default, {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_SearchBox__WEBPACK_IMPORTED_MODULE_3__.default, {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_SortBox__WEBPACK_IMPORTED_MODULE_4__.default, {})]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Events__WEBPACK_IMPORTED_MODULE_2__.default, {
               events: this.props.events.data
             })]
           })]
@@ -2360,12 +2546,29 @@ var mapStateToProps = function mapStateToProps(state) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getEvents: function getEvents() {
-      return dispatch((0,_Events_eventActions__WEBPACK_IMPORTED_MODULE_5__.getEvents)());
+      return dispatch((0,_Events_state_eventActions__WEBPACK_IMPORTED_MODULE_6__.getEvents)());
     }
   };
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(MainPageFeed));
+
+/***/ }),
+
+/***/ "./resources/js/components/MainPageFeed/index.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/MainPageFeed/index.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _MainPageFeed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MainPageFeed */ "./resources/js/components/MainPageFeed/MainPageFeed.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_MainPageFeed__WEBPACK_IMPORTED_MODULE_0__.default);
 
 /***/ }),
 
@@ -2384,7 +2587,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _search_box_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./search-box.css */ "./resources/js/components/SearchBox/search-box.css");
 /* harmony import */ var _SearchResult__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SearchResult */ "./resources/js/components/SearchBox/SearchResult/index.js");
-/* harmony import */ var _Events_eventActions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Events/eventActions */ "./resources/js/components/Events/eventActions.js");
+/* harmony import */ var _state_searchActions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./state/searchActions */ "./resources/js/components/SearchBox/state/searchActions.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -2483,14 +2686,14 @@ var SearchBox = /*#__PURE__*/function (_Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    results: state.events.searchResults
+    results: state.search.searchResults
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     searchEvent: function searchEvent(title) {
-      return dispatch((0,_Events_eventActions__WEBPACK_IMPORTED_MODULE_4__.searchEvent)(title));
+      return dispatch((0,_state_searchActions__WEBPACK_IMPORTED_MODULE_4__.searchEvent)(title));
     }
   };
 };
@@ -2601,6 +2804,344 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/SearchBox/state/searchActions.js":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/SearchBox/state/searchActions.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "searchEvent": () => (/* binding */ searchEvent)
+/* harmony export */ });
+/* harmony import */ var _searchTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./searchTypes */ "./resources/js/components/SearchBox/state/searchTypes.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../services */ "./resources/js/services/index.js");
+
+
+var searchEvent = function searchEvent(title) {
+  if (title) {
+    var result = (0,_services__WEBPACK_IMPORTED_MODULE_1__.searchEventByTitle)(title);
+    return function (dispatch) {
+      result.then(function (data) {
+        dispatch(getSearchResult(data.data));
+      });
+    };
+  } else {
+    return function (dispatch) {
+      dispatch(getSearchResult([]));
+    };
+  }
+};
+
+var getSearchResult = function getSearchResult(result) {
+  return {
+    type: _searchTypes__WEBPACK_IMPORTED_MODULE_0__.SEARCH_BY_TITLE,
+    payload: {
+      result: result
+    }
+  };
+};
+
+/***/ }),
+
+/***/ "./resources/js/components/SearchBox/state/searchReducer.js":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/SearchBox/state/searchReducer.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _searchTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./searchTypes */ "./resources/js/components/SearchBox/state/searchTypes.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var initialState = {
+  searchResults: []
+};
+
+function searchReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _searchTypes__WEBPACK_IMPORTED_MODULE_0__.SEARCH_BY_TITLE:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        searchResults: action.payload
+      });
+
+    default:
+      return state;
+  }
+}
+
+;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (searchReducer);
+
+/***/ }),
+
+/***/ "./resources/js/components/SearchBox/state/searchTypes.js":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/SearchBox/state/searchTypes.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "SEARCH_BY_TITLE": () => (/* binding */ SEARCH_BY_TITLE)
+/* harmony export */ });
+var SEARCH_BY_TITLE = "SEARCH_BY_TITLE";
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Sidebar/Sidebar.js":
+/*!****************************************************!*\
+  !*** ./resources/js/components/Sidebar/Sidebar.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _FilterDropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../FilterDropdown */ "./resources/js/components/FilterDropdown/index.js");
+/* harmony import */ var _state_filterActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./state/filterActions */ "./resources/js/components/Sidebar/state/filterActions.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+var Sidebar = /*#__PURE__*/function (_Component) {
+  _inherits(Sidebar, _Component);
+
+  var _super = _createSuper(Sidebar);
+
+  function Sidebar() {
+    _classCallCheck(this, Sidebar);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(Sidebar, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.grabFilters();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "filters h-100",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+          children: "Filters"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_FilterDropdown__WEBPACK_IMPORTED_MODULE_2__.default, {
+          title: "Categories",
+          data: this.props.categories.data
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+          className: "mt-4"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_FilterDropdown__WEBPACK_IMPORTED_MODULE_2__.default, {
+          title: "Types",
+          data: this.props.types.data
+        })]
+      });
+    }
+  }]);
+
+  return Sidebar;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+;
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    categories: state.filter.eventCategories,
+    types: state.filter.eventTypes
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    grabFilters: function grabFilters() {
+      return dispatch((0,_state_filterActions__WEBPACK_IMPORTED_MODULE_3__.getFilterTypes)());
+    }
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(Sidebar));
+
+/***/ }),
+
+/***/ "./resources/js/components/Sidebar/index.js":
+/*!**************************************************!*\
+  !*** ./resources/js/components/Sidebar/index.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Sidebar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sidebar */ "./resources/js/components/Sidebar/Sidebar.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_Sidebar__WEBPACK_IMPORTED_MODULE_0__.default);
+
+/***/ }),
+
+/***/ "./resources/js/components/Sidebar/state/filterActions.js":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/Sidebar/state/filterActions.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getFilterTypes": () => (/* binding */ getFilterTypes)
+/* harmony export */ });
+/* harmony import */ var _filterTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./filterTypes */ "./resources/js/components/Sidebar/state/filterTypes.js");
+/* harmony import */ var _services_TypeService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../services/TypeService */ "./resources/js/services/TypeService.js");
+/* harmony import */ var _services_CategoryService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/CategoryService */ "./resources/js/services/CategoryService.js");
+
+
+
+var getFilterTypes = function getFilterTypes() {
+  var categories = (0,_services_CategoryService__WEBPACK_IMPORTED_MODULE_2__.getAllCategories)();
+  var types = (0,_services_TypeService__WEBPACK_IMPORTED_MODULE_1__.getAllTypes)();
+  return function (dispatch) {
+    categories.then(function (data) {
+      dispatch(grabAllCategories(data.data));
+    });
+    types.then(function (data) {
+      dispatch(grabAllTypes(data.data));
+    });
+  };
+};
+
+var grabAllCategories = function grabAllCategories(data) {
+  return {
+    type: _filterTypes__WEBPACK_IMPORTED_MODULE_0__.GET_ALL_CATEGORIES,
+    payload: {
+      data: data
+    }
+  };
+};
+
+var grabAllTypes = function grabAllTypes(data) {
+  return {
+    type: _filterTypes__WEBPACK_IMPORTED_MODULE_0__.GET_ALL_TYPES,
+    payload: {
+      data: data
+    }
+  };
+};
+
+/***/ }),
+
+/***/ "./resources/js/components/Sidebar/state/filterReducer.js":
+/*!****************************************************************!*\
+  !*** ./resources/js/components/Sidebar/state/filterReducer.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _filterTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./filterTypes */ "./resources/js/components/Sidebar/state/filterTypes.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var initialState = {
+  eventCategories: [],
+  eventTypes: []
+};
+
+function filterReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case _filterTypes__WEBPACK_IMPORTED_MODULE_0__.GET_ALL_CATEGORIES:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        eventCategories: action.payload
+      });
+
+    case _filterTypes__WEBPACK_IMPORTED_MODULE_0__.GET_ALL_TYPES:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        eventTypes: action.payload
+      });
+
+    default:
+      return state;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (filterReducer);
+
+/***/ }),
+
+/***/ "./resources/js/components/Sidebar/state/filterTypes.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/Sidebar/state/filterTypes.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "GET_ALL_CATEGORIES": () => (/* binding */ GET_ALL_CATEGORIES),
+/* harmony export */   "GET_ALL_TYPES": () => (/* binding */ GET_ALL_TYPES)
+/* harmony export */ });
+var GET_ALL_TYPES = "GET_ALL_TYPES";
+var GET_ALL_CATEGORIES = "GET_ALL_CATEGORIES";
+
+
+/***/ }),
+
 /***/ "./resources/js/components/SortBox/SortBox.js":
 /*!****************************************************!*\
   !*** ./resources/js/components/SortBox/SortBox.js ***!
@@ -2614,7 +3155,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _Events_eventActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Events/eventActions */ "./resources/js/components/Events/eventActions.js");
+/* harmony import */ var _Events_state_eventActions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Events/state/eventActions */ "./resources/js/components/Events/state/eventActions.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
@@ -2658,7 +3199,7 @@ var mapStateToProps = function mapStateToProps(state) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     sort: function sort(filter, events) {
-      return dispatch((0,_Events_eventActions__WEBPACK_IMPORTED_MODULE_2__.sortEvents)(filter, events));
+      return dispatch((0,_Events_state_eventActions__WEBPACK_IMPORTED_MODULE_2__.sortEvents)(filter, events));
     }
   };
 };
@@ -2696,7 +3237,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../store */ "./resources/js/store.js");
-/* harmony import */ var _MainPageFeed__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./MainPageFeed */ "./resources/js/components/MainPageFeed.js");
+/* harmony import */ var _MainPageFeed__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./MainPageFeed */ "./resources/js/components/MainPageFeed/index.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
@@ -2711,6 +3252,65 @@ if (document.getElementById('root')) {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_MainPageFeed__WEBPACK_IMPORTED_MODULE_4__.default, {})
   }), document.getElementById('root'));
 }
+
+/***/ }),
+
+/***/ "./resources/js/services/CategoryService.js":
+/*!**************************************************!*\
+  !*** ./resources/js/services/CategoryService.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getAllCategories": () => (/* binding */ getAllCategories)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var getAllCategories = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+    var response;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return fetch('/api/category/all', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+
+          case 2:
+            response = _context.sent;
+            _context.next = 5;
+            return response.json();
+
+          case 5:
+            return _context.abrupt("return", _context.sent);
+
+          case 6:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function getAllCategories() {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+
 
 /***/ }),
 
@@ -2810,6 +3410,65 @@ var searchEventByTitle = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./resources/js/services/TypeService.js":
+/*!**********************************************!*\
+  !*** ./resources/js/services/TypeService.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getAllTypes": () => (/* binding */ getAllTypes)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var getAllTypes = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+    var response;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return fetch('/api/type/all', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+
+          case 2:
+            response = _context.sent;
+            _context.next = 5;
+            return response.json();
+
+          case 5:
+            return _context.abrupt("return", _context.sent);
+
+          case 6:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function getAllTypes() {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+
+
+/***/ }),
+
 /***/ "./resources/js/services/index.js":
 /*!****************************************!*\
   !*** ./resources/js/services/index.js ***!
@@ -2839,16 +3498,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
-/* harmony import */ var _components_Events_eventReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Events/eventReducer */ "./resources/js/components/Events/eventReducer.js");
+/* harmony import */ var _components_Events_state_eventReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Events/state/eventReducer */ "./resources/js/components/Events/state/eventReducer.js");
+/* harmony import */ var _components_SearchBox_state_searchReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/SearchBox/state/searchReducer */ "./resources/js/components/SearchBox/state/searchReducer.js");
+/* harmony import */ var _components_Sidebar_state_filterReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Sidebar/state/filterReducer */ "./resources/js/components/Sidebar/state/filterReducer.js");
 
 
 
-var rootReducer = (0,redux__WEBPACK_IMPORTED_MODULE_2__.combineReducers)({
-  events: _components_Events_eventReducer__WEBPACK_IMPORTED_MODULE_1__.default
+
+
+var rootReducer = (0,redux__WEBPACK_IMPORTED_MODULE_4__.combineReducers)({
+  events: _components_Events_state_eventReducer__WEBPACK_IMPORTED_MODULE_1__.default,
+  search: _components_SearchBox_state_searchReducer__WEBPACK_IMPORTED_MODULE_2__.default,
+  filter: _components_Sidebar_state_filterReducer__WEBPACK_IMPORTED_MODULE_3__.default
 });
-var store = (0,redux__WEBPACK_IMPORTED_MODULE_2__.createStore)(rootReducer, (0,redux__WEBPACK_IMPORTED_MODULE_2__.applyMiddleware)(redux_thunk__WEBPACK_IMPORTED_MODULE_0__.default));
+var store = (0,redux__WEBPACK_IMPORTED_MODULE_4__.createStore)(rootReducer, (0,redux__WEBPACK_IMPORTED_MODULE_4__.applyMiddleware)(redux_thunk__WEBPACK_IMPORTED_MODULE_0__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (store);
 
 /***/ }),
@@ -7319,6 +7984,30 @@ ___CSS_LOADER_EXPORT___.push([module.id, "@charset \"UTF-8\";\n\n.events-row {\n
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/components/FilterDropdown/filter.css":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/components/FilterDropdown/filter.css ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ":root {\n    --bg: #bdc7c2;\n    --bg-accent: #484a4d;\n    --text-color: #dadce1;\n    --nav-size: 60px;\n    --nav-item-size: calc(var(--nav-size) * 0.8);\n    --button-size: calc(var(--nav-size) * 0.5);\n    --border: 1px solid #474a4d;\n    --border-radius: 8px;\n    --speed: 500ms;\n}\n\n.event-filters {\n    position: relative;\n}\n\n.dropdown-filter {\n    width: 100%;\n    border-radius: var(--border-radius);\n    background-color: var(--bg);\n    overflow: hidden;\n    transition:  height var(--speed) ease;\n    cursor: pointer;\n}\n\n.menu {\n    width: 100%;\n}\n\n.menu a {\n    color: #333;\n    text-decoration: none;\n}\n\n.menu-item {\n    display: flex;\n    align-items: center;\n    height: 50px;\n    padding-left: 15px;\n    padding-right: 15px;\n    border-radius: var(--border-radius);\n    transition: var(--speed);\n}\n\n.menu-item:hover {\n    background-color: #bcbcdc;\n}\n\n.icon-right {\n    margin-left: auto;\n}\n\n.menu-primary-enter {\n    position: absolute;\n    transform: translateX(-110%);\n}\n\n.menu-primary-enter-active {\n    transform: translateX(0%);\n    transition: all var(--speed) ease;\n}\n\n.menu-primary-exit {\n    position: absolute;\n}\n\n.menu-primary-exit-active {\n    transform: translateX(-110%);\n    transition: all var(--speed) ease;\n}\n\n.menu-secondary-enter {\n    transform: translateX(110%);\n}\n\n.menu-secondary-enter-active {\n    transform: translateX(0%);\n    transition: all var(--speed) ease;\n}\n\n.menu-secondary-exit {\n\n}\n\n.menu-secondary-exit-active {\n    transform: translateX(110%);\n    transition: all var(--speed) ease;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/components/SearchBox/search-box.css":
 /*!********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/components/SearchBox/search-box.css ***!
@@ -7417,6 +8106,90 @@ module.exports = function (cssWithMappingToString) {
 
   return list;
 };
+
+/***/ }),
+
+/***/ "./node_modules/dom-helpers/esm/addClass.js":
+/*!**************************************************!*\
+  !*** ./node_modules/dom-helpers/esm/addClass.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ addClass)
+/* harmony export */ });
+/* harmony import */ var _hasClass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./hasClass */ "./node_modules/dom-helpers/esm/hasClass.js");
+
+/**
+ * Adds a CSS class to a given element.
+ * 
+ * @param element the element
+ * @param className the CSS class name
+ */
+
+function addClass(element, className) {
+  if (element.classList) element.classList.add(className);else if (!(0,_hasClass__WEBPACK_IMPORTED_MODULE_0__.default)(element, className)) if (typeof element.className === 'string') element.className = element.className + " " + className;else element.setAttribute('class', (element.className && element.className.baseVal || '') + " " + className);
+}
+
+/***/ }),
+
+/***/ "./node_modules/dom-helpers/esm/hasClass.js":
+/*!**************************************************!*\
+  !*** ./node_modules/dom-helpers/esm/hasClass.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ hasClass)
+/* harmony export */ });
+/**
+ * Checks if a given element has a CSS class.
+ * 
+ * @param element the element
+ * @param className the CSS class name
+ */
+function hasClass(element, className) {
+  if (element.classList) return !!className && element.classList.contains(className);
+  return (" " + (element.className.baseVal || element.className) + " ").indexOf(" " + className + " ") !== -1;
+}
+
+/***/ }),
+
+/***/ "./node_modules/dom-helpers/esm/removeClass.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/dom-helpers/esm/removeClass.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ removeClass)
+/* harmony export */ });
+function replaceClassName(origClass, classToRemove) {
+  return origClass.replace(new RegExp("(^|\\s)" + classToRemove + "(?:\\s|$)", 'g'), '$1').replace(/\s+/g, ' ').replace(/^\s*|\s*$/g, '');
+}
+/**
+ * Removes a CSS class from a given element.
+ * 
+ * @param element the element
+ * @param className the CSS class name
+ */
+
+
+function removeClass(element, className) {
+  if (element.classList) {
+    element.classList.remove(className);
+  } else if (typeof element.className === 'string') {
+    element.className = replaceClassName(element.className, className);
+  } else {
+    element.setAttribute('class', replaceClassName(element.className && element.className.baseVal || '', className));
+  }
+}
 
 /***/ }),
 
@@ -66275,6 +67048,1152 @@ function warning(message) {
 
 /***/ }),
 
+/***/ "./node_modules/react-transition-group/esm/CSSTransition.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/react-transition-group/esm/CSSTransition.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var dom_helpers_addClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! dom-helpers/addClass */ "./node_modules/dom-helpers/esm/addClass.js");
+/* harmony import */ var dom_helpers_removeClass__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! dom-helpers/removeClass */ "./node_modules/dom-helpers/esm/removeClass.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _Transition__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Transition */ "./node_modules/react-transition-group/esm/Transition.js");
+/* harmony import */ var _utils_PropTypes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils/PropTypes */ "./node_modules/react-transition-group/esm/utils/PropTypes.js");
+
+
+
+
+
+
+
+
+
+
+var _addClass = function addClass(node, classes) {
+  return node && classes && classes.split(' ').forEach(function (c) {
+    return (0,dom_helpers_addClass__WEBPACK_IMPORTED_MODULE_4__.default)(node, c);
+  });
+};
+
+var removeClass = function removeClass(node, classes) {
+  return node && classes && classes.split(' ').forEach(function (c) {
+    return (0,dom_helpers_removeClass__WEBPACK_IMPORTED_MODULE_5__.default)(node, c);
+  });
+};
+/**
+ * A transition component inspired by the excellent
+ * [ng-animate](https://docs.angularjs.org/api/ngAnimate) library, you should
+ * use it if you're using CSS transitions or animations. It's built upon the
+ * [`Transition`](https://reactcommunity.org/react-transition-group/transition)
+ * component, so it inherits all of its props.
+ *
+ * `CSSTransition` applies a pair of class names during the `appear`, `enter`,
+ * and `exit` states of the transition. The first class is applied and then a
+ * second `*-active` class in order to activate the CSS transition. After the
+ * transition, matching `*-done` class names are applied to persist the
+ * transition state.
+ *
+ * ```jsx
+ * function App() {
+ *   const [inProp, setInProp] = useState(false);
+ *   return (
+ *     <div>
+ *       <CSSTransition in={inProp} timeout={200} classNames="my-node">
+ *         <div>
+ *           {"I'll receive my-node-* classes"}
+ *         </div>
+ *       </CSSTransition>
+ *       <button type="button" onClick={() => setInProp(true)}>
+ *         Click to Enter
+ *       </button>
+ *     </div>
+ *   );
+ * }
+ * ```
+ *
+ * When the `in` prop is set to `true`, the child component will first receive
+ * the class `example-enter`, then the `example-enter-active` will be added in
+ * the next tick. `CSSTransition` [forces a
+ * reflow](https://github.com/reactjs/react-transition-group/blob/5007303e729a74be66a21c3e2205e4916821524b/src/CSSTransition.js#L208-L215)
+ * between before adding the `example-enter-active`. This is an important trick
+ * because it allows us to transition between `example-enter` and
+ * `example-enter-active` even though they were added immediately one after
+ * another. Most notably, this is what makes it possible for us to animate
+ * _appearance_.
+ *
+ * ```css
+ * .my-node-enter {
+ *   opacity: 0;
+ * }
+ * .my-node-enter-active {
+ *   opacity: 1;
+ *   transition: opacity 200ms;
+ * }
+ * .my-node-exit {
+ *   opacity: 1;
+ * }
+ * .my-node-exit-active {
+ *   opacity: 0;
+ *   transition: opacity 200ms;
+ * }
+ * ```
+ *
+ * `*-active` classes represent which styles you want to animate **to**, so it's
+ * important to add `transition` declaration only to them, otherwise transitions
+ * might not behave as intended! This might not be obvious when the transitions
+ * are symmetrical, i.e. when `*-enter-active` is the same as `*-exit`, like in
+ * the example above (minus `transition`), but it becomes apparent in more
+ * complex transitions.
+ *
+ * **Note**: If you're using the
+ * [`appear`](http://reactcommunity.org/react-transition-group/transition#Transition-prop-appear)
+ * prop, make sure to define styles for `.appear-*` classes as well.
+ */
+
+
+var CSSTransition = /*#__PURE__*/function (_React$Component) {
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_2__.default)(CSSTransition, _React$Component);
+
+  function CSSTransition() {
+    var _this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _React$Component.call.apply(_React$Component, [this].concat(args)) || this;
+    _this.appliedClasses = {
+      appear: {},
+      enter: {},
+      exit: {}
+    };
+
+    _this.onEnter = function (maybeNode, maybeAppearing) {
+      var _this$resolveArgument = _this.resolveArguments(maybeNode, maybeAppearing),
+          node = _this$resolveArgument[0],
+          appearing = _this$resolveArgument[1];
+
+      _this.removeClasses(node, 'exit');
+
+      _this.addClass(node, appearing ? 'appear' : 'enter', 'base');
+
+      if (_this.props.onEnter) {
+        _this.props.onEnter(maybeNode, maybeAppearing);
+      }
+    };
+
+    _this.onEntering = function (maybeNode, maybeAppearing) {
+      var _this$resolveArgument2 = _this.resolveArguments(maybeNode, maybeAppearing),
+          node = _this$resolveArgument2[0],
+          appearing = _this$resolveArgument2[1];
+
+      var type = appearing ? 'appear' : 'enter';
+
+      _this.addClass(node, type, 'active');
+
+      if (_this.props.onEntering) {
+        _this.props.onEntering(maybeNode, maybeAppearing);
+      }
+    };
+
+    _this.onEntered = function (maybeNode, maybeAppearing) {
+      var _this$resolveArgument3 = _this.resolveArguments(maybeNode, maybeAppearing),
+          node = _this$resolveArgument3[0],
+          appearing = _this$resolveArgument3[1];
+
+      var type = appearing ? 'appear' : 'enter';
+
+      _this.removeClasses(node, type);
+
+      _this.addClass(node, type, 'done');
+
+      if (_this.props.onEntered) {
+        _this.props.onEntered(maybeNode, maybeAppearing);
+      }
+    };
+
+    _this.onExit = function (maybeNode) {
+      var _this$resolveArgument4 = _this.resolveArguments(maybeNode),
+          node = _this$resolveArgument4[0];
+
+      _this.removeClasses(node, 'appear');
+
+      _this.removeClasses(node, 'enter');
+
+      _this.addClass(node, 'exit', 'base');
+
+      if (_this.props.onExit) {
+        _this.props.onExit(maybeNode);
+      }
+    };
+
+    _this.onExiting = function (maybeNode) {
+      var _this$resolveArgument5 = _this.resolveArguments(maybeNode),
+          node = _this$resolveArgument5[0];
+
+      _this.addClass(node, 'exit', 'active');
+
+      if (_this.props.onExiting) {
+        _this.props.onExiting(maybeNode);
+      }
+    };
+
+    _this.onExited = function (maybeNode) {
+      var _this$resolveArgument6 = _this.resolveArguments(maybeNode),
+          node = _this$resolveArgument6[0];
+
+      _this.removeClasses(node, 'exit');
+
+      _this.addClass(node, 'exit', 'done');
+
+      if (_this.props.onExited) {
+        _this.props.onExited(maybeNode);
+      }
+    };
+
+    _this.resolveArguments = function (maybeNode, maybeAppearing) {
+      return _this.props.nodeRef ? [_this.props.nodeRef.current, maybeNode] // here `maybeNode` is actually `appearing`
+      : [maybeNode, maybeAppearing];
+    };
+
+    _this.getClassNames = function (type) {
+      var classNames = _this.props.classNames;
+      var isStringClassNames = typeof classNames === 'string';
+      var prefix = isStringClassNames && classNames ? classNames + "-" : '';
+      var baseClassName = isStringClassNames ? "" + prefix + type : classNames[type];
+      var activeClassName = isStringClassNames ? baseClassName + "-active" : classNames[type + "Active"];
+      var doneClassName = isStringClassNames ? baseClassName + "-done" : classNames[type + "Done"];
+      return {
+        baseClassName: baseClassName,
+        activeClassName: activeClassName,
+        doneClassName: doneClassName
+      };
+    };
+
+    return _this;
+  }
+
+  var _proto = CSSTransition.prototype;
+
+  _proto.addClass = function addClass(node, type, phase) {
+    var className = this.getClassNames(type)[phase + "ClassName"];
+
+    var _this$getClassNames = this.getClassNames('enter'),
+        doneClassName = _this$getClassNames.doneClassName;
+
+    if (type === 'appear' && phase === 'done' && doneClassName) {
+      className += " " + doneClassName;
+    } // This is for to force a repaint,
+    // which is necessary in order to transition styles when adding a class name.
+
+
+    if (phase === 'active') {
+      /* eslint-disable no-unused-expressions */
+      node && node.scrollTop;
+    }
+
+    if (className) {
+      this.appliedClasses[type][phase] = className;
+
+      _addClass(node, className);
+    }
+  };
+
+  _proto.removeClasses = function removeClasses(node, type) {
+    var _this$appliedClasses$ = this.appliedClasses[type],
+        baseClassName = _this$appliedClasses$.base,
+        activeClassName = _this$appliedClasses$.active,
+        doneClassName = _this$appliedClasses$.done;
+    this.appliedClasses[type] = {};
+
+    if (baseClassName) {
+      removeClass(node, baseClassName);
+    }
+
+    if (activeClassName) {
+      removeClass(node, activeClassName);
+    }
+
+    if (doneClassName) {
+      removeClass(node, doneClassName);
+    }
+  };
+
+  _proto.render = function render() {
+    var _this$props = this.props,
+        _ = _this$props.classNames,
+        props = (0,_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_1__.default)(_this$props, ["classNames"]);
+
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_6__.createElement(_Transition__WEBPACK_IMPORTED_MODULE_7__.default, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__.default)({}, props, {
+      onEnter: this.onEnter,
+      onEntered: this.onEntered,
+      onEntering: this.onEntering,
+      onExit: this.onExit,
+      onExiting: this.onExiting,
+      onExited: this.onExited
+    }));
+  };
+
+  return CSSTransition;
+}(react__WEBPACK_IMPORTED_MODULE_6__.Component);
+
+CSSTransition.defaultProps = {
+  classNames: ''
+};
+CSSTransition.propTypes =  true ? (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__.default)({}, _Transition__WEBPACK_IMPORTED_MODULE_7__.default.propTypes, {
+  /**
+   * The animation classNames applied to the component as it appears, enters,
+   * exits or has finished the transition. A single name can be provided, which
+   * will be suffixed for each stage, e.g. `classNames="fade"` applies:
+   *
+   * - `fade-appear`, `fade-appear-active`, `fade-appear-done`
+   * - `fade-enter`, `fade-enter-active`, `fade-enter-done`
+   * - `fade-exit`, `fade-exit-active`, `fade-exit-done`
+   *
+   * A few details to note about how these classes are applied:
+   *
+   * 1. They are _joined_ with the ones that are already defined on the child
+   *    component, so if you want to add some base styles, you can use
+   *    `className` without worrying that it will be overridden.
+   *
+   * 2. If the transition component mounts with `in={false}`, no classes are
+   *    applied yet. You might be expecting `*-exit-done`, but if you think
+   *    about it, a component cannot finish exiting if it hasn't entered yet.
+   *
+   * 2. `fade-appear-done` and `fade-enter-done` will _both_ be applied. This
+   *    allows you to define different behavior for when appearing is done and
+   *    when regular entering is done, using selectors like
+   *    `.fade-enter-done:not(.fade-appear-done)`. For example, you could apply
+   *    an epic entrance animation when element first appears in the DOM using
+   *    [Animate.css](https://daneden.github.io/animate.css/). Otherwise you can
+   *    simply use `fade-enter-done` for defining both cases.
+   *
+   * Each individual classNames can also be specified independently like:
+   *
+   * ```js
+   * classNames={{
+   *  appear: 'my-appear',
+   *  appearActive: 'my-active-appear',
+   *  appearDone: 'my-done-appear',
+   *  enter: 'my-enter',
+   *  enterActive: 'my-active-enter',
+   *  enterDone: 'my-done-enter',
+   *  exit: 'my-exit',
+   *  exitActive: 'my-active-exit',
+   *  exitDone: 'my-done-exit',
+   * }}
+   * ```
+   *
+   * If you want to set these classes using CSS Modules:
+   *
+   * ```js
+   * import styles from './styles.css';
+   * ```
+   *
+   * you might want to use camelCase in your CSS file, that way could simply
+   * spread them instead of listing them one by one:
+   *
+   * ```js
+   * classNames={{ ...styles }}
+   * ```
+   *
+   * @type {string | {
+   *  appear?: string,
+   *  appearActive?: string,
+   *  appearDone?: string,
+   *  enter?: string,
+   *  enterActive?: string,
+   *  enterDone?: string,
+   *  exit?: string,
+   *  exitActive?: string,
+   *  exitDone?: string,
+   * }}
+   */
+  classNames: _utils_PropTypes__WEBPACK_IMPORTED_MODULE_8__.classNamesShape,
+
+  /**
+   * A `<Transition>` callback fired immediately after the 'enter' or 'appear' class is
+   * applied.
+   *
+   * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+   *
+   * @type Function(node: HtmlElement, isAppearing: bool)
+   */
+  onEnter: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
+
+  /**
+   * A `<Transition>` callback fired immediately after the 'enter-active' or
+   * 'appear-active' class is applied.
+   *
+   * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+   *
+   * @type Function(node: HtmlElement, isAppearing: bool)
+   */
+  onEntering: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
+
+  /**
+   * A `<Transition>` callback fired immediately after the 'enter' or
+   * 'appear' classes are **removed** and the `done` class is added to the DOM node.
+   *
+   * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+   *
+   * @type Function(node: HtmlElement, isAppearing: bool)
+   */
+  onEntered: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
+
+  /**
+   * A `<Transition>` callback fired immediately after the 'exit' class is
+   * applied.
+   *
+   * **Note**: when `nodeRef` prop is passed, `node` is not passed
+   *
+   * @type Function(node: HtmlElement)
+   */
+  onExit: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
+
+  /**
+   * A `<Transition>` callback fired immediately after the 'exit-active' is applied.
+   *
+   * **Note**: when `nodeRef` prop is passed, `node` is not passed
+   *
+   * @type Function(node: HtmlElement)
+   */
+  onExiting: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func),
+
+  /**
+   * A `<Transition>` callback fired immediately after the 'exit' classes
+   * are **removed** and the `exit-done` class is added to the DOM node.
+   *
+   * **Note**: when `nodeRef` prop is passed, `node` is not passed
+   *
+   * @type Function(node: HtmlElement)
+   */
+  onExited: (prop_types__WEBPACK_IMPORTED_MODULE_3___default().func)
+}) : 0;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CSSTransition);
+
+/***/ }),
+
+/***/ "./node_modules/react-transition-group/esm/Transition.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/react-transition-group/esm/Transition.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "UNMOUNTED": () => (/* binding */ UNMOUNTED),
+/* harmony export */   "EXITED": () => (/* binding */ EXITED),
+/* harmony export */   "ENTERING": () => (/* binding */ ENTERING),
+/* harmony export */   "ENTERED": () => (/* binding */ ENTERED),
+/* harmony export */   "EXITING": () => (/* binding */ EXITING),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./config */ "./node_modules/react-transition-group/esm/config.js");
+/* harmony import */ var _utils_PropTypes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils/PropTypes */ "./node_modules/react-transition-group/esm/utils/PropTypes.js");
+/* harmony import */ var _TransitionGroupContext__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TransitionGroupContext */ "./node_modules/react-transition-group/esm/TransitionGroupContext.js");
+
+
+
+
+
+
+
+
+var UNMOUNTED = 'unmounted';
+var EXITED = 'exited';
+var ENTERING = 'entering';
+var ENTERED = 'entered';
+var EXITING = 'exiting';
+/**
+ * The Transition component lets you describe a transition from one component
+ * state to another _over time_ with a simple declarative API. Most commonly
+ * it's used to animate the mounting and unmounting of a component, but can also
+ * be used to describe in-place transition states as well.
+ *
+ * ---
+ *
+ * **Note**: `Transition` is a platform-agnostic base component. If you're using
+ * transitions in CSS, you'll probably want to use
+ * [`CSSTransition`](https://reactcommunity.org/react-transition-group/css-transition)
+ * instead. It inherits all the features of `Transition`, but contains
+ * additional features necessary to play nice with CSS transitions (hence the
+ * name of the component).
+ *
+ * ---
+ *
+ * By default the `Transition` component does not alter the behavior of the
+ * component it renders, it only tracks "enter" and "exit" states for the
+ * components. It's up to you to give meaning and effect to those states. For
+ * example we can add styles to a component when it enters or exits:
+ *
+ * ```jsx
+ * import { Transition } from 'react-transition-group';
+ *
+ * const duration = 300;
+ *
+ * const defaultStyle = {
+ *   transition: `opacity ${duration}ms ease-in-out`,
+ *   opacity: 0,
+ * }
+ *
+ * const transitionStyles = {
+ *   entering: { opacity: 1 },
+ *   entered:  { opacity: 1 },
+ *   exiting:  { opacity: 0 },
+ *   exited:  { opacity: 0 },
+ * };
+ *
+ * const Fade = ({ in: inProp }) => (
+ *   <Transition in={inProp} timeout={duration}>
+ *     {state => (
+ *       <div style={{
+ *         ...defaultStyle,
+ *         ...transitionStyles[state]
+ *       }}>
+ *         I'm a fade Transition!
+ *       </div>
+ *     )}
+ *   </Transition>
+ * );
+ * ```
+ *
+ * There are 4 main states a Transition can be in:
+ *  - `'entering'`
+ *  - `'entered'`
+ *  - `'exiting'`
+ *  - `'exited'`
+ *
+ * Transition state is toggled via the `in` prop. When `true` the component
+ * begins the "Enter" stage. During this stage, the component will shift from
+ * its current transition state, to `'entering'` for the duration of the
+ * transition and then to the `'entered'` stage once it's complete. Let's take
+ * the following example (we'll use the
+ * [useState](https://reactjs.org/docs/hooks-reference.html#usestate) hook):
+ *
+ * ```jsx
+ * function App() {
+ *   const [inProp, setInProp] = useState(false);
+ *   return (
+ *     <div>
+ *       <Transition in={inProp} timeout={500}>
+ *         {state => (
+ *           // ...
+ *         )}
+ *       </Transition>
+ *       <button onClick={() => setInProp(true)}>
+ *         Click to Enter
+ *       </button>
+ *     </div>
+ *   );
+ * }
+ * ```
+ *
+ * When the button is clicked the component will shift to the `'entering'` state
+ * and stay there for 500ms (the value of `timeout`) before it finally switches
+ * to `'entered'`.
+ *
+ * When `in` is `false` the same thing happens except the state moves from
+ * `'exiting'` to `'exited'`.
+ */
+
+var Transition = /*#__PURE__*/function (_React$Component) {
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__.default)(Transition, _React$Component);
+
+  function Transition(props, context) {
+    var _this;
+
+    _this = _React$Component.call(this, props, context) || this;
+    var parentGroup = context; // In the context of a TransitionGroup all enters are really appears
+
+    var appear = parentGroup && !parentGroup.isMounting ? props.enter : props.appear;
+    var initialStatus;
+    _this.appearStatus = null;
+
+    if (props.in) {
+      if (appear) {
+        initialStatus = EXITED;
+        _this.appearStatus = ENTERING;
+      } else {
+        initialStatus = ENTERED;
+      }
+    } else {
+      if (props.unmountOnExit || props.mountOnEnter) {
+        initialStatus = UNMOUNTED;
+      } else {
+        initialStatus = EXITED;
+      }
+    }
+
+    _this.state = {
+      status: initialStatus
+    };
+    _this.nextCallback = null;
+    return _this;
+  }
+
+  Transition.getDerivedStateFromProps = function getDerivedStateFromProps(_ref, prevState) {
+    var nextIn = _ref.in;
+
+    if (nextIn && prevState.status === UNMOUNTED) {
+      return {
+        status: EXITED
+      };
+    }
+
+    return null;
+  } // getSnapshotBeforeUpdate(prevProps) {
+  //   let nextStatus = null
+  //   if (prevProps !== this.props) {
+  //     const { status } = this.state
+  //     if (this.props.in) {
+  //       if (status !== ENTERING && status !== ENTERED) {
+  //         nextStatus = ENTERING
+  //       }
+  //     } else {
+  //       if (status === ENTERING || status === ENTERED) {
+  //         nextStatus = EXITING
+  //       }
+  //     }
+  //   }
+  //   return { nextStatus }
+  // }
+  ;
+
+  var _proto = Transition.prototype;
+
+  _proto.componentDidMount = function componentDidMount() {
+    this.updateStatus(true, this.appearStatus);
+  };
+
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
+    var nextStatus = null;
+
+    if (prevProps !== this.props) {
+      var status = this.state.status;
+
+      if (this.props.in) {
+        if (status !== ENTERING && status !== ENTERED) {
+          nextStatus = ENTERING;
+        }
+      } else {
+        if (status === ENTERING || status === ENTERED) {
+          nextStatus = EXITING;
+        }
+      }
+    }
+
+    this.updateStatus(false, nextStatus);
+  };
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    this.cancelNextCallback();
+  };
+
+  _proto.getTimeouts = function getTimeouts() {
+    var timeout = this.props.timeout;
+    var exit, enter, appear;
+    exit = enter = appear = timeout;
+
+    if (timeout != null && typeof timeout !== 'number') {
+      exit = timeout.exit;
+      enter = timeout.enter; // TODO: remove fallback for next major
+
+      appear = timeout.appear !== undefined ? timeout.appear : enter;
+    }
+
+    return {
+      exit: exit,
+      enter: enter,
+      appear: appear
+    };
+  };
+
+  _proto.updateStatus = function updateStatus(mounting, nextStatus) {
+    if (mounting === void 0) {
+      mounting = false;
+    }
+
+    if (nextStatus !== null) {
+      // nextStatus will always be ENTERING or EXITING.
+      this.cancelNextCallback();
+
+      if (nextStatus === ENTERING) {
+        this.performEnter(mounting);
+      } else {
+        this.performExit();
+      }
+    } else if (this.props.unmountOnExit && this.state.status === EXITED) {
+      this.setState({
+        status: UNMOUNTED
+      });
+    }
+  };
+
+  _proto.performEnter = function performEnter(mounting) {
+    var _this2 = this;
+
+    var enter = this.props.enter;
+    var appearing = this.context ? this.context.isMounting : mounting;
+
+    var _ref2 = this.props.nodeRef ? [appearing] : [react_dom__WEBPACK_IMPORTED_MODULE_4__.findDOMNode(this), appearing],
+        maybeNode = _ref2[0],
+        maybeAppearing = _ref2[1];
+
+    var timeouts = this.getTimeouts();
+    var enterTimeout = appearing ? timeouts.appear : timeouts.enter; // no enter animation skip right to ENTERED
+    // if we are mounting and running this it means appear _must_ be set
+
+    if (!mounting && !enter || _config__WEBPACK_IMPORTED_MODULE_5__.default.disabled) {
+      this.safeSetState({
+        status: ENTERED
+      }, function () {
+        _this2.props.onEntered(maybeNode);
+      });
+      return;
+    }
+
+    this.props.onEnter(maybeNode, maybeAppearing);
+    this.safeSetState({
+      status: ENTERING
+    }, function () {
+      _this2.props.onEntering(maybeNode, maybeAppearing);
+
+      _this2.onTransitionEnd(enterTimeout, function () {
+        _this2.safeSetState({
+          status: ENTERED
+        }, function () {
+          _this2.props.onEntered(maybeNode, maybeAppearing);
+        });
+      });
+    });
+  };
+
+  _proto.performExit = function performExit() {
+    var _this3 = this;
+
+    var exit = this.props.exit;
+    var timeouts = this.getTimeouts();
+    var maybeNode = this.props.nodeRef ? undefined : react_dom__WEBPACK_IMPORTED_MODULE_4__.findDOMNode(this); // no exit animation skip right to EXITED
+
+    if (!exit || _config__WEBPACK_IMPORTED_MODULE_5__.default.disabled) {
+      this.safeSetState({
+        status: EXITED
+      }, function () {
+        _this3.props.onExited(maybeNode);
+      });
+      return;
+    }
+
+    this.props.onExit(maybeNode);
+    this.safeSetState({
+      status: EXITING
+    }, function () {
+      _this3.props.onExiting(maybeNode);
+
+      _this3.onTransitionEnd(timeouts.exit, function () {
+        _this3.safeSetState({
+          status: EXITED
+        }, function () {
+          _this3.props.onExited(maybeNode);
+        });
+      });
+    });
+  };
+
+  _proto.cancelNextCallback = function cancelNextCallback() {
+    if (this.nextCallback !== null) {
+      this.nextCallback.cancel();
+      this.nextCallback = null;
+    }
+  };
+
+  _proto.safeSetState = function safeSetState(nextState, callback) {
+    // This shouldn't be necessary, but there are weird race conditions with
+    // setState callbacks and unmounting in testing, so always make sure that
+    // we can cancel any pending setState callbacks after we unmount.
+    callback = this.setNextCallback(callback);
+    this.setState(nextState, callback);
+  };
+
+  _proto.setNextCallback = function setNextCallback(callback) {
+    var _this4 = this;
+
+    var active = true;
+
+    this.nextCallback = function (event) {
+      if (active) {
+        active = false;
+        _this4.nextCallback = null;
+        callback(event);
+      }
+    };
+
+    this.nextCallback.cancel = function () {
+      active = false;
+    };
+
+    return this.nextCallback;
+  };
+
+  _proto.onTransitionEnd = function onTransitionEnd(timeout, handler) {
+    this.setNextCallback(handler);
+    var node = this.props.nodeRef ? this.props.nodeRef.current : react_dom__WEBPACK_IMPORTED_MODULE_4__.findDOMNode(this);
+    var doesNotHaveTimeoutOrListener = timeout == null && !this.props.addEndListener;
+
+    if (!node || doesNotHaveTimeoutOrListener) {
+      setTimeout(this.nextCallback, 0);
+      return;
+    }
+
+    if (this.props.addEndListener) {
+      var _ref3 = this.props.nodeRef ? [this.nextCallback] : [node, this.nextCallback],
+          maybeNode = _ref3[0],
+          maybeNextCallback = _ref3[1];
+
+      this.props.addEndListener(maybeNode, maybeNextCallback);
+    }
+
+    if (timeout != null) {
+      setTimeout(this.nextCallback, timeout);
+    }
+  };
+
+  _proto.render = function render() {
+    var status = this.state.status;
+
+    if (status === UNMOUNTED) {
+      return null;
+    }
+
+    var _this$props = this.props,
+        children = _this$props.children,
+        _in = _this$props.in,
+        _mountOnEnter = _this$props.mountOnEnter,
+        _unmountOnExit = _this$props.unmountOnExit,
+        _appear = _this$props.appear,
+        _enter = _this$props.enter,
+        _exit = _this$props.exit,
+        _timeout = _this$props.timeout,
+        _addEndListener = _this$props.addEndListener,
+        _onEnter = _this$props.onEnter,
+        _onEntering = _this$props.onEntering,
+        _onEntered = _this$props.onEntered,
+        _onExit = _this$props.onExit,
+        _onExiting = _this$props.onExiting,
+        _onExited = _this$props.onExited,
+        _nodeRef = _this$props.nodeRef,
+        childProps = (0,_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__.default)(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
+
+    return (
+      /*#__PURE__*/
+      // allows for nested Transitions
+      react__WEBPACK_IMPORTED_MODULE_3__.createElement(_TransitionGroupContext__WEBPACK_IMPORTED_MODULE_6__.default.Provider, {
+        value: null
+      }, typeof children === 'function' ? children(status, childProps) : react__WEBPACK_IMPORTED_MODULE_3__.cloneElement(react__WEBPACK_IMPORTED_MODULE_3__.Children.only(children), childProps))
+    );
+  };
+
+  return Transition;
+}(react__WEBPACK_IMPORTED_MODULE_3__.Component);
+
+Transition.contextType = _TransitionGroupContext__WEBPACK_IMPORTED_MODULE_6__.default;
+Transition.propTypes =  true ? {
+  /**
+   * A React reference to DOM element that need to transition:
+   * https://stackoverflow.com/a/51127130/4671932
+   *
+   *   - When `nodeRef` prop is used, `node` is not passed to callback functions
+   *      (e.g. `onEnter`) because user already has direct access to the node.
+   *   - When changing `key` prop of `Transition` in a `TransitionGroup` a new
+   *     `nodeRef` need to be provided to `Transition` with changed `key` prop
+   *     (see
+   *     [test/CSSTransition-test.js](https://github.com/reactjs/react-transition-group/blob/13435f897b3ab71f6e19d724f145596f5910581c/test/CSSTransition-test.js#L362-L437)).
+   */
+  nodeRef: prop_types__WEBPACK_IMPORTED_MODULE_2___default().shape({
+    current: typeof Element === 'undefined' ? (prop_types__WEBPACK_IMPORTED_MODULE_2___default().any) : prop_types__WEBPACK_IMPORTED_MODULE_2___default().instanceOf(Element)
+  }),
+
+  /**
+   * A `function` child can be used instead of a React element. This function is
+   * called with the current transition status (`'entering'`, `'entered'`,
+   * `'exiting'`, `'exited'`), which can be used to apply context
+   * specific props to a component.
+   *
+   * ```jsx
+   * <Transition in={this.state.in} timeout={150}>
+   *   {state => (
+   *     <MyComponent className={`fade fade-${state}`} />
+   *   )}
+   * </Transition>
+   * ```
+   */
+  children: prop_types__WEBPACK_IMPORTED_MODULE_2___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_2___default().func.isRequired), (prop_types__WEBPACK_IMPORTED_MODULE_2___default().element.isRequired)]).isRequired,
+
+  /**
+   * Show the component; triggers the enter or exit states
+   */
+  in: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().bool),
+
+  /**
+   * By default the child component is mounted immediately along with
+   * the parent `Transition` component. If you want to "lazy mount" the component on the
+   * first `in={true}` you can set `mountOnEnter`. After the first enter transition the component will stay
+   * mounted, even on "exited", unless you also specify `unmountOnExit`.
+   */
+  mountOnEnter: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().bool),
+
+  /**
+   * By default the child component stays mounted after it reaches the `'exited'` state.
+   * Set `unmountOnExit` if you'd prefer to unmount the component after it finishes exiting.
+   */
+  unmountOnExit: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().bool),
+
+  /**
+   * By default the child component does not perform the enter transition when
+   * it first mounts, regardless of the value of `in`. If you want this
+   * behavior, set both `appear` and `in` to `true`.
+   *
+   * > **Note**: there are no special appear states like `appearing`/`appeared`, this prop
+   * > only adds an additional enter transition. However, in the
+   * > `<CSSTransition>` component that first enter transition does result in
+   * > additional `.appear-*` classes, that way you can choose to style it
+   * > differently.
+   */
+  appear: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().bool),
+
+  /**
+   * Enable or disable enter transitions.
+   */
+  enter: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().bool),
+
+  /**
+   * Enable or disable exit transitions.
+   */
+  exit: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().bool),
+
+  /**
+   * The duration of the transition, in milliseconds.
+   * Required unless `addEndListener` is provided.
+   *
+   * You may specify a single timeout for all transitions:
+   *
+   * ```jsx
+   * timeout={500}
+   * ```
+   *
+   * or individually:
+   *
+   * ```jsx
+   * timeout={{
+   *  appear: 500,
+   *  enter: 300,
+   *  exit: 500,
+   * }}
+   * ```
+   *
+   * - `appear` defaults to the value of `enter`
+   * - `enter` defaults to `0`
+   * - `exit` defaults to `0`
+   *
+   * @type {number | { enter?: number, exit?: number, appear?: number }}
+   */
+  timeout: function timeout(props) {
+    var pt = _utils_PropTypes__WEBPACK_IMPORTED_MODULE_7__.timeoutsShape;
+    if (!props.addEndListener) pt = pt.isRequired;
+
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    return pt.apply(void 0, [props].concat(args));
+  },
+
+  /**
+   * Add a custom transition end trigger. Called with the transitioning
+   * DOM node and a `done` callback. Allows for more fine grained transition end
+   * logic. Timeouts are still used as a fallback if provided.
+   *
+   * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+   *
+   * ```jsx
+   * addEndListener={(node, done) => {
+   *   // use the css transitionend event to mark the finish of a transition
+   *   node.addEventListener('transitionend', done, false);
+   * }}
+   * ```
+   */
+  addEndListener: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func),
+
+  /**
+   * Callback fired before the "entering" status is applied. An extra parameter
+   * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
+   *
+   * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+   *
+   * @type Function(node: HtmlElement, isAppearing: bool) -> void
+   */
+  onEnter: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func),
+
+  /**
+   * Callback fired after the "entering" status is applied. An extra parameter
+   * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
+   *
+   * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+   *
+   * @type Function(node: HtmlElement, isAppearing: bool)
+   */
+  onEntering: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func),
+
+  /**
+   * Callback fired after the "entered" status is applied. An extra parameter
+   * `isAppearing` is supplied to indicate if the enter stage is occurring on the initial mount
+   *
+   * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+   *
+   * @type Function(node: HtmlElement, isAppearing: bool) -> void
+   */
+  onEntered: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func),
+
+  /**
+   * Callback fired before the "exiting" status is applied.
+   *
+   * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+   *
+   * @type Function(node: HtmlElement) -> void
+   */
+  onExit: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func),
+
+  /**
+   * Callback fired after the "exiting" status is applied.
+   *
+   * **Note**: when `nodeRef` prop is passed, `node` is not passed.
+   *
+   * @type Function(node: HtmlElement) -> void
+   */
+  onExiting: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func),
+
+  /**
+   * Callback fired after the "exited" status is applied.
+   *
+   * **Note**: when `nodeRef` prop is passed, `node` is not passed
+   *
+   * @type Function(node: HtmlElement) -> void
+   */
+  onExited: (prop_types__WEBPACK_IMPORTED_MODULE_2___default().func)
+} : 0; // Name the function so it is clearer in the documentation
+
+function noop() {}
+
+Transition.defaultProps = {
+  in: false,
+  mountOnEnter: false,
+  unmountOnExit: false,
+  appear: false,
+  enter: true,
+  exit: true,
+  onEnter: noop,
+  onEntering: noop,
+  onEntered: noop,
+  onExit: noop,
+  onExiting: noop,
+  onExited: noop
+};
+Transition.UNMOUNTED = UNMOUNTED;
+Transition.EXITED = EXITED;
+Transition.ENTERING = ENTERING;
+Transition.ENTERED = ENTERED;
+Transition.EXITING = EXITING;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Transition);
+
+/***/ }),
+
+/***/ "./node_modules/react-transition-group/esm/TransitionGroupContext.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/react-transition-group/esm/TransitionGroupContext.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (react__WEBPACK_IMPORTED_MODULE_0__.createContext(null));
+
+/***/ }),
+
+/***/ "./node_modules/react-transition-group/esm/config.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/react-transition-group/esm/config.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  disabled: false
+});
+
+/***/ }),
+
+/***/ "./node_modules/react-transition-group/esm/utils/PropTypes.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/react-transition-group/esm/utils/PropTypes.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "timeoutsShape": () => (/* binding */ timeoutsShape),
+/* harmony export */   "classNamesShape": () => (/* binding */ classNamesShape)
+/* harmony export */ });
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__);
+
+var timeoutsShape =  true ? prop_types__WEBPACK_IMPORTED_MODULE_0___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_0___default().number), prop_types__WEBPACK_IMPORTED_MODULE_0___default().shape({
+  enter: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().number),
+  exit: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().number),
+  appear: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().number)
+}).isRequired]) : 0;
+var classNamesShape =  true ? prop_types__WEBPACK_IMPORTED_MODULE_0___default().oneOfType([(prop_types__WEBPACK_IMPORTED_MODULE_0___default().string), prop_types__WEBPACK_IMPORTED_MODULE_0___default().shape({
+  enter: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string),
+  exit: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string),
+  active: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string)
+}), prop_types__WEBPACK_IMPORTED_MODULE_0___default().shape({
+  enter: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string),
+  enterDone: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string),
+  enterActive: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string),
+  exit: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string),
+  exitDone: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string),
+  exitActive: (prop_types__WEBPACK_IMPORTED_MODULE_0___default().string)
+})]) : 0;
+
+/***/ }),
+
 /***/ "./node_modules/react/cjs/react-jsx-runtime.development.js":
 /*!*****************************************************************!*\
   !*** ./node_modules/react/cjs/react-jsx-runtime.development.js ***!
@@ -71916,6 +73835,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_event_card_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./resources/js/components/FilterDropdown/filter.css":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/FilterDropdown/filter.css ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_filter_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./filter.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/components/FilterDropdown/filter.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_filter_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_filter_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 

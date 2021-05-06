@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import './search-box.css';
 
 import SearchResultList from './SearchResult';
-import {searchEvent} from "../Events/eventActions";
+import {searchEvent} from './state/searchActions';
 
 class SearchBox extends Component {
 
@@ -31,7 +31,7 @@ class SearchBox extends Component {
     }
 }
 const mapStateToProps = state => {
-    return { results: state.events.searchResults};
+    return { results: state.search.searchResults};
 };
 
 const mapDispatchToProps = (dispatch) => {

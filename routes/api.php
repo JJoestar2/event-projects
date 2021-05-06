@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventTypeController;
+use App\Http\Controllers\EventCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +24,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('events/all', [EventController::class, 'getAllEvents']);
 Route::get('events/{title}', [EventController::class, 'findEventsByTitle']);
 Route::get('events/filter/{filter}/{id}', [EventController::class, 'filterEventsByCategoryOrType']);
+
+Route::get('type/all', [EventTypeController::class, 'getAllTypes']);
+Route::get('category/all', [EventCategoryController::class, 'getAllCategories']);

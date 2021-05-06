@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {sortEvents} from "../Events/eventActions";
+import {sortEvents} from "../Events/state/eventActions";
 
 function SortBox(props) {
     return (

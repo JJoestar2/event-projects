@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 
-import EventsList from './Events';
-import SearchBox from "./SearchBox";
-import SortBox from "./SortBox";
-import {getEvents} from "./Events/eventActions";
+import EventsList from '../Events';
+import SearchBox from "../SearchBox";
+import SortBox from "../SortBox";
+import Sidebar from "../Sidebar";
+
+import {getEvents} from "../Events/state/eventActions";
 
 class MainPageFeed extends Component {
     componentDidMount() {
@@ -16,9 +18,7 @@ class MainPageFeed extends Component {
             <div className="container-fluid">
                 <div className="row justify-content-center">
                     <div className="col-lg-3">
-                        <div className="filters">
-                            Filters
-                        </div>
+                        <Sidebar />
                     </div>
                     <div className="col-lg-9">
                         <div className="d-flex justify-content-between align-items-center mb-1">

@@ -1,0 +1,5 @@
+const SEARCH_BY_TITLE = "SEARCH_BY_TITLE";
+
+export {
+    SEARCH_BY_TITLE,
+};
