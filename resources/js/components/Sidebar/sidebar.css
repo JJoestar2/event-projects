@@ -1,0 +1,23 @@
+@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap);
+@charset "UTF-8";
+
+.filters {
+ padding: 15px 15px 0 15px;
+}
+
+.filters-heading {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.filters-block {
+    margin-top: 15px;
+}
+
+.filters-block-list-item {
+    cursor: pointer;
+    list-style-type: none;
+    position: relative;
+    margin-bottom: 30px;
+}

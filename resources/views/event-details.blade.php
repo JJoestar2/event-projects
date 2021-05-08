@@ -4,6 +4,7 @@
     @foreach($event as $item)
     <div class="event-block">
         <div class="event-block__top">
+            <a href="/">Back</a>
             <div class="d-flex justify-content-between">
                 <div class="event-iamge">
                     <img src="{{asset('img_lights.jpg')}}" alt="#">
@@ -11,13 +12,20 @@
                 <div class="event-heading">
                     <span>{{ date("F", strtotime($item->date_start)) }} {{  date("d", strtotime($item->date_start)) }} </span>
                     <h1> {{ $item->title }} </h1>
-                    @if(Auth::user()->getAuthIdentifier() !== $item->users_id) <!--- check if user is creator of event --->
-                        @if($member)
-                            <a href="{{"/event/register/" . Auth::user()->getAuthIdentifier(). "/" . $item->id }}" class="btn-member btn-register">Register</a>
-                        @else
-                            <a href="{{"/event/leave/" . Auth::user()->getAuthIdentifier(). "/" . $item->id }}" class="btn-member btn-register">Leave Event</a>
-                        @endif
+
+                    @if(!Auth::user())
+                        <span>Log-in or Register</span>
                     @endif
+
+                    @isset($member)
+                        @if(Auth::id() !== $item->users_id) <!--- check if user is creator of event --->
+                            @if($member)
+                                <a href="{{"/event/register/" . Auth::user()->getAuthIdentifier(). "/" . $item->id }}" class="btn-member btn-register">Register</a>
+                            @else
+                                <a href="{{"/event/leave/" . Auth::user()->getAuthIdentifier(). "/" . $item->id }}" class="btn-member btn-register">Leave Event</a>
+                            @endif
+                        @endif
+                    @endisset
                 </div>
             </div>
         </div>

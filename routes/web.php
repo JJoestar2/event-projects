@@ -17,7 +17,8 @@ use App\Http\Controllers\EventController;
 
 
 Auth::routes();
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::view('/', 'welcome');
 
 /*========== Events Routes =====*/
 Route::get('/event/{id}', [EventController::class, 'getEventById']);

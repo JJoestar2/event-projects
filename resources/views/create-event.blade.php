@@ -5,6 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
+                    <a href="/">Back</a>
                     <div class="card-header">{{ __('Create Event') }}</div>
 
                     <div class="card-body">

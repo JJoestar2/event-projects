@@ -22,9 +22,12 @@ class EventController extends Controller
     {
         $event = Event::find($id);
         $item =  $event->where('id', $id)->with(['category', 'type'])->get();
-        $member = $this->checkIfUserInEvent($event, Auth::user()->getAuthIdentifier());
-
-        return view('event-details', ['event' => $item, 'member' => $member]);
+        if(!Auth::user()) {
+            return view('event-details', ['event' => $item]);
+        } else {
+            $member = $this->checkIfUserInEvent($event, Auth::id());
+            return view('event-details', ['event' => $item, 'member' => $member]);
+        }
     }
 
     public function findEventsByTitle($title)

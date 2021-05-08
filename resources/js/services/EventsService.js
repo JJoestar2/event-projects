@@ -18,9 +18,19 @@ const getAllEvents = async () =>
     return await response.json();
  }
 
+ const filterEvents = async (type, id) => {
+    let response = await fetch(`/api/events/filter/${type}/${id}`, {
+       method: 'GET',
+       headers: {
+            'Content-Type': 'application/json'
+       }});
+     return await response.json();
+}
+
 export {
     getAllEvents,
     searchEventByTitle,
+    filterEvents,
 };
 
 

@@ -1,4 +1,4 @@
-import {GET_ALL_EVENTS, SORT_EVENTS} from "./eventTypes";
+import {GET_ALL_EVENTS, SORT_EVENTS, FILTER_EVENTS, CLEAR_FILTERS} from "./eventTypes";
 
 const initialState = {
     eventsList: [],
@@ -21,6 +21,17 @@ function eventsReducer(state = initialState, action) {
                 sortFilter: action.payload.filter,
                 eventsList: action.payload.items
             };
+        case FILTER_EVENTS:
+            return {
+              ...state,
+              eventsList: action.payload
+            };
+
+        case CLEAR_FILTERS:
+            return {
+                ...state,
+                eventsList: action.payload
+            }
 
         default:
             return state;

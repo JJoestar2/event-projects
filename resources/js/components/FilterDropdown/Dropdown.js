@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import EventsListItem from "../Events/EvenstListItem";
 
-const DropdownMenu = ({ data = [], title }) => {
+const DropdownMenu = ({ data = [], title, func, filterKey}) => {
     const [activeMenu, setActiveMenu] = useState('main');
     const [menuHeight, setMenuHeight] = useState(null);
 
@@ -24,10 +23,13 @@ const DropdownMenu = ({ data = [], title }) => {
     }
 
     const items = data.map((item) => {
+        let title = item.category || item.type;
         return (
-            <DropdownItem key={item.id}>
-                <span> { item.category || item.type } </span>
-            </DropdownItem>
+            <span key={item.id} onClick={ () => func(filterKey, item.id) }>
+                <DropdownItem>
+                    <span> { title } </span>
+                </DropdownItem>
+            </span>
         );
     });
 
@@ -43,7 +45,7 @@ const DropdownMenu = ({ data = [], title }) => {
                 <div className="menu">
                     <DropdownItem
                         rightIcon={ <i className="fa fa-angle-double-down" aria-hidden="true"></i>}
-                        goToMenu="settings"
+                        goToMenu="filter"
                     >
                         {title}
                     </DropdownItem>
@@ -51,7 +53,7 @@ const DropdownMenu = ({ data = [], title }) => {
             </CSSTransition>
 
             <CSSTransition
-                in={activeMenu === 'settings'}
+                in={activeMenu === 'filter'}
                 unmountOnExit
                 timeout={500}
                 classNames="menu-secondary"

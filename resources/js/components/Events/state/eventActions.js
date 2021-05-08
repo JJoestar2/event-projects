@@ -1,5 +1,5 @@
-import {GET_ALL_EVENTS, SORT_EVENTS} from './eventTypes';
-import {getAllEvents} from "../../../services";
+import {GET_ALL_EVENTS, SORT_EVENTS, FILTER_EVENTS, CLEAR_FILTERS} from './eventTypes';
+import {getAllEvents, filterEvents} from "../../../services/EventsService";
 
 export const getEvents = () => {
     let events = getAllEvents();
@@ -21,6 +21,38 @@ export const sortEvents = (filter, events) => (dispatch) => {
 
     return dispatch(sortEventsAction(filter, events));
 };
+
+export const eventsFiltering = (type, id) => {
+    let events = filterEvents(type, id);
+    return dispatch => {
+        events.then((data) => {
+            dispatch(grabFilteredEvents(data.data))
+        });
+    };
+};
+
+export const clearEventsFilters = () => {
+    let events = getAllEvents();
+    return dispatch => {
+        events.then((data) => {
+            dispatch(eventsWithoutFilters(data.data))
+        });
+    };
+};
+
+const eventsWithoutFilters = data => ({
+    type: CLEAR_FILTERS,
+    payload: {
+        data
+    }
+});
+
+const grabFilteredEvents = data => ({
+    type: FILTER_EVENTS,
+    payload: {
+        data
+    }
+});
 
 const grabAllEvents = data => ({
     type: GET_ALL_EVENTS,
