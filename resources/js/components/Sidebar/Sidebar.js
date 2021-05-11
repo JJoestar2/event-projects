@@ -21,14 +21,14 @@ class Sidebar extends Component {
                           <li className="filters-block-list-item">
                               <FilterDropdown title="Categories"
                                               data={this.props.categories.data}
-                                              func={this.props.makeFilters}
+                                              add={this.props.setFilter}
                                               filterKey="category"
                               />
                           </li>
                           <li className="filters-block-list-item">
                               <FilterDropdown title="Types"
                                               data={this.props.types.data}
-                                              func={this.props.makeFilters}
+                                              add={this.props.setFilter}
                                               filterKey="type"
                               />
                           </li>
@@ -44,14 +44,14 @@ class Sidebar extends Component {
 const mapStateToProps = state => {
     return {
         categories: state.filter.eventCategories,
-        types: state.filter.eventTypes
+        types: state.filter.eventTypes,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         grabFilters: () => dispatch(getFilterTypes()),
-        makeFilters: (type, id) => dispatch(eventsFiltering(type, id)),
+        setFilter: (type, value) => dispatch(eventsFiltering(type, value)),
         clearFilters: () => dispatch(clearEventsFilters()),
     };
 };

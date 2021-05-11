@@ -22,11 +22,13 @@ class EventController extends Controller
     {
         $event = Event::find($id);
         $item =  $event->where('id', $id)->with(['category', 'type'])->get();
+        $users = $event->users()->select(['name', 'surname'])->get();
+
         if(!Auth::user()) {
-            return view('event-details', ['event' => $item]);
+            return view('event-details', ['event' => $item, 'participants' => $users]);
         } else {
             $member = $this->checkIfUserInEvent($event, Auth::id());
-            return view('event-details', ['event' => $item, 'member' => $member]);
+            return view('event-details', ['event' => $item, 'member' => $member, 'participants' => $users]);
         }
     }
 
@@ -51,19 +53,30 @@ class EventController extends Controller
         return redirect("/create");
     }
 
-    public function filterEventsByCategoryOrType($filter, $id)
+    public function filterEvents(Request $request)
     {
-        $events = [];
-        if($filter === 'category') {
-            $category = Category::find($id);
-            $events = $category->events;
-
-        } elseif ($filter === 'type') {
-            $type = Type::find($id);
-            $events = $type->events;
+        if(sizeof($request->data) == 0) {
+            return EventsResource::collection(Event::all());
         }
 
-        return EventsResource::collection($events);
+        $events = [];
+
+        foreach ($request->data as $item)
+        {
+             if($item['type'] == 'category')
+             {
+                 if($events) $events = $events->where('type_id', $item['value']);
+                 $events = Event::where('category_id', $item['value']);
+             }
+
+             if($item['type'] == 'type')
+             {
+                 if($events) $events = $events->where('category_id', $item['value']);
+                 $events = Event::where('type_id', $item['value']);
+             }
+        }
+
+        return EventsResource::collection($events->get());
     }
 
     public function registerInEvent($userId, $eventId)

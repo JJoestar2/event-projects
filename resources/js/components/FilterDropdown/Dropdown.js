@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-const DropdownMenu = ({ data = [], title, func, filterKey}) => {
+const DropdownMenu = ({ data = [], title, add, filterKey}) => {
     const [activeMenu, setActiveMenu] = useState('main');
     const [menuHeight, setMenuHeight] = useState(null);
 
@@ -25,7 +25,7 @@ const DropdownMenu = ({ data = [], title, func, filterKey}) => {
     const items = data.map((item) => {
         let title = item.category || item.type;
         return (
-            <span key={item.id} onClick={ () => func(filterKey, item.id) }>
+            <span key={item.id} onClick = {() => add(filterKey, item.id)} >
                 <DropdownItem>
                     <span> { title } </span>
                 </DropdownItem>

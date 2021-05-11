@@ -1,8 +1,9 @@
-import {GET_ALL_EVENTS, SORT_EVENTS, FILTER_EVENTS, CLEAR_FILTERS} from "./eventTypes";
+import {GET_ALL_EVENTS, SORT_EVENTS, FILTERED_EVENTS, DEFAULT_EVENT_LIST, SET_FILTER, REMOVE_FILTER, REMOVE_ALL_FILTERS} from "./eventTypes";
 
 const initialState = {
     eventsList: [],
     sortFilter: 'ALL',
+    eventFilters:[]
 };
 
 function eventsReducer(state = initialState, action) {
@@ -21,16 +22,38 @@ function eventsReducer(state = initialState, action) {
                 sortFilter: action.payload.filter,
                 eventsList: action.payload.items
             };
-        case FILTER_EVENTS:
+
+        case FILTERED_EVENTS:
             return {
               ...state,
               eventsList: action.payload
             };
 
-        case CLEAR_FILTERS:
+        case DEFAULT_EVENT_LIST:
             return {
                 ...state,
                 eventsList: action.payload
+            }
+
+        case SET_FILTER:
+            return {
+                ...state,
+                eventFilters: [
+                    ...state.eventFilters,
+                    action.payload
+                ]
+            }
+
+        case REMOVE_FILTER:
+            return {
+                ...state,
+                eventFilters: state.eventFilters.filter(item => item.type != action.payload.type)
+            }
+
+        case REMOVE_ALL_FILTERS:
+            return {
+                ...state,
+                eventFilters: []
             }
 
         default:

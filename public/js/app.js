@@ -2177,9 +2177,12 @@ var sortEvents = function sortEvents(filter, events) {
     return dispatch(sortEventsAction(filter, events));
   };
 };
-var eventsFiltering = function eventsFiltering(type, id) {
-  var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.filterEvents)(type, id);
-  return function (dispatch) {
+var eventsFiltering = function eventsFiltering(type, value) {
+  return function (dispatch, getState) {
+    dispatch(setFilter(type, value));
+    var state = getState();
+    var eventFilters = state.events.eventFilters;
+    var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.filterEvents)(eventFilters);
     events.then(function (data) {
       dispatch(grabFilteredEvents(data.data));
     });
@@ -2188,15 +2191,22 @@ var eventsFiltering = function eventsFiltering(type, id) {
 var clearEventsFilters = function clearEventsFilters() {
   var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.getAllEvents)();
   return function (dispatch) {
+    dispatch(clearFilters());
     events.then(function (data) {
       dispatch(eventsWithoutFilters(data.data));
     });
   };
 };
 
+var clearFilters = function clearFilters() {
+  return {
+    type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.REMOVE_ALL_FILTERS
+  };
+};
+
 var eventsWithoutFilters = function eventsWithoutFilters(data) {
   return {
-    type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.CLEAR_FILTERS,
+    type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_EVENT_LIST,
     payload: {
       data: data
     }
@@ -2205,9 +2215,28 @@ var eventsWithoutFilters = function eventsWithoutFilters(data) {
 
 var grabFilteredEvents = function grabFilteredEvents(data) {
   return {
-    type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.FILTER_EVENTS,
+    type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.FILTERED_EVENTS,
     payload: {
       data: data
+    }
+  };
+};
+
+var setFilter = function setFilter(type, value) {
+  return {
+    type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.SET_FILTER,
+    payload: {
+      type: type,
+      value: value
+    }
+  };
+};
+
+var removeFilter = function removeFilter(type) {
+  return {
+    type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.REMOVE_FILTER,
+    payload: {
+      type: type
     }
   };
 };
@@ -2247,6 +2276,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _eventTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventTypes */ "./resources/js/components/Events/state/eventTypes.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2256,7 +2297,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var initialState = {
   eventsList: [],
-  sortFilter: 'ALL'
+  sortFilter: 'ALL',
+  eventFilters: []
 };
 
 function eventsReducer() {
@@ -2275,14 +2317,31 @@ function eventsReducer() {
         eventsList: action.payload.items
       });
 
-    case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.FILTER_EVENTS:
+    case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.FILTERED_EVENTS:
       return _objectSpread(_objectSpread({}, state), {}, {
         eventsList: action.payload
       });
 
-    case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.CLEAR_FILTERS:
+    case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_EVENT_LIST:
       return _objectSpread(_objectSpread({}, state), {}, {
         eventsList: action.payload
+      });
+
+    case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.SET_FILTER:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        eventFilters: [].concat(_toConsumableArray(state.eventFilters), [action.payload])
+      });
+
+    case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.REMOVE_FILTER:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        eventFilters: state.eventFilters.filter(function (item) {
+          return item.type != action.payload.type;
+        })
+      });
+
+    case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.REMOVE_ALL_FILTERS:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        eventFilters: []
       });
 
     default:
@@ -2306,13 +2365,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "GET_ALL_EVENTS": () => (/* binding */ GET_ALL_EVENTS),
 /* harmony export */   "SORT_EVENTS": () => (/* binding */ SORT_EVENTS),
-/* harmony export */   "FILTER_EVENTS": () => (/* binding */ FILTER_EVENTS),
-/* harmony export */   "CLEAR_FILTERS": () => (/* binding */ CLEAR_FILTERS)
+/* harmony export */   "FILTERED_EVENTS": () => (/* binding */ FILTERED_EVENTS),
+/* harmony export */   "SET_FILTER": () => (/* binding */ SET_FILTER),
+/* harmony export */   "REMOVE_FILTER": () => (/* binding */ REMOVE_FILTER),
+/* harmony export */   "REMOVE_ALL_FILTERS": () => (/* binding */ REMOVE_ALL_FILTERS),
+/* harmony export */   "DEFAULT_EVENT_LIST": () => (/* binding */ DEFAULT_EVENT_LIST)
 /* harmony export */ });
 var GET_ALL_EVENTS = "GET_ALL_EVENTS";
 var SORT_EVENTS = "SORT_EVENTS";
-var FILTER_EVENTS = "FILTER_EVENTS";
-var CLEAR_FILTERS = "CLEAR_FILTERS";
+var FILTERED_EVENTS = "FILTERED_EVENTS";
+var DEFAULT_EVENT_LIST = "DEFAULT_EVENT_LIST";
+var SET_FILTER = "SET_FILTER";
+var REMOVE_FILTER = "REMOVE_FILTER";
+var REMOVE_ALL_FILTERS = "REMOVE_ALL_FILTERS";
 
 
 /***/ }),
@@ -2352,7 +2417,7 @@ var DropdownMenu = function DropdownMenu(_ref) {
   var _ref$data = _ref.data,
       data = _ref$data === void 0 ? [] : _ref$data,
       title = _ref.title,
-      func = _ref.func,
+      add = _ref.add,
       filterKey = _ref.filterKey;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('main'),
@@ -2390,7 +2455,7 @@ var DropdownMenu = function DropdownMenu(_ref) {
     var title = item.category || item.type;
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
       onClick: function onClick() {
-        return func(filterKey, item.id);
+        return add(filterKey, item.id);
       },
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(DropdownItem, {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
@@ -3044,7 +3109,7 @@ var Sidebar = /*#__PURE__*/function (_Component) {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_FilterDropdown__WEBPACK_IMPORTED_MODULE_3__.default, {
                 title: "Categories",
                 data: this.props.categories.data,
-                func: this.props.makeFilters,
+                add: this.props.setFilter,
                 filterKey: "category"
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
@@ -3052,7 +3117,7 @@ var Sidebar = /*#__PURE__*/function (_Component) {
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_FilterDropdown__WEBPACK_IMPORTED_MODULE_3__.default, {
                 title: "Types",
                 data: this.props.types.data,
-                func: this.props.makeFilters,
+                add: this.props.setFilter,
                 filterKey: "type"
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
@@ -3085,8 +3150,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     grabFilters: function grabFilters() {
       return dispatch((0,_state_filterActions__WEBPACK_IMPORTED_MODULE_4__.getFilterTypes)());
     },
-    makeFilters: function makeFilters(type, id) {
-      return dispatch((0,_Events_state_eventActions__WEBPACK_IMPORTED_MODULE_5__.eventsFiltering)(type, id));
+    setFilter: function setFilter(type, value) {
+      return dispatch((0,_Events_state_eventActions__WEBPACK_IMPORTED_MODULE_5__.eventsFiltering)(type, value));
     },
     clearFilters: function clearFilters() {
       return dispatch((0,_Events_state_eventActions__WEBPACK_IMPORTED_MODULE_5__.clearEventsFilters)());
@@ -3497,29 +3562,37 @@ var searchEventByTitle = /*#__PURE__*/function () {
 }();
 
 var filterEvents = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3(type, id) {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3(data) {
     var response;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.next = 2;
-            return fetch("/api/events/filter/".concat(type, "/").concat(id), {
-              method: 'GET',
+            if (!data) {
+              _context3.next = 7;
+              break;
+            }
+
+            _context3.next = 3;
+            return fetch("/api/events/filter", {
+              method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
-              }
+              },
+              body: JSON.stringify({
+                data: data
+              })
             });
 
-          case 2:
+          case 3:
             response = _context3.sent;
-            _context3.next = 5;
+            _context3.next = 6;
             return response.json();
 
-          case 5:
+          case 6:
             return _context3.abrupt("return", _context3.sent);
 
-          case 6:
+          case 7:
           case "end":
             return _context3.stop();
         }
@@ -3527,7 +3600,7 @@ var filterEvents = /*#__PURE__*/function () {
     }, _callee3);
   }));
 
-  return function filterEvents(_x2, _x3) {
+  return function filterEvents(_x2) {
     return _ref3.apply(this, arguments);
   };
 }();
@@ -8177,7 +8250,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@charset \"UTF-8\";\n\n.filters {\n padding: 15px 15px 0 15px;\n}\n\n.filters-heading {\n    font-family: 'Noto Sans TC', sans-serif;\n    font-size: 1.6rem;\n    font-weight: 600;\n}\n\n.filters-block {\n    margin-top: 15px;\n}\n\n.filters-block-list-item {\n    cursor: pointer;\n    list-style-type: none;\n    position: relative;\n    margin-bottom: 30px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@charset \"UTF-8\";\n\n.filters {\n padding: 15px 15px 0 15px;\n}\n\n.filters-heading {\n    font-family: 'Noto Sans TC', sans-serif;\n    font-size: 1.6rem;\n    font-weight: 600;\n}\n\n.filters-block {\n    margin-top: 15px;\n}\n\n.filters-block-list-item {\n    cursor: pointer;\n    list-style-type: none;\n    position: relative;\n    margin-bottom: 30px;\n    box-shadow: -1px 2px 10px 0px rgba(34, 60, 80, 0.2);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

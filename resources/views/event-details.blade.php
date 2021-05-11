@@ -43,6 +43,13 @@
                         <span class="event-type-category">Category: <span>{{$item->category->category}}</span></span>
                         <span class="event-type-format">Format: <span>{{$item->type->type}}</span> </span>
                     </span>
+                    <div>
+                        @if($participants)
+                            @foreach($participants as $item)
+                                {{ $item->name . ' ' . $item->surname }}
+                            @endforeach
+                        @endif
+                    </div>
                 </div>
             </div>
             @endforeach
