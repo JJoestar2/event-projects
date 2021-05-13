@@ -31,7 +31,7 @@
                             @endif
                         @else
                             <li class="nav-item dropdown d-flex align-items-center">
-                                <a href="/create"><i class="fa fa-plus-square" aria-hidden="true"></i> Create Event </a>
+                                <a href="/event/create"><i class="fa fa-plus-square" aria-hidden="true"></i> Create Event </a>
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name . ' ' . Auth::user()->surname}}
                                 </a>
@@ -41,6 +41,9 @@
                                     </a>
                                     <a class="dropdown-item" href="/home">
                                         {{ __('Profile') }}
+                                    </a>
+                                    <a class="dropdown-item" href="/user/edit">
+                                        {{ __('User Settings') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

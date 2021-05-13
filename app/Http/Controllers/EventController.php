@@ -6,8 +6,10 @@ use App\Http\Resources\EventsResource;
 use App\Models\Category;
 use App\Models\Event;
 use App\Models\Type;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\EventCreateRequest;
+use App\Http\Requests\EditUserDataRequest;
 
 use Auth;
 
@@ -50,7 +52,33 @@ class EventController extends Controller
     public function saveEvent(EventCreateRequest $request)
     {
         Event::create($request->validated());
-        return redirect("/create");
+        return redirect("/event/create");
+    }
+
+    public function editUser()
+    {
+        $user = User::select(['id', 'name', 'surname', 'email', 'phone', 'country', 'city'])
+                    ->where('id', Auth::id())
+                    ->get();
+        return view('edit-user', ['user' => $user]);
+    }
+
+    public function saveUser(EditUserDataRequest $request, $id)
+    {
+        if($request->validated())
+        {
+             User::where('id', $id)
+                    ->update([
+                          'name' => $request->input('name'),
+                          'surname' => $request->input('surname'),
+                          'email' => $request->input('email'),
+                          'phone' => $request->input('phone'),
+                          'country' => $request->input('country'),
+                          'city' => $request->input('city')
+                    ]);
+        }
+
+        return redirect("/user/edit");
     }
 
     public function filterEvents(Request $request)

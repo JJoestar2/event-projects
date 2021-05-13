@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    <a href="/" class="back btn btn-back"> <span><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>Back</a>
     @foreach($event as $item)
     <div class="event-block">
         <div class="event-block__top">
-            <a href="/">Back</a>
             <div class="d-flex justify-content-between">
                 <div class="event-iamge">
                     <img src="{{asset('img_lights.jpg')}}" alt="#">
@@ -12,26 +12,28 @@
                 <div class="event-heading">
                     <span>{{ date("F", strtotime($item->date_start)) }} {{  date("d", strtotime($item->date_start)) }} </span>
                     <h1> {{ $item->title }} </h1>
-
-                    @if(!Auth::user())
-                        <span>Log-in or Register</span>
-                    @endif
-
-                    @isset($member)
-                        @if(Auth::id() !== $item->users_id) <!--- check if user is creator of event --->
-                            @if($member)
-                                <a href="{{"/event/register/" . Auth::user()->getAuthIdentifier(). "/" . $item->id }}" class="btn-member btn-register">Register</a>
-                            @else
-                                <a href="{{"/event/leave/" . Auth::user()->getAuthIdentifier(). "/" . $item->id }}" class="btn-member btn-register">Leave Event</a>
-                            @endif
-                        @endif
-                    @endisset
                 </div>
             </div>
         </div>
         <div class="event-block__content">
-            <span class="event-description-header">About this Event</span>
-            <div class="d-flex justify-content-between">
+            <div class="event-description-header px-3 d-flex justify-content-between align-items-center">
+                <span>About this Event</span>
+
+                @if(!Auth::user())
+                    <span>Log-in or Register</span>
+                @endif
+
+                @isset($member)
+                    @if(Auth::id() !== $item->users_id) <!--- check if user is creator of event --->
+                        @if($member)
+                            <a href="{{"/event/register/" . Auth::id(). "/" . $item->id }}" class="btn-member btn-register">Register</a>
+                        @else
+                            <a href="{{"/event/leave/" . Auth::id(). "/" . $item->id }}" class="btn-member btn-register">Leave Event</a>
+                        @endif
+                    @endif
+                @endisset
+            </div>
+            <div class="d-flex justify-content-between mt-3 px-3">
                 <div class="event-description">
                     {!! $item->description !!}
                 </div>
@@ -43,13 +45,21 @@
                         <span class="event-type-category">Category: <span>{{$item->category->category}}</span></span>
                         <span class="event-type-format">Format: <span>{{$item->type->type}}</span> </span>
                     </span>
-                    <div>
-                        @if($participants)
-                            @foreach($participants as $item)
-                                {{ $item->name . ' ' . $item->surname }}
-                            @endforeach
-                        @endif
-                    </div>
+                    @if(sizeof($participants) !== 0)
+                        <div>
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Members of event
+                            </button>
+                            {{ count($participants) }}
+                            <div class="collapse" id="collapseExample">
+                                <div class="card card-body">
+                                    @foreach($participants as $item)
+                                        {{ $item->name . ' ' . $item->surname }}
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
             @endforeach

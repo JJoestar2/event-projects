@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+    <a href="/" class="back btn btn-back"> <span><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>Back</a>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <a href="/">Back</a>
                     <div class="card-header">{{ __('Create Event') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="/event-save">
+                        <form method="POST" action="/event/save">
                             @csrf
 
                             <div class="form-group row">

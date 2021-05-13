@@ -32,6 +32,12 @@ span {
 }
 
 .event-description-header {
+    width: 100%;
+    border-bottom: 1px solid #1b1e21;
+    padding: 20px 0;
+}
+
+.event-description-header span {
     font-size: 1.5rem;
     font-weight: 500;
 }
@@ -109,7 +115,6 @@ span {
 }
 
 .event-block__content {
-    padding: 10px 15px;
     background-color: #fff;
 }
 
@@ -135,11 +140,31 @@ span {
 .btn-register {
     padding: 10px 30px;
     border: 1px solid #FE4B4B;
-    margin-top: 25px;
 }
 
 .btn-register:hover {
     background-color: #FE4B4B;
+    color: #fff;
+}
+
+.btn-back {
+    color: #fff;
+    background-color: #c7d2da;
+    margin-left: 25px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    padding: 10px 25px;
+}
+
+.btn-back span {
+    color: #fff;
+    position: relative;
+    right: 10px;
+}
+
+.btn-back:hover {
+    background-color: #545b62;
     color: #fff;
 }
 
