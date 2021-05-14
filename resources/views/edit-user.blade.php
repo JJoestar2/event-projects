@@ -7,7 +7,7 @@
             <div class="col-md-8">
                 <div class="wrap-contact2">
                     @foreach($user as $item)
-                    <form class="contact2-form" action="/user/save/{{ $item['id'] }}" >
+                    <form class="contact2-form" method="POST" action="/user/save/{{ $item['id'] }}" >
                         @csrf
                         <span class="contact2-form-title">Personal Info</span>
 
@@ -96,21 +96,35 @@
                     @endforeach
                 </div>
                 <div class="wrap-contact2">
-                    <form class="contact2-form">
+                    <form class="contact2-form" method="POST" action="/user/change-password/{{ $item['id'] }}">
                         @csrf
                         <span class="contact2-form-title">Password Change</span>
 
                         <div class="wrap-input2">
-                            <input class="input2" type="text" name="NewPass">
+                            <input class="input2 @error('password') is-invalid @enderror" type="password" name="password"
+                                   autocomplete="password" autofocus>
                             <span class="focus-input2" data-placeholder="NEW PASSWORD"></span>
+
+                            @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <div class="wrap-input2">
-                            <input class="input2" type="text" name="RepeatPass">
+                            <input class="input2 @error('password_confirmation') is-invalid @enderror" type="password" name="password_confirmation"
+                                   autocomplete="password_confirmation" autofocus>
                             <span class="focus-input2" data-placeholder="REPEAT PASSWORD"></span>
+
+                            @error('password_confirmation')
+                            <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
-                        <button class="contact2-form-btn">
+                        <button class="contact2-form-btn" type="submit">
                             Save New Password
                         </button>
                     </form>

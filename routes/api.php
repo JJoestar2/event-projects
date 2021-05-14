@@ -23,6 +23,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('events/all', [EventController::class, 'getAllEvents']);
 Route::get('events/{title}', [EventController::class, 'findEventsByTitle']);
+Route::get('events/user/{id}', [EventController::class, 'getUserEvents']);
+Route::get('created-events/user/{id}', [EventController::class, 'getCreatedEvents']);
+
 Route::post('events/filter', [EventController::class, 'filterEvents']);
 
 Route::get('type/all', [EventTypeController::class, 'getAllTypes']);

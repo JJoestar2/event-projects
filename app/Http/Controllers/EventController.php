@@ -6,13 +6,12 @@ use App\Http\Resources\EventsResource;
 use App\Models\Category;
 use App\Models\Event;
 use App\Models\Type;
+use App\Http\Requests\EventCreateRequest;
+
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\EventCreateRequest;
-use App\Http\Requests\EditUserDataRequest;
 
 use Auth;
-
 class EventController extends Controller
 {
     public function getAllEvents()
@@ -32,6 +31,21 @@ class EventController extends Controller
             $member = $this->checkIfUserInEvent($event, Auth::id());
             return view('event-details', ['event' => $item, 'member' => $member, 'participants' => $users]);
         }
+    }
+
+    public function getUserEvents($id)
+    {
+        $user = User::find($id);
+        $events = $user->events()->get();
+
+        return EventsResource::collection($events);
+    }
+
+    public function getCreatedEvents($id)
+    {
+        $events = Event::where('users_id', $id)->get();
+
+        return EventsResource::collection($events);
     }
 
     public function findEventsByTitle($title)
@@ -55,32 +69,6 @@ class EventController extends Controller
         return redirect("/event/create");
     }
 
-    public function editUser()
-    {
-        $user = User::select(['id', 'name', 'surname', 'email', 'phone', 'country', 'city'])
-                    ->where('id', Auth::id())
-                    ->get();
-        return view('edit-user', ['user' => $user]);
-    }
-
-    public function saveUser(EditUserDataRequest $request, $id)
-    {
-        if($request->validated())
-        {
-             User::where('id', $id)
-                    ->update([
-                          'name' => $request->input('name'),
-                          'surname' => $request->input('surname'),
-                          'email' => $request->input('email'),
-                          'phone' => $request->input('phone'),
-                          'country' => $request->input('country'),
-                          'city' => $request->input('city')
-                    ]);
-        }
-
-        return redirect("/user/edit");
-    }
-
     public function filterEvents(Request $request)
     {
         if(sizeof($request->data) == 0) {
@@ -93,13 +81,13 @@ class EventController extends Controller
         {
              if($item['type'] == 'category')
              {
-                 if($events) $events = $events->where('type_id', $item['value']);
+                 if($events) $events->where('category_id', $item['value']);
                  $events = Event::where('category_id', $item['value']);
              }
 
              if($item['type'] == 'type')
              {
-                 if($events) $events = $events->where('category_id', $item['value']);
+                 if($events) $events->where('type_id', $item['value']);
                  $events = Event::where('type_id', $item['value']);
              }
         }
