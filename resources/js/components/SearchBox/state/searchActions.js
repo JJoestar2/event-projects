@@ -1,6 +1,5 @@
-import {SEARCH_BY_TITLE} from "./searchTypes";
+import {getSearchResult} from "./searchActionCreators";
 import {searchEventByTitle} from "../../../services";
-
 
 export const searchEvent = (title) => {
     if(title) {
@@ -16,10 +15,3 @@ export const searchEvent = (title) => {
         };
     }
 };
-
-const getSearchResult = result => ({
-    type: SEARCH_BY_TITLE,
-    payload: {
-        result
-    }
-});

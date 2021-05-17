@@ -1,10 +1,13 @@
-import {GET_ALL_EVENTS, GET_CREATED_USER_EVENTS, SORT_EVENTS,
-        FILTERED_EVENTS, DEFAULT_EVENT_LIST, SET_FILTER,
-        REMOVE_FILTER, REMOVE_ALL_FILTERS} from "./eventTypes";
+import {
+    GET_ALL_EVENTS, GET_CREATED_USER_EVENTS, GET_MEMBERED_USER_EVENTS,
+    SORT_EVENTS, FILTERED_EVENTS, DEFAULT_EVENT_LIST,
+    SET_FILTER, REMOVE_FILTER, REMOVE_ALL_FILTERS
+} from "./eventTypes";
 
 const initialState = {
     eventsList: [],
     createdEvents: [],
+    memberedEvents: [],
     sortFilter: 'ALL',
     eventFilters:[]
 };
@@ -23,6 +26,12 @@ function eventsReducer(state = initialState, action) {
             return {
                 ...state,
                 createdEvents: action.payload
+            };
+
+        case GET_MEMBERED_USER_EVENTS:
+            return {
+                ...state,
+                memberedEvents: action.payload
             };
 
         case SORT_EVENTS:

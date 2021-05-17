@@ -2133,82 +2133,27 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Events/state/eventActions.js":
-/*!**************************************************************!*\
-  !*** ./resources/js/components/Events/state/eventActions.js ***!
-  \**************************************************************/
+/***/ "./resources/js/components/Events/state/eventActionCreators.js":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/Events/state/eventActionCreators.js ***!
+  \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "getEvents": () => (/* binding */ getEvents),
-/* harmony export */   "getCreatedEventsByUser": () => (/* binding */ getCreatedEventsByUser),
-/* harmony export */   "sortEvents": () => (/* binding */ sortEvents),
-/* harmony export */   "eventsFiltering": () => (/* binding */ eventsFiltering),
-/* harmony export */   "clearEventsFilters": () => (/* binding */ clearEventsFilters)
+/* harmony export */   "grabAllEvents": () => (/* binding */ grabAllEvents),
+/* harmony export */   "grabAllCreatedEvents": () => (/* binding */ grabAllCreatedEvents),
+/* harmony export */   "grabAllMemberedEvents": () => (/* binding */ grabAllMemberedEvents),
+/* harmony export */   "setFilter": () => (/* binding */ setFilter),
+/* harmony export */   "removeFilter": () => (/* binding */ removeFilter),
+/* harmony export */   "clearFilters": () => (/* binding */ clearFilters),
+/* harmony export */   "grabFilteredEvents": () => (/* binding */ grabFilteredEvents),
+/* harmony export */   "eventsWithoutFilters": () => (/* binding */ eventsWithoutFilters),
+/* harmony export */   "sortEventsAction": () => (/* binding */ sortEventsAction)
 /* harmony export */ });
 /* harmony import */ var _eventTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventTypes */ "./resources/js/components/Events/state/eventTypes.js");
-/* harmony import */ var _services_EventsService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../services/EventsService */ "./resources/js/services/EventsService.js");
 
-
-var getEvents = function getEvents() {
-  var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.getAllEvents)();
-  return function (dispatch) {
-    events.then(function (data) {
-      dispatch(grabAllEvents(data.data));
-    });
-  };
-};
-var getCreatedEventsByUser = function getCreatedEventsByUser(id) {
-  var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.getCreatedUserEvents)(id);
-  return function (dispatch) {
-    events.then(function (data) {
-      dispatch(grabAllCreatedEvents(data.data));
-    });
-  };
-};
-var sortEvents = function sortEvents(filter, events) {
-  return function (dispatch) {
-    if (filter !== 'ALL') {
-      if (filter === 'DESC') events.sort(function (a, b) {
-        return a.title > b.title ? 1 : -1;
-      });
-      if (filter === 'ASC') events.sort(function (a, b) {
-        return a.title < b.title ? 1 : -1;
-      });
-      if (filter === 'DATE') events.sort(function (a, b) {
-        return a.date_start < b.date_start ? 1 : -1;
-      });
-    } else {
-      events.sort(function (a, b) {
-        return a.id > b.id ? 1 : -1;
-      });
-    }
-
-    return dispatch(sortEventsAction(filter, events));
-  };
-};
-var eventsFiltering = function eventsFiltering(type, value) {
-  return function (dispatch, getState) {
-    dispatch(setFilter(type, value));
-    var state = getState();
-    var eventFilters = state.events.eventFilters;
-    var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.filterEvents)(eventFilters);
-    events.then(function (data) {
-      dispatch(grabFilteredEvents(data.data));
-    });
-  };
-};
-var clearEventsFilters = function clearEventsFilters() {
-  var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.getAllEvents)();
-  return function (dispatch) {
-    dispatch(clearFilters());
-    events.then(function (data) {
-      dispatch(eventsWithoutFilters(data.data));
-    });
-  };
-};
 
 var grabAllEvents = function grabAllEvents(data) {
   return {
@@ -2222,6 +2167,15 @@ var grabAllEvents = function grabAllEvents(data) {
 var grabAllCreatedEvents = function grabAllCreatedEvents(data) {
   return {
     type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.GET_CREATED_USER_EVENTS,
+    payload: {
+      data: data
+    }
+  };
+};
+
+var grabAllMemberedEvents = function grabAllMemberedEvents(data) {
+  return {
+    type: _eventTypes__WEBPACK_IMPORTED_MODULE_0__.GET_MEMBERED_USER_EVENTS,
     payload: {
       data: data
     }
@@ -2283,6 +2237,96 @@ var sortEventsAction = function sortEventsAction(filter, events) {
   };
 };
 
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Events/state/eventActions.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/Events/state/eventActions.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getEvents": () => (/* binding */ getEvents),
+/* harmony export */   "getCreatedEventsByUser": () => (/* binding */ getCreatedEventsByUser),
+/* harmony export */   "getMemberedEvents": () => (/* binding */ getMemberedEvents),
+/* harmony export */   "sortEvents": () => (/* binding */ sortEvents),
+/* harmony export */   "eventsFiltering": () => (/* binding */ eventsFiltering),
+/* harmony export */   "clearEventsFilters": () => (/* binding */ clearEventsFilters)
+/* harmony export */ });
+/* harmony import */ var _eventActionCreators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventActionCreators */ "./resources/js/components/Events/state/eventActionCreators.js");
+/* harmony import */ var _services_EventsService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../services/EventsService */ "./resources/js/services/EventsService.js");
+
+
+var getEvents = function getEvents() {
+  var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.getAllEvents)();
+  return function (dispatch) {
+    events.then(function (data) {
+      dispatch((0,_eventActionCreators__WEBPACK_IMPORTED_MODULE_0__.grabAllEvents)(data.data));
+    });
+  };
+};
+var getCreatedEventsByUser = function getCreatedEventsByUser(id) {
+  var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.getCreatedUserEvents)(id);
+  return function (dispatch) {
+    events.then(function (data) {
+      dispatch((0,_eventActionCreators__WEBPACK_IMPORTED_MODULE_0__.grabAllCreatedEvents)(data.data));
+    });
+  };
+};
+var getMemberedEvents = function getMemberedEvents(id) {
+  var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.getMemberedUserEvents)(id);
+  return function (dispatch) {
+    events.then(function (data) {
+      dispatch((0,_eventActionCreators__WEBPACK_IMPORTED_MODULE_0__.grabAllMemberedEvents)(data.data));
+    });
+  };
+};
+var sortEvents = function sortEvents(filter, events) {
+  return function (dispatch) {
+    if (filter !== 'ALL') {
+      if (filter === 'DESC') events.sort(function (a, b) {
+        return a.title > b.title ? 1 : -1;
+      });
+      if (filter === 'ASC') events.sort(function (a, b) {
+        return a.title < b.title ? 1 : -1;
+      });
+      if (filter === 'DATE') events.sort(function (a, b) {
+        return a.date_start < b.date_start ? 1 : -1;
+      });
+    } else {
+      events.sort(function (a, b) {
+        return a.id > b.id ? 1 : -1;
+      });
+    }
+
+    return dispatch((0,_eventActionCreators__WEBPACK_IMPORTED_MODULE_0__.sortEventsAction)(filter, events));
+  };
+};
+var eventsFiltering = function eventsFiltering(type, value) {
+  return function (dispatch, getState) {
+    dispatch((0,_eventActionCreators__WEBPACK_IMPORTED_MODULE_0__.setFilter)(type, value));
+    var state = getState();
+    var eventFilters = state.events.eventFilters;
+    var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.filterEvents)(eventFilters);
+    events.then(function (data) {
+      dispatch((0,_eventActionCreators__WEBPACK_IMPORTED_MODULE_0__.grabFilteredEvents)(data.data));
+    });
+  };
+};
+var clearEventsFilters = function clearEventsFilters() {
+  var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.getAllEvents)();
+  return function (dispatch) {
+    dispatch((0,_eventActionCreators__WEBPACK_IMPORTED_MODULE_0__.clearFilters)());
+    events.then(function (data) {
+      dispatch((0,_eventActionCreators__WEBPACK_IMPORTED_MODULE_0__.eventsWithoutFilters)(data.data));
+    });
+  };
+};
+
 /***/ }),
 
 /***/ "./resources/js/components/Events/state/eventReducer.js":
@@ -2319,6 +2363,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var initialState = {
   eventsList: [],
   createdEvents: [],
+  memberedEvents: [],
   sortFilter: 'ALL',
   eventFilters: []
 };
@@ -2336,6 +2381,11 @@ function eventsReducer() {
     case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.GET_CREATED_USER_EVENTS:
       return _objectSpread(_objectSpread({}, state), {}, {
         createdEvents: action.payload
+      });
+
+    case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.GET_MEMBERED_USER_EVENTS:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        memberedEvents: action.payload
       });
 
     case _eventTypes__WEBPACK_IMPORTED_MODULE_0__.SORT_EVENTS:
@@ -2397,10 +2447,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "REMOVE_FILTER": () => (/* binding */ REMOVE_FILTER),
 /* harmony export */   "REMOVE_ALL_FILTERS": () => (/* binding */ REMOVE_ALL_FILTERS),
 /* harmony export */   "DEFAULT_EVENT_LIST": () => (/* binding */ DEFAULT_EVENT_LIST),
-/* harmony export */   "GET_CREATED_USER_EVENTS": () => (/* binding */ GET_CREATED_USER_EVENTS)
+/* harmony export */   "GET_CREATED_USER_EVENTS": () => (/* binding */ GET_CREATED_USER_EVENTS),
+/* harmony export */   "GET_MEMBERED_USER_EVENTS": () => (/* binding */ GET_MEMBERED_USER_EVENTS)
 /* harmony export */ });
 var GET_ALL_EVENTS = "GET_ALL_EVENTS";
 var GET_CREATED_USER_EVENTS = "GET_CREATED_USER_EVENTS";
+var GET_MEMBERED_USER_EVENTS = "GET_MEMBERED_USER_EVENTS";
 var SORT_EVENTS = "SORT_EVENTS";
 var FILTERED_EVENTS = "FILTERED_EVENTS";
 var DEFAULT_EVENT_LIST = "DEFAULT_EVENT_LIST";
@@ -2608,127 +2660,90 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SearchBox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../SearchBox */ "./resources/js/components/SearchBox/index.js");
 /* harmony import */ var _containers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../containers */ "./resources/js/containers/index.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
 
 
 
 
-
-var HomePageFeed = /*#__PURE__*/function (_Component) {
-  _inherits(HomePageFeed, _Component);
-
-  var _super = _createSuper(HomePageFeed);
-
-  function HomePageFeed() {
-    _classCallCheck(this, HomePageFeed);
-
-    return _super.apply(this, arguments);
-  }
-
-  _createClass(HomePageFeed, [{
-    key: "render",
-    value: function render() {
-      var id = JSON.parse(this.props.data);
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "container-fluid",
+var HomePageFeed = function HomePageFeed(props) {
+  var id = JSON.parse(props.data);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    className: "container-fluid",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "row",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "col-2",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "row",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "col-2",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              className: "nav flex-column nav-pills",
-              id: "v-pills-tab",
-              role: "tablist",
-              "aria-orientation": "vertical",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-                className: "nav-link active",
-                id: "v-pills-home-tab",
-                "data-toggle": "pill",
-                href: "#v-pills-home",
-                role: "tab",
-                "aria-controls": "v-pills-home",
-                "aria-selected": "true",
-                children: "My Events"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-                className: "nav-link",
-                id: "v-pills-profile-tab",
-                "data-toggle": "pill",
-                href: "#v-pills-profile",
-                role: "tab",
-                "aria-controls": "v-pills-profile",
-                "aria-selected": "false",
-                children: "Member Events"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-                className: "nav-link",
-                id: "v-pills-messages-tab",
-                "data-toggle": "pill",
-                href: "#v-pills-messages",
-                role: "tab",
-                "aria-controls": "v-pills-messages",
-                "aria-selected": "false",
-                children: "Calendar"
-              })]
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            className: "col-10",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              className: "d-flex justify-content-between align-items-center mb-1",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_SearchBox__WEBPACK_IMPORTED_MODULE_1__.default, {})
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              className: "tab-content",
-              id: "v-pills-tabContent",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                className: "tab-pane fade show active",
-                id: "v-pills-home",
-                role: "tabpanel",
-                "aria-labelledby": "v-pills-home-tab",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_containers__WEBPACK_IMPORTED_MODULE_2__.UserEventsContainer, {
-                  id: id
-                })
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                className: "tab-pane fade",
-                id: "v-pills-profile",
-                role: "tabpanel",
-                "aria-labelledby": "v-pills-profile-tab",
-                children: "..."
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-                className: "tab-pane fade",
-                id: "v-pills-messages",
-                role: "tabpanel",
-                "aria-labelledby": "v-pills-messages-tab",
-                children: "..."
-              })]
-            })]
+          className: "nav flex-column nav-pills",
+          id: "v-pills-tab",
+          role: "tablist",
+          "aria-orientation": "vertical",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+            className: "nav-link active",
+            id: "v-pills-home-tab",
+            "data-toggle": "pill",
+            href: "#v-pills-home",
+            role: "tab",
+            "aria-controls": "v-pills-home",
+            "aria-selected": "true",
+            children: "My Events"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+            className: "nav-link",
+            id: "v-pills-profile-tab",
+            "data-toggle": "pill",
+            href: "#v-pills-profile",
+            role: "tab",
+            "aria-controls": "v-pills-profile",
+            "aria-selected": "false",
+            children: "Membered Events"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+            className: "nav-link",
+            id: "v-pills-messages-tab",
+            "data-toggle": "pill",
+            href: "#v-pills-messages",
+            role: "tab",
+            "aria-controls": "v-pills-messages",
+            "aria-selected": "false",
+            children: "Calendar"
           })]
         })
-      });
-    }
-  }]);
-
-  return HomePageFeed;
-}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        className: "col-10",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "d-flex justify-content-between align-items-center mb-1",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_SearchBox__WEBPACK_IMPORTED_MODULE_1__.default, {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "tab-content",
+          id: "v-pills-tabContent",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "tab-pane fade show active",
+            id: "v-pills-home",
+            role: "tabpanel",
+            "aria-labelledby": "v-pills-home-tab",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_containers__WEBPACK_IMPORTED_MODULE_2__.UserEventsContainer, {
+              id: id
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "tab-pane fade",
+            id: "v-pills-profile",
+            role: "tabpanel",
+            "aria-labelledby": "v-pills-profile-tab",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_containers__WEBPACK_IMPORTED_MODULE_2__.MemberedEventsContainer, {
+              id: id
+            })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            className: "tab-pane fade",
+            id: "v-pills-messages",
+            role: "tabpanel",
+            "aria-labelledby": "v-pills-messages-tab",
+            children: "..."
+          })]
+        })]
+      })]
+    })
+  });
+};
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HomePageFeed);
 
@@ -3048,6 +3063,33 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/SearchBox/state/searchActionCreators.js":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/SearchBox/state/searchActionCreators.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getSearchResult": () => (/* binding */ getSearchResult)
+/* harmony export */ });
+/* harmony import */ var _searchTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./searchTypes */ "./resources/js/components/SearchBox/state/searchTypes.js");
+
+
+var getSearchResult = function getSearchResult(result) {
+  return {
+    type: _searchTypes__WEBPACK_IMPORTED_MODULE_0__.SEARCH_BY_TITLE,
+    payload: {
+      result: result
+    }
+  };
+};
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/SearchBox/state/searchActions.js":
 /*!******************************************************************!*\
   !*** ./resources/js/components/SearchBox/state/searchActions.js ***!
@@ -3059,7 +3101,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "searchEvent": () => (/* binding */ searchEvent)
 /* harmony export */ });
-/* harmony import */ var _searchTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./searchTypes */ "./resources/js/components/SearchBox/state/searchTypes.js");
+/* harmony import */ var _searchActionCreators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./searchActionCreators */ "./resources/js/components/SearchBox/state/searchActionCreators.js");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../services */ "./resources/js/services/index.js");
 
 
@@ -3068,23 +3110,14 @@ var searchEvent = function searchEvent(title) {
     var result = (0,_services__WEBPACK_IMPORTED_MODULE_1__.searchEventByTitle)(title);
     return function (dispatch) {
       result.then(function (data) {
-        dispatch(getSearchResult(data.data));
+        dispatch((0,_searchActionCreators__WEBPACK_IMPORTED_MODULE_0__.getSearchResult)(data.data));
       });
     };
   } else {
     return function (dispatch) {
-      dispatch(getSearchResult([]));
+      dispatch((0,_searchActionCreators__WEBPACK_IMPORTED_MODULE_0__.getSearchResult)([]));
     };
   }
-};
-
-var getSearchResult = function getSearchResult(result) {
-  return {
-    type: _searchTypes__WEBPACK_IMPORTED_MODULE_0__.SEARCH_BY_TITLE,
-    payload: {
-      result: result
-    }
-  };
 };
 
 /***/ }),
@@ -3634,6 +3667,97 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
+/***/ "./resources/js/containers/MemberedEventsContainer.js":
+/*!************************************************************!*\
+  !*** ./resources/js/containers/MemberedEventsContainer.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _components_Events__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Events */ "./resources/js/components/Events/index.js");
+/* harmony import */ var _components_Events_state_eventActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Events/state/eventActions */ "./resources/js/components/Events/state/eventActions.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+var MemberedEventsContainer = /*#__PURE__*/function (_Component) {
+  _inherits(MemberedEventsContainer, _Component);
+
+  var _super = _createSuper(MemberedEventsContainer);
+
+  function MemberedEventsContainer() {
+    _classCallCheck(this, MemberedEventsContainer);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(MemberedEventsContainer, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var id = this.props.id;
+      this.props.getEvents(id);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_components_Events__WEBPACK_IMPORTED_MODULE_2__.default, {
+        events: this.props.events.data
+      });
+    }
+  }]);
+
+  return MemberedEventsContainer;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    events: state.events.memberedEvents
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    getEvents: function getEvents(id) {
+      return dispatch((0,_components_Events_state_eventActions__WEBPACK_IMPORTED_MODULE_3__.getMemberedEvents)(id));
+    }
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_1__.connect)(mapStateToProps, mapDispatchToProps)(MemberedEventsContainer));
+
+/***/ }),
+
 /***/ "./resources/js/containers/UserEventsContainer.js":
 /*!********************************************************!*\
   !*** ./resources/js/containers/UserEventsContainer.js ***!
@@ -3735,10 +3859,13 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EventListContainer": () => (/* reexport safe */ _EventListContainer__WEBPACK_IMPORTED_MODULE_0__.default),
-/* harmony export */   "UserEventsContainer": () => (/* reexport safe */ _UserEventsContainer__WEBPACK_IMPORTED_MODULE_1__.default)
+/* harmony export */   "UserEventsContainer": () => (/* reexport safe */ _UserEventsContainer__WEBPACK_IMPORTED_MODULE_1__.default),
+/* harmony export */   "MemberedEventsContainer": () => (/* reexport safe */ _MemberedEventsContainer__WEBPACK_IMPORTED_MODULE_2__.default)
 /* harmony export */ });
 /* harmony import */ var _EventListContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EventListContainer */ "./resources/js/containers/EventListContainer.js");
 /* harmony import */ var _UserEventsContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserEventsContainer */ "./resources/js/containers/UserEventsContainer.js");
+/* harmony import */ var _MemberedEventsContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MemberedEventsContainer */ "./resources/js/containers/MemberedEventsContainer.js");
+
 
 
 
@@ -3816,7 +3943,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getAllEvents": () => (/* binding */ getAllEvents),
 /* harmony export */   "searchEventByTitle": () => (/* binding */ searchEventByTitle),
 /* harmony export */   "filterEvents": () => (/* binding */ filterEvents),
-/* harmony export */   "getCreatedUserEvents": () => (/* binding */ getCreatedUserEvents)
+/* harmony export */   "getCreatedUserEvents": () => (/* binding */ getCreatedUserEvents),
+/* harmony export */   "getMemberedUserEvents": () => (/* binding */ getMemberedUserEvents)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
@@ -3975,6 +4103,42 @@ var getCreatedUserEvents = /*#__PURE__*/function () {
 
   return function getCreatedUserEvents(_x3) {
     return _ref4.apply(this, arguments);
+  };
+}();
+
+var getMemberedUserEvents = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5(id) {
+    var response;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.next = 2;
+            return fetch("/api/events/user/".concat(id), {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+
+          case 2:
+            response = _context5.sent;
+            _context5.next = 5;
+            return response.json();
+
+          case 5:
+            return _context5.abrupt("return", _context5.sent);
+
+          case 6:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5);
+  }));
+
+  return function getMemberedUserEvents(_x4) {
+    return _ref5.apply(this, arguments);
   };
 }();
 

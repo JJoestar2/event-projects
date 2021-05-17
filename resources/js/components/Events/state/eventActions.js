@@ -1,7 +1,16 @@
-import {GET_ALL_EVENTS, GET_CREATED_USER_EVENTS, SORT_EVENTS,
-        FILTERED_EVENTS, DEFAULT_EVENT_LIST, REMOVE_FILTER,
-        SET_FILTER, REMOVE_ALL_FILTERS} from './eventTypes';
-import {getAllEvents, getCreatedUserEvents, filterEvents} from "../../../services/EventsService";
+import {
+    clearFilters, eventsWithoutFilters,
+    grabAllCreatedEvents, grabAllMemberedEvents,
+    grabAllEvents,
+    grabFilteredEvents,
+    setFilter,
+    sortEventsAction
+} from "./eventActionCreators";
+
+import {
+        getAllEvents, getCreatedUserEvents,
+        getMemberedUserEvents, filterEvents
+} from "../../../services/EventsService";
 
 export const getEvents = () => {
     let events = getAllEvents();
@@ -17,6 +26,15 @@ export const getCreatedEventsByUser = (id) => {
     return dispatch => {
         events.then((data) => {
             dispatch(grabAllCreatedEvents(data.data))
+        });
+    };
+};
+
+export const getMemberedEvents = (id) => {
+    let events = getMemberedUserEvents(id);
+    return dispatch => {
+        events.then((data) => {
+            dispatch(grabAllMemberedEvents(data.data))
         });
     };
 };
@@ -58,59 +76,3 @@ export const clearEventsFilters = () => {
         });
     };
 };
-const grabAllEvents = data => ({
-    type: GET_ALL_EVENTS,
-    payload: {
-        data
-    }
-});
-
-const grabAllCreatedEvents = data => ({
-    type: GET_CREATED_USER_EVENTS,
-    payload: {
-        data
-    }
-});
-
-const clearFilters = () => ({
-    type: REMOVE_ALL_FILTERS
-});
-
-const eventsWithoutFilters = data => ({
-    type: DEFAULT_EVENT_LIST,
-    payload: {
-        data
-    }
-});
-
-const grabFilteredEvents = data => ({
-    type: FILTERED_EVENTS,
-    payload: {
-        data
-    }
-});
-
-const setFilter = (type, value) => ({
-    type: SET_FILTER,
-    payload: {
-        type: type,
-        value: value
-    }
-});
-
-const removeFilter = (type) => ({
-    type: REMOVE_FILTER,
-    payload: {
-        type: type
-    }
-});
-
-const sortEventsAction = (filter, events) => ({
-    type: SORT_EVENTS,
-    payload: {
-        filter: filter,
-        items: {
-            data: events
-        }
-    }
-});

@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import SearchBox from "../SearchBox";
 
-import {UserEventsContainer} from "../../containers";
+import {UserEventsContainer, MemberedEventsContainer} from "../../containers";
 
-class HomePageFeed extends Component
+const HomePageFeed = (props) =>
 {
-    render()
-    {
-        let id = JSON.parse(this.props.data);
+        let id = JSON.parse(props.data);
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -17,7 +15,7 @@ class HomePageFeed extends Component
                             <a className="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
                                role="tab" aria-controls="v-pills-home" aria-selected="true">My Events</a>
                             <a className="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile"
-                               role="tab" aria-controls="v-pills-profile" aria-selected="false">Member Events</a>
+                               role="tab" aria-controls="v-pills-profile" aria-selected="false">Membered Events</a>
                             <a className="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages"
                                role="tab" aria-controls="v-pills-messages" aria-selected="false">Calendar</a>
                         </div>
@@ -32,7 +30,8 @@ class HomePageFeed extends Component
                                 <UserEventsContainer id={id} />
                             </div>
                             <div className="tab-pane fade" id="v-pills-profile" role="tabpanel"
-                                 aria-labelledby="v-pills-profile-tab">...
+                                 aria-labelledby="v-pills-profile-tab">
+                                <MemberedEventsContainer id={id} />
                             </div>
                             <div className="tab-pane fade" id="v-pills-messages" role="tabpanel"
                                  aria-labelledby="v-pills-messages-tab">...
@@ -42,7 +41,6 @@ class HomePageFeed extends Component
                 </div>
             </div>
         );
-    }
-}
+};
 
 export default HomePageFeed;
