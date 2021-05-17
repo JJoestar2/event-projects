@@ -1,16 +1,29 @@
 @import url(https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap);
 @charset "UTF-8";
 
+ul {
+    padding: 0;
+}
+
+ul li {
+    list-style: none;
+}
+
+.event-list-item {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
 .events-row {
     margin-right: -10px;
 }
 
 .event {
     width: 313px;
+    height: 100%;
     padding-top: 10px;
     padding-bottom: 15px;
-    margin-top: 25px;
-    margin-right: 10px;
     transition: 0.2s all ease;
     font-family: 'Noto Sans TC', sans-serif;
     background-color: #fff;

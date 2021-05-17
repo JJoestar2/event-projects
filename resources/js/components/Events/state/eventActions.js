@@ -1,11 +1,22 @@
-import {GET_ALL_EVENTS, SORT_EVENTS, FILTERED_EVENTS, DEFAULT_EVENT_LIST, REMOVE_FILTER, SET_FILTER, REMOVE_ALL_FILTERS} from './eventTypes';
-import {getAllEvents, filterEvents} from "../../../services/EventsService";
+import {GET_ALL_EVENTS, GET_CREATED_USER_EVENTS, SORT_EVENTS,
+        FILTERED_EVENTS, DEFAULT_EVENT_LIST, REMOVE_FILTER,
+        SET_FILTER, REMOVE_ALL_FILTERS} from './eventTypes';
+import {getAllEvents, getCreatedUserEvents, filterEvents} from "../../../services/EventsService";
 
 export const getEvents = () => {
     let events = getAllEvents();
     return dispatch => {
         events.then((data) => {
             dispatch(grabAllEvents(data.data))
+        });
+    };
+};
+
+export const getCreatedEventsByUser = (id) => {
+    let events = getCreatedUserEvents(id);
+    return dispatch => {
+        events.then((data) => {
+            dispatch(grabAllCreatedEvents(data.data))
         });
     };
 };
@@ -47,6 +58,19 @@ export const clearEventsFilters = () => {
         });
     };
 };
+const grabAllEvents = data => ({
+    type: GET_ALL_EVENTS,
+    payload: {
+        data
+    }
+});
+
+const grabAllCreatedEvents = data => ({
+    type: GET_CREATED_USER_EVENTS,
+    payload: {
+        data
+    }
+});
 
 const clearFilters = () => ({
     type: REMOVE_ALL_FILTERS
@@ -78,13 +102,6 @@ const removeFilter = (type) => ({
     type: REMOVE_FILTER,
     payload: {
         type: type
-    }
-});
-
-const grabAllEvents = data => ({
-    type: GET_ALL_EVENTS,
-    payload: {
-        data
     }
 });
 

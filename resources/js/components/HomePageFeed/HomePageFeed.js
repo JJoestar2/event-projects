@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import SearchBox from "../SearchBox";
-import SortBox from "../SortBox";
+
+import {UserEventsContainer} from "../../containers";
 
 class HomePageFeed extends Component
 {
     render()
     {
+        let id = JSON.parse(this.props.data);
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -23,11 +25,11 @@ class HomePageFeed extends Component
                     <div className="col-10">
                         <div className="d-flex justify-content-between align-items-center mb-1">
                             <SearchBox />
-                            <SortBox />
                         </div>
                         <div className="tab-content" id="v-pills-tabContent">
                             <div className="tab-pane fade show active" id="v-pills-home" role="tabpanel"
-                                 aria-labelledby="v-pills-home-tab">...
+                                 aria-labelledby="v-pills-home-tab">
+                                <UserEventsContainer id={id} />
                             </div>
                             <div className="tab-pane fade" id="v-pills-profile" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab">...

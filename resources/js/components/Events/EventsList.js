@@ -5,13 +5,13 @@ import EventsListItem from './EvenstListItem';
 function EventsList({events = []}) {
     const items = events.map((event) => {
         return (
-                <EventsListItem event={event} key={event.id} />
+                <li key={event.id} className="event-list-item"><EventsListItem event={event} /></li>
             );
         });
         return (
-            <div className="d-flex flex-wrap justify-content-between events-row">
+            <ul className="d-flex flex-wrap justify-content-between events-row">
                 {items}
-            </div>
+            </ul>
         );
 }
 export default EventsList;

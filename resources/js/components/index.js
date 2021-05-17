@@ -14,8 +14,9 @@ if (document.getElementById('root')) {
 }
 
 if (document.getElementById('home-page')) {
+    let data = document.getElementById('home-page').getAttribute('data');
     ReactDOM.render(
         <Provider store={store}>
-            <HomePageFeed />
+            <HomePageFeed data={data} />
         </Provider>, document.getElementById('home-page'));
 }

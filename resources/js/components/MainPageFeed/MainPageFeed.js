@@ -1,19 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from "react-redux";
+import React from 'react';
 
-import EventsList from '../Events';
 import SearchBox from "../SearchBox";
 import SortBox from "../SortBox";
 import Sidebar from "../Sidebar";
 
-import {getEvents} from "../Events/state/eventActions";
+import {EventListContainer} from "../../containers";
 
-class MainPageFeed extends Component {
-    componentDidMount() {
-        this.props.getEvents();
-    }
 
-    render() {
+const MainPageFeed = (props) => {
         return (
             <div className="container-fluid">
                 <div className="row justify-content-center">
@@ -25,22 +19,11 @@ class MainPageFeed extends Component {
                             <SearchBox />
                             <SortBox />
                         </div>
-                        <EventsList events={this.props.events.data} />
+                        <EventListContainer />
                     </div>
                 </div>
             </div>
         );
     }
-}
 
-const mapStateToProps = state => {
-    return { events: state.events.eventsList};
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getEvents: () => dispatch(getEvents())
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainPageFeed);
+export default MainPageFeed;

@@ -32,10 +32,21 @@ const getAllEvents = async () =>
     }
 }
 
+const getCreatedUserEvents = async (id) => {
+    let response = await fetch(`/api/created-events/user/${id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }});
+
+    return await response.json();
+}
+
 export {
     getAllEvents,
     searchEventByTitle,
     filterEvents,
+    getCreatedUserEvents,
 };
 
 
