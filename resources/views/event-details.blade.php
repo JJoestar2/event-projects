@@ -46,16 +46,25 @@
                         <span class="event-type-format">Format: <span>{{$item->type->type}}</span> </span>
                     </span>
                     @if(sizeof($participants) !== 0)
-                        <div>
-                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                Members of event
-                            </button>
-                            {{ count($participants) }}
+                        <div class="participants">
+                            <div class="participants-item mb-2">
+                                <button class="btn btn-primary" type="button" data-toggle="collapse"
+                                        data-target="#collapseExample" aria-expanded="false"
+                                        aria-controls="collapseExample">
+                                    Members of event
+                                </button>
+                                <span class="participants-count">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                    <span>{{ count($participants) }}</span>
+                                </span>
+                            </div>
                             <div class="collapse" id="collapseExample">
-                                <div class="card card-body">
-                                    @foreach($participants as $item)
-                                        {{ $item->name . ' ' . $item->surname }}
-                                    @endforeach
+                                <div class="card card-body participants-block">
+                                    <ul class="participants-list">
+                                        @foreach($participants as $item)
+                                            <li class="participants-list-item">{{ $item->name . ' ' . $item->surname }}</li>
+                                        @endforeach
+                                    </ul>
                                 </div>
                             </div>
                         </div>
