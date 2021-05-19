@@ -6,12 +6,11 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Create Event') }}</div>
-
+                    <div class="card-header">{{ __('Edit Event') }}</div>
                     <div class="card-body">
-                        <form method="POST" action="/event/save">
+                        @foreach($event as $item)
+                        <form method="POST" action="/event/update/{{ $item->id }}">
                             @csrf
-
                             <div class="form-group row">
                                 <label for="title"
                                        class="col-md-4 col-form-label text-md-right">{{ __('Title') }}</label>
@@ -19,7 +18,7 @@
                                 <div class="col-md-6">
                                     <input id="title" type="text"
                                            class="form-control @error('title') is-invalid @enderror" name="title"
-                                           value="{{ old('title') }}" autocomplete="title" autofocus>
+                                           value="{{ $item->title }}" autocomplete="title" autofocus>
 
                                     @error('title')
                                     <span class="invalid-feedback" role="alert">
@@ -30,28 +29,19 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="category"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
+                                <label for="location"
+                                       class="col-md-4 col-form-label text-md-right">{{ __('Location') }}</label>
 
                                 <div class="col-md-6">
-                                    <select id="category" class="form-control" name="category_id">
-                                        @foreach($category as $item)
-                                            <option value="{{$item->id}}">{{$item->category}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+                                    <input id="location" type="text"
+                                           class="form-control @error('location') is-invalid @enderror" name="location"
+                                           value="{{$item->location}}" autocomplete="location" autofocus>
 
-                            <div class="form-group row">
-                                <label for="type"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('Format') }}</label>
-
-                                <div class="col-md-6">
-                                    <select id="type" class="form-control" name="type_id">
-                                        @foreach($type as $item)
-                                            <option value="{{$item->id}}">{{$item->type}}</option>
-                                        @endforeach
-                                    </select>
+                                    @error('location')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -61,13 +51,14 @@
                                 <div class="col-md-6">
                                     <textarea id="description-editor" name="description"
                                               class="form-control @error('description') is-invalid @enderror"
-                                              rows="5" value="{{ old('description') }}"
+                                              rows="5"
                                               autocomplete="description">
                                         @error('description')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                         @enderror
+                                        {{ $item->description }}
                                     </textarea>
                                 </div>
                             </div>
@@ -86,30 +77,13 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="location"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('Location') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="location" type="text"
-                                           class="form-control @error('location') is-invalid @enderror" name="location"
-                                           value="{{ old('location') }}" autocomplete="location" autofocus>
-
-                                    @error('location')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
                                 <label for="date_start"
                                        class="col-md-4 col-form-label text-md-right">{{ __('Date Start') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="date_start" type="datetime-local"
                                            class="form-control @error('date_start') is-invalid @enderror"
-                                           name="date_start" value="{{ old('date_start') }}"
+                                           name="date_start" value="{{ $item->date_start }}"
                                            autocomplete="date_start" autofocus>
 
                                     @error('date_start')
@@ -127,7 +101,7 @@
                                 <div class="col-md-6">
                                     <input id="date_end" type="datetime-local"
                                            class="form-control @error('date_end') is-invalid @enderror" name="date_end"
-                                           value="{{ old('date_end') }}" autocomplete="date_end" autofocus>
+                                           value="{{ $item->date_end }}" autocomplete="date_end" autofocus>
 
                                     @error('date_end')
                                     <span class="invalid-feedback" role="alert">
@@ -144,7 +118,7 @@
                                 <div class="col-md-6">
                                     <input id="count" type="text"
                                            class="form-control @error('count') is-invalid @enderror" name="count"
-                                           value="{{ old('count') }}" autocomplete="count" autofocus>
+                                           value="{{ $item->count }}" autocomplete="location" autofocus>
 
                                     @error('count')
                                     <span class="invalid-feedback" role="alert">
@@ -155,21 +129,40 @@
                             </div>
 
                             <div class="form-group row">
+                                <label for="category"
+                                       class="col-md-4 col-form-label text-md-right">{{ __('Category') }}</label>
+
                                 <div class="col-md-6">
-                                    <input id="users_id" type="hidden"
-                                           class="form-control" name="users_id"
-                                           value="{{ Auth::user()->getAuthIdentifier() }}" >
+                                    <select id="category" class="form-control" name="category_id">
+                                        @foreach($category as $cat)
+                                            <option value="{{$cat->id}}" {{$cat->id == $item->category_id ? "selected" : '' }}> {{$cat->category}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="type"
+                                       class="col-md-4 col-form-label text-md-right">{{ __('Format') }}</label>
+
+                                <div class="col-md-6">
+                                    <select id="type" class="form-control" name="type_id">
+                                        @foreach($type as $ty)
+                                            <option value="{{$ty->id}}" {{$ty->id == $item->type_id ? "selected" : '' }}> {{$ty->type}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        {{ __('Create') }}
+                                        {{ __('Edit') }}
                                     </button>
                                 </div>
                             </div>
                         </form>
+                        @endforeach
                     </div>
                 </div>
             </div>

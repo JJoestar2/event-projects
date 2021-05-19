@@ -23,6 +23,7 @@ class MoveEventsinfoColumnsToEvents extends Migration
             $table->string('status', 128)->after('date_end');
             $table->string('location', 128)->after('status');
             $table->text('preview')->after('location');
+            $table->integer('count')->nullable(true)->after('preview');
         });
     }
 

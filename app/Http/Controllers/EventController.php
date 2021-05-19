@@ -63,6 +63,25 @@ class EventController extends Controller
         return view('create-event', ['category' => $category, 'type' => $type]);
     }
 
+    public function editEvent($id)
+    {
+        $category = Category::all();
+        $type = Type::all();
+        $event = Event::where('id', $id)->get();
+
+        return view('edit-event', ['event'=> $event, 'category' => $category, 'type' => $type]);
+    }
+
+    public function eventUpdate(Request $request, $id)
+    {
+        /*$category = Category::all();
+        $type = Type::all();
+        $event = Event::where('id', $id)->get();
+
+        return view('edit-event', ['event'=> $event, 'category' => $category, 'type' => $type]);*/
+        return dd($request->all());
+    }
+
     public function saveEvent(EventCreateRequest $request)
     {
         Event::create($request->validated());
@@ -98,7 +117,18 @@ class EventController extends Controller
     public function registerInEvent($userId, $eventId)
     {
         $event = Event::find($eventId);
-        $event->users()->attach($userId);
+        $palcesCount = $event->count;
+
+        if(!is_null($palcesCount))
+        {
+            if($palcesCount != 0)
+            {
+                $event->update([
+                    'count' => $palcesCount - 1
+                ]);
+                $event->users()->attach($userId);
+            } else return redirect("/event/$eventId");
+        } else $event->users()->attach($userId); // places are unlimited so we can register our user in event
 
         return redirect("/event/$eventId");
     }
@@ -106,7 +136,15 @@ class EventController extends Controller
     public function leaveFromEvent($userId, $eventId)
     {
         $event = Event::find($eventId);
-        $event->users()->detach($userId);
+        $palcesCount = $event->count;
+
+        if(!is_null($palcesCount))
+        {
+            $event->update([
+                'count' => $palcesCount + 1
+            ]);
+            $event->users()->detach($userId);
+        } else $event->users()->detach($userId); // places are unlimited so we can delete our user from event
 
         return redirect("/event/$eventId");
     }

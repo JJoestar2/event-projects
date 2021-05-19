@@ -33,6 +33,7 @@ class EventCreateRequest extends FormRequest
             'date_end' => 'required',
             'status' => 'required',
             'location' => 'required|max:45',
+            'count' => 'max:100',
         ];
     }
 }

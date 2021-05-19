@@ -19,6 +19,11 @@ ul li {
     margin-right: -10px;
 }
 
+.events-row:hover > .event-list-item:not(:hover) > .event {
+    filter: brightness(0.85) saturate(1)
+            contrast(1.2) blur(4px);
+}
+
 .event {
     width: 313px;
     height: 100%;

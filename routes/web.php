@@ -22,6 +22,9 @@ Route::view('/', 'welcome');
 
 /*========== Events Routes =====*/
 Route::get('/event/create', [EventController::class, 'createEvent'])->middleware('auth');
+Route::get('/event/edit/{id}', [EventController::class, 'editEvent']);
+Route::post('/event/update/{id}', [EventController::class, 'eventUpdate']);
+
 Route::get('/event/{id}', [EventController::class, 'getEventById']);
 
 Route::any('/event/register/{userId}/{eventId}', [EventController::class, 'registerInEvent']);

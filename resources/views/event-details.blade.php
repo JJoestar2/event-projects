@@ -12,6 +12,9 @@
                 <div class="event-heading">
                     <span>{{ date("F", strtotime($item->date_start)) }} {{  date("d", strtotime($item->date_start)) }} </span>
                     <h1> {{ $item->title }} </h1>
+                    @if(!is_null($item->count))
+                        <span> Places remained: {{ $item->count }}</span>
+                    @endif
                 </div>
             </div>
         </div>
@@ -26,7 +29,15 @@
                 @isset($member)
                     @if(Auth::id() !== $item->users_id) <!--- check if user is creator of event --->
                         @if($member)
-                            <a href="{{"/event/register/" . Auth::id(). "/" . $item->id }}" class="btn-member btn-register">Register</a>
+                            @if(!is_null($item->count))
+                                @if($item->count != 0)
+                                    <a href="{{"/event/register/" . Auth::id(). "/" . $item->id }}" class="btn-member btn-register">Register</a>
+                                @else($item->count == 0)
+                                    <span> No More Places </span>
+                                @endif
+                            @else <!--- it means places are unlimited --->
+                                <a href="{{"/event/register/" . Auth::id(). "/" . $item->id }}" class="btn-member btn-register">Register</a>
+                            @endif
                         @else
                             <a href="{{"/event/leave/" . Auth::id(). "/" . $item->id }}" class="btn-member btn-register">Leave Event</a>
                         @endif
