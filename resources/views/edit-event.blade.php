@@ -83,7 +83,7 @@
                                 <div class="col-md-6">
                                     <input id="date_start" type="datetime-local"
                                            class="form-control @error('date_start') is-invalid @enderror"
-                                           name="date_start" value="{{ $item->date_start }}"
+                                           name="date_start" value="{{ date('Y-m-d\TH:i:s', strtotime($item->date_start)) }}"
                                            autocomplete="date_start" autofocus>
 
                                     @error('date_start')
@@ -101,7 +101,7 @@
                                 <div class="col-md-6">
                                     <input id="date_end" type="datetime-local"
                                            class="form-control @error('date_end') is-invalid @enderror" name="date_end"
-                                           value="{{ $item->date_end }}" autocomplete="date_end" autofocus>
+                                           value="{{ date('Y-m-d\TH:i:s', strtotime($item->date_end)) }}" autocomplete="date_end" autofocus />
 
                                     @error('date_end')
                                     <span class="invalid-feedback" role="alert">
@@ -135,7 +135,9 @@
                                 <div class="col-md-6">
                                     <select id="category" class="form-control" name="category_id">
                                         @foreach($category as $cat)
-                                            <option value="{{$cat->id}}" {{$cat->id == $item->category_id ? "selected" : '' }}> {{$cat->category}}</option>
+                                            <option value="{{$cat->id}}" {{$cat->id == $item->category_id ? "selected" : '' }}>
+                                                {{$cat->category}}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -148,7 +150,9 @@
                                 <div class="col-md-6">
                                     <select id="type" class="form-control" name="type_id">
                                         @foreach($type as $ty)
-                                            <option value="{{$ty->id}}" {{$ty->id == $item->type_id ? "selected" : '' }}> {{$ty->type}}</option>
+                                            <option value="{{$ty->id}}" {{$ty->id == $item->type_id ? "selected" : '' }}>
+                                                {{$ty->type}}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
