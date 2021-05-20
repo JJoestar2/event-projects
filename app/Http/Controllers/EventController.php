@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Event;
 use App\Models\Type;
 use App\Http\Requests\EventCreateRequest;
+use App\Http\Requests\EventEditRequest;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -72,14 +73,27 @@ class EventController extends Controller
         return view('edit-event', ['event'=> $event, 'category' => $category, 'type' => $type]);
     }
 
-    public function eventUpdate(Request $request, $id)
+    public function eventUpdate(EventEditRequest $request, $id)
     {
-        /*$category = Category::all();
-        $type = Type::all();
-        $event = Event::where('id', $id)->get();
+        if($request->validated())
+        {
+            Event::where('id', $id)
+                ->update([
+                    'category_id' => $request->input('category_id'),
+                    'type_id' => $request->input('type_id'),
+                    'title' => $request->input('title'),
+                    'description' => $request->input('description'),
+                    'date_start' => $request->input('date_start'),
+                    'date_end' => $request->input('date_end'),
+                    'status' => $request->input('status'),
+                    'location' => $request->input('location'),
+                    'count' => $request->input('count'),
+                ]);
 
-        return view('edit-event', ['event'=> $event, 'category' => $category, 'type' => $type]);*/
-        return dd($request->all());
+            return redirect("/home");
+        } else {
+            return redirect("/event/edit/$id");
+        }
     }
 
     public function saveEvent(EventCreateRequest $request)
