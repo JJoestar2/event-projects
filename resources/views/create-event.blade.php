@@ -138,27 +138,35 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="count"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('Count') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="count" type="text"
-                                           class="form-control @error('count') is-invalid @enderror" name="count"
-                                           value="{{ old('count') }}" autocomplete="count" autofocus>
-
-                                    @error('count')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
                                 <div class="col-md-6">
                                     <input id="users_id" type="hidden"
                                            class="form-control" name="users_id"
                                            value="{{ Auth::user()->getAuthIdentifier() }}" >
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-center">
+                                   <div class="form-group form-check">
+                                       <input type="checkbox" class="form-check-input" id="showCount">
+                                       <label class="form-check-label" for="showCount">Restrict Places?</label>
+                                   </div>
+                            </div>
+                            <div id="countBlock">
+                                <div class="form-group row">
+                                    <label for="count"
+                                           class="col-md-4 col-form-label text-md-right">{{ __('Places Count') }}</label>
+
+                                    <div class="col-md-6">
+                                        <input id="count" type="text"
+                                               class="form-control @error('count') is-invalid @enderror" name="count"
+                                               value="{{ old('count') }}" autocomplete="count" autofocus>
+
+                                        @error('count')
+                                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
 
@@ -179,12 +187,24 @@
 
 @section('scripts')
     <script>
-        ClassicEditor
-            .create(document.querySelector('#description-editor'), {
-                removePlugins: ['Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'ImageUpload', 'EasyImage', 'CKFinder']
-            })
-            .catch(error => {
-                console.error(error);
+        document.addEventListener('DOMContentLoaded', function () {
+            let showCountCheckBox = document.getElementById('showCount');
+            let countBlock = document.getElementById('countBlock');
+
+            countBlock.style.display = "none";
+
+            showCountCheckBox.addEventListener('click', function () {
+                if(showCountCheckBox.checked) countBlock.style.display = "block";
+                else countBlock.style.display = "none";
             });
+
+            ClassicEditor
+                .create(document.querySelector('#description-editor'), {
+                    removePlugins: ['Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'ImageUpload', 'EasyImage', 'CKFinder']
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
     </script>
 @endsection
