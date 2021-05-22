@@ -108,24 +108,23 @@ class EventController extends Controller
             return EventsResource::collection(Event::all());
         }
 
-        $events = [];
+        $eventQuery = Event::query();
 
         foreach ($request->data as $item)
         {
-             if($item['type'] == 'category')
-             {
-                 if($events) $events->where('category_id', $item['value']);
-                 $events = Event::where('category_id', $item['value']);
-             }
+            if($item['type'] == 'category')
+            {
+                $eventQuery = $eventQuery->where('category_id', $item['value']);
+            }
 
-             if($item['type'] == 'type')
-             {
-                 if($events) $events->where('type_id', $item['value']);
-                 $events = Event::where('type_id', $item['value']);
-             }
+            if($item['type'] == 'type')
+            {
+                $eventQuery = $eventQuery->where('type_id', $item['value']);
+            }
         }
 
-        return EventsResource::collection($events->get());
+        $results = $eventQuery->get();
+        return EventsResource::collection($results);
     }
 
     public function registerInEvent($userId, $eventId)
