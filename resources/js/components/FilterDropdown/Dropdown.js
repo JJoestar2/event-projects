@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
-const DropdownMenu = ({ data = [], title, add, filterKey}) => {
+const DropdownMenu = ({ data = [], title, add, remove, filterKey}) => {
     const [activeMenu, setActiveMenu] = useState('main');
     const [menuHeight, setMenuHeight] = useState(null);
+    const [isSelected, setSelected] = useState(false);
 
     function calcHeight(el) {
         let height = el.offsetHeight;
@@ -25,11 +26,18 @@ const DropdownMenu = ({ data = [], title, add, filterKey}) => {
     const items = data.map((item) => {
         let title = item.category || item.type;
         return (
-            <span key={item.id} onClick = {() => add(filterKey, item.id)} >
-                <DropdownItem>
-                    <span> { title } </span>
-                </DropdownItem>
-            </span>
+            <>
+                <span key={item.id} onClick = {() => add(filterKey, item.id) } >
+                    <DropdownItem>
+                        <div className="filters-block-list-item-caption">
+                            <span> { title } </span>
+                        </div>
+                    </DropdownItem>
+                </span>
+                <span className="filters-block-list-item-cancel mr-3" onClick = { () => remove(filterKey) }>
+                    <i className="fa fa-times-circle" aria-hidden="true"></i>
+                </span>
+            </>
         );
     });
 

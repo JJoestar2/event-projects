@@ -3,8 +3,8 @@ import {
     grabAllCreatedEvents, grabAllMemberedEvents,
     grabAllEvents,
     grabFilteredEvents,
-    setFilter,
-    sortEventsAction
+    setFilter, removeFilter,
+    sortEventsAction,
 } from "./eventActionCreators";
 
 import {
@@ -59,6 +59,20 @@ export const eventsFiltering = (type, value) => {
         const {eventFilters} = state.events;
         let events = filterEvents(eventFilters);
 
+        events.then((data) => {
+            dispatch(grabFilteredEvents(data.data))
+        });
+    };
+};
+
+export const eventsRemoveFilter = (type) => {
+    return (dispatch, getState) => {
+        dispatch(removeFilter(type));
+
+        const state = getState();
+        const {eventFilters} = state.events;
+        let events = filterEvents(eventFilters);
+        console.log(eventFilters);
         events.then((data) => {
             dispatch(grabFilteredEvents(data.data))
         });

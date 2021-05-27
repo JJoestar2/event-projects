@@ -18,3 +18,10 @@
     margin-bottom: 30px;
     box-shadow: -1px 2px 10px 0px rgba(34, 60, 80, 0.2);
 }
+
+.filters-block-list-item-caption {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

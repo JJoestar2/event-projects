@@ -2255,6 +2255,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "getMemberedEvents": () => (/* binding */ getMemberedEvents),
 /* harmony export */   "sortEvents": () => (/* binding */ sortEvents),
 /* harmony export */   "eventsFiltering": () => (/* binding */ eventsFiltering),
+/* harmony export */   "eventsRemoveFilter": () => (/* binding */ eventsRemoveFilter),
 /* harmony export */   "clearEventsFilters": () => (/* binding */ clearEventsFilters)
 /* harmony export */ });
 /* harmony import */ var _eventActionCreators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./eventActionCreators */ "./resources/js/components/Events/state/eventActionCreators.js");
@@ -2312,6 +2313,18 @@ var eventsFiltering = function eventsFiltering(type, value) {
     var state = getState();
     var eventFilters = state.events.eventFilters;
     var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.filterEvents)(eventFilters);
+    events.then(function (data) {
+      dispatch((0,_eventActionCreators__WEBPACK_IMPORTED_MODULE_0__.grabFilteredEvents)(data.data));
+    });
+  };
+};
+var eventsRemoveFilter = function eventsRemoveFilter(type) {
+  return function (dispatch, getState) {
+    dispatch((0,_eventActionCreators__WEBPACK_IMPORTED_MODULE_0__.removeFilter)(type));
+    var state = getState();
+    var eventFilters = state.events.eventFilters;
+    var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.filterEvents)(eventFilters);
+    console.log(eventFilters);
     events.then(function (data) {
       dispatch((0,_eventActionCreators__WEBPACK_IMPORTED_MODULE_0__.grabFilteredEvents)(data.data));
     });
@@ -2494,11 +2507,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var DropdownMenu = function DropdownMenu(_ref) {
   var _ref$data = _ref.data,
       data = _ref$data === void 0 ? [] : _ref$data,
       title = _ref.title,
       add = _ref.add,
+      remove = _ref.remove,
       filterKey = _ref.filterKey;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('main'),
@@ -2510,6 +2525,11 @@ var DropdownMenu = function DropdownMenu(_ref) {
       _useState4 = _slicedToArray(_useState3, 2),
       menuHeight = _useState4[0],
       setMenuHeight = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      isSelected = _useState6[0],
+      setSelected = _useState6[1];
 
   function calcHeight(el) {
     var height = el.offsetHeight;
@@ -2534,16 +2554,30 @@ var DropdownMenu = function DropdownMenu(_ref) {
 
   var items = data.map(function (item) {
     var title = item.category || item.type;
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-      onClick: function onClick() {
-        return add(filterKey, item.id);
-      },
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(DropdownItem, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
-          children: [" ", title, " "]
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        onClick: function onClick() {
+          return add(filterKey, item.id);
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(DropdownItem, {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+            className: "filters-block-list-item-caption",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
+              children: [" ", title, " "]
+            })
+          })
         })
-      })
-    }, item.id);
+      }, item.id), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        className: "filters-block-list-item-cancel mr-3",
+        onClick: function onClick() {
+          return remove(filterKey);
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+          className: "fa fa-times-circle",
+          "aria-hidden": "true"
+        })
+      })]
+    });
   });
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "dropdown-filter",
@@ -2764,6 +2798,7 @@ var FiltersList = /*#__PURE__*/function (_Component) {
                 title: "Categories",
                 data: this.props.categories.data,
                 add: this.props.setFilter,
+                remove: this.props.removeFilter,
                 filterKey: "category"
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_FilterListItem__WEBPACK_IMPORTED_MODULE_4__.default, {
@@ -2772,6 +2807,7 @@ var FiltersList = /*#__PURE__*/function (_Component) {
                 title: "Types",
                 data: this.props.types.data,
                 add: this.props.setFilter,
+                remove: this.props.removeFilter,
                 filterKey: "type"
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_FilterListItem__WEBPACK_IMPORTED_MODULE_4__.default, {
@@ -2806,6 +2842,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     setFilter: function setFilter(type, value) {
       return dispatch((0,_Events_state_eventActions__WEBPACK_IMPORTED_MODULE_6__.eventsFiltering)(type, value));
+    },
+    removeFilter: function removeFilter(type) {
+      return dispatch((0,_Events_state_eventActions__WEBPACK_IMPORTED_MODULE_6__.eventsRemoveFilter)(type));
     },
     clearFilters: function clearFilters() {
       return dispatch((0,_Events_state_eventActions__WEBPACK_IMPORTED_MODULE_6__.clearEventsFilters)());
@@ -8848,7 +8887,7 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "@charset \"UTF-8\";\n\n.filters-heading {\n    font-family: 'Noto Sans TC', sans-serif;\n    font-size: 1.6rem;\n    font-weight: 600;\n}\n\n.filters-block {\n    margin-top: 15px;\n}\n\n.filters-block-list-item {\n    cursor: pointer;\n    list-style-type: none;\n    position: relative;\n    margin-bottom: 30px;\n    box-shadow: -1px 2px 10px 0px rgba(34, 60, 80, 0.2);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "@charset \"UTF-8\";\n\n.filters-heading {\n    font-family: 'Noto Sans TC', sans-serif;\n    font-size: 1.6rem;\n    font-weight: 600;\n}\n\n.filters-block {\n    margin-top: 15px;\n}\n\n.filters-block-list-item {\n    cursor: pointer;\n    list-style-type: none;\n    position: relative;\n    margin-bottom: 30px;\n    box-shadow: -1px 2px 10px 0px rgba(34, 60, 80, 0.2);\n}\n\n.filters-block-list-item-caption {\n    width: 100%;\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

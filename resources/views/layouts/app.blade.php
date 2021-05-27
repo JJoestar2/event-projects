@@ -21,6 +21,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/event-detail.css') }}" rel="stylesheet">
     <link href="{{ asset('css/edit-user.css') }}" rel="stylesheet">
+    @livewireStyles
 </head>
 <body>
     <div id="app">
@@ -35,5 +36,6 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     @yield('scripts')
+    @livewireScripts
 </body>
 </html>

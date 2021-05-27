@@ -104,7 +104,7 @@ class EventController extends Controller
 
     public function filterEvents(Request $request)
     {
-        if(sizeof($request->data) == 0) {
+        if(!$request->data) {
             return EventsResource::collection(Event::all());
         }
 

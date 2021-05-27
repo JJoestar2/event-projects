@@ -56,6 +56,7 @@
                         <span class="event-type-category">Category: <span>{{$item->category->category}}</span></span>
                         <span class="event-type-format">Format: <span>{{$item->type->type}}</span> </span>
                     </span>
+                    <livewire:product-ratings :eventId="$item->id" :userId="Auth::id()" />
                     @if(sizeof($participants) !== 0)
                         <div class="participants">
                             <div class="participants-item mb-2">
