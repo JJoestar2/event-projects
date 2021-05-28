@@ -6,14 +6,17 @@
     <div class="event-block">
         <div class="event-block__top">
             <div class="d-flex justify-content-between">
-                <div class="event-iamge">
+                <div class="event-image">
                     <img src="{{asset('img_lights.jpg')}}" alt="#">
                 </div>
                 <div class="event-heading">
                     <span>{{ date("F", strtotime($item->date_start)) }} {{  date("d", strtotime($item->date_start)) }} </span>
                     <h1> {{ $item->title }} </h1>
+                    <livewire:product-ratings :event="$eventObj" :userId="Auth::id()" />
                     @if(!is_null($item->count))
-                        <span> Places remained: {{ $item->count }}</span>
+                        <span> Places remained:
+                            <span class="places px-2">{{ $item->count }}</span>
+                        </span>
                     @endif
                 </div>
             </div>
@@ -44,7 +47,7 @@
                     @endif
                 @endisset
             </div>
-            <div class="d-flex justify-content-between mt-3 px-3">
+            <div class="d-flex justify-content-between mt-3 px-3 pb-4">
                 <div class="event-description">
                     {!! $item->description !!}
                 </div>
@@ -56,7 +59,6 @@
                         <span class="event-type-category">Category: <span>{{$item->category->category}}</span></span>
                         <span class="event-type-format">Format: <span>{{$item->type->type}}</span> </span>
                     </span>
-                    <livewire:product-ratings :eventId="$item->id" :userId="Auth::id()" />
                     @if(sizeof($participants) !== 0)
                         <div class="participants">
                             <div class="participants-item mb-2">

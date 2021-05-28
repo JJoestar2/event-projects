@@ -72,7 +72,7 @@ export const eventsRemoveFilter = (type) => {
         const state = getState();
         const {eventFilters} = state.events;
         let events = filterEvents(eventFilters);
-        console.log(eventFilters);
+
         events.then((data) => {
             dispatch(grabFilteredEvents(data.data))
         });

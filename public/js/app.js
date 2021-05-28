@@ -2324,7 +2324,6 @@ var eventsRemoveFilter = function eventsRemoveFilter(type) {
     var state = getState();
     var eventFilters = state.events.eventFilters;
     var events = (0,_services_EventsService__WEBPACK_IMPORTED_MODULE_1__.filterEvents)(eventFilters);
-    console.log(eventFilters);
     events.then(function (data) {
       dispatch((0,_eventActionCreators__WEBPACK_IMPORTED_MODULE_0__.grabFilteredEvents)(data.data));
     });

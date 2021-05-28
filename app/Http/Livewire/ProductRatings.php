@@ -12,11 +12,11 @@ class ProductRatings extends Component
     public $event;
     public $userId;
 
-    public function mount($eventId, $userId)
+    public function mount($event, $userId)
     {
         $this->userId = $userId;
 
-        $event = Event::find($eventId);
+        //$event = Event::find($eventId);
         $this->event = $event;
 
         $userRating = $this->event->users()

@@ -96,12 +96,12 @@ ul {
     background-color: #fffde1;
 }
 
-.event-iamge {
-    width: 720px;
+.event-image {
+    min-width: 720px;
     min-height: 360px;
 }
 
-.event-iamge img {
+.event-image img {
     display: block;
     width: 100%;
 }
@@ -188,4 +188,25 @@ ul {
 
 .participants-list-item:not(:last-child) {
     margin-bottom: 15px;
+}
+
+.rating, .places {
+    background-color: royalblue;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.star {
+    width: 10%;
+    cursor: pointer;
+}
+
+.star-filled {
+ fill: #ffe817;
+}
+
+.star-not-filled {
+    fill: #95999c;
 }

@@ -16,7 +16,7 @@ class CreateEventUserTable extends Migration
         Schema::create('event_user', function (Blueprint $table) {
             $table->unsignedBigInteger('id', true);
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('event_id')->constrained('events');
+            $table->foreignId('event_id')->constrained('events')->cascadeOnDelete();
             $table->integer('rating')->nullable();
             $table->timestamps();
         });

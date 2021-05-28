@@ -30,7 +30,7 @@ class EventController extends Controller
             return view('event-details', ['event' => $item, 'participants' => $users]);
         } else {
             $member = $this->checkIfUserInEvent($event, Auth::id());
-            return view('event-details', ['event' => $item, 'member' => $member, 'participants' => $users]);
+            return view('event-details', ['event' => $item, 'member' => $member, 'participants' => $users, 'eventObj' => $event]);
         }
     }
 
@@ -98,7 +98,13 @@ class EventController extends Controller
 
     public function saveEvent(EventCreateRequest $request)
     {
-        Event::create($request->validated());
+        $event = Event::create($request->validated());
+        if($event)
+        {
+            $event->users()->attach($request->input('users_id'));
+            return redirect("/event/create");
+        }
+
         return redirect("/event/create");
     }
 
