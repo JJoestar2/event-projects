@@ -2,7 +2,11 @@ import React from 'react';
 import SearchBox from "../SearchBox";
 import Sidebar from "../Sidebar";
 
-import {UserEventsContainer, MemberedEventsContainer} from "../../containers";
+import {
+    UserEventsContainer,
+    MemberedEventsContainer,
+    SchedulerContainer
+} from "../../containers";
 
 const HomePageFeed = (props) =>
 {
@@ -37,7 +41,8 @@ const HomePageFeed = (props) =>
                                 <MemberedEventsContainer id={id} />
                             </div>
                             <div className="tab-pane fade" id="v-pills-messages" role="tabpanel"
-                                 aria-labelledby="v-pills-messages-tab">...
+                                 aria-labelledby="v-pills-messages-tab">
+                                <SchedulerContainer id={id} />
                             </div>
                         </div>
                     </div>

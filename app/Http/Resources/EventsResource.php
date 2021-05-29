@@ -18,6 +18,7 @@ class EventsResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'date_start' => $this->date_start,
+            'date_end' => $this->date_end,
             'preview' => $this->preview,
             'status' => $this->status,
             'location' => $this->location
