@@ -28,7 +28,6 @@ class SchedulerContainer extends Component {
 
     render() {
         let data = this.setCalendarData(this.props.events.data);
-
         return (
             <UserScheduler data={data} />
         );
@@ -36,7 +35,9 @@ class SchedulerContainer extends Component {
 }
 
 const mapStateToProps = state => {
-    return { events: state.events.memberedEvents};
+    return {
+        events: state.events.memberedEvents
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {

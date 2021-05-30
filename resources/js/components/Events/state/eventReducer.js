@@ -1,7 +1,7 @@
 import {
     GET_ALL_EVENTS, GET_CREATED_USER_EVENTS, GET_MEMBERED_USER_EVENTS,
     SORT_EVENTS, FILTERED_EVENTS, DEFAULT_EVENT_LIST,
-    SET_FILTER, REMOVE_FILTER, REMOVE_ALL_FILTERS
+    SET_FILTER, REMOVE_FILTER, REMOVE_ALL_FILTERS, LOADING, LOADED
 } from "./eventTypes";
 
 const initialState = {
@@ -9,7 +9,8 @@ const initialState = {
     createdEvents: [],
     memberedEvents: [],
     sortFilter: 'ALL',
-    eventFilters:[]
+    eventFilters:[],
+    isLoaded: false
 };
 
 function eventsReducer(state = initialState, action) {
@@ -21,6 +22,18 @@ function eventsReducer(state = initialState, action) {
                 ...state,
                 eventsList: action.payload
             };
+
+        case LOADING:
+            return {
+                ...state,
+                isLoaded: false
+            }
+
+        case LOADED:
+            return {
+                ...state,
+                isLoaded: true
+            }
 
         case GET_CREATED_USER_EVENTS:
             return {

@@ -4,13 +4,26 @@ import {
     grabAllEvents,
     grabFilteredEvents,
     setFilter, removeFilter,
-    sortEventsAction,
+    sortEventsAction, dataLoading, dataLoaded,
 } from "./eventActionCreators";
 
 import {
         getAllEvents, getCreatedUserEvents,
         getMemberedUserEvents, filterEvents
 } from "../../../services/EventsService";
+
+
+export const showLoader = () => {
+    return dispatch => {
+        dispatch(dataLoading());
+    };
+};
+
+export const hideLoader = () => {
+    return dispatch => {
+        dispatch(dataLoaded());
+    };
+};
 
 export const getEvents = () => {
     let events = getAllEvents();

@@ -11,13 +11,14 @@ class ProductRatings extends Component
     public $avgRating;
     public $event;
     public $userId;
+    public $member;
 
-    public function mount($event, $userId)
+    public function mount($event, $userId, $member)
     {
         $this->userId = $userId;
-
         //$event = Event::find($eventId);
         $this->event = $event;
+        $this->member = $member;
 
         $userRating = $this->event->users()
             ->where('user_id', $this->userId)->first();

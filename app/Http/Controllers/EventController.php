@@ -27,7 +27,7 @@ class EventController extends Controller
         $users = $event->users()->select(['name', 'surname'])->get();
 
         if(!Auth::user()) {
-            return view('event-details', ['event' => $item, 'participants' => $users]);
+            return view('event-details', ['event' => $item, 'participants' => $users, 'eventObj' => $event]);
         } else {
             $member = $this->checkIfUserInEvent($event, Auth::id());
             return view('event-details', ['event' => $item, 'member' => $member, 'participants' => $users, 'eventObj' => $event]);
@@ -170,8 +170,8 @@ class EventController extends Controller
 
     private function checkIfUserInEvent($event, $userId)
     {
-        $member = $event->users($userId)->select('user_id')->get();
+        $member = $event->users()->select('user_id')->where('user_id', $userId)->get();
 
-        return sizeof($member) == 0;
+        return count($member) > 0;
     }
 }

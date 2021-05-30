@@ -3,9 +3,18 @@ import {
     FILTERED_EVENTS,
     GET_ALL_EVENTS,
     GET_CREATED_USER_EVENTS, GET_MEMBERED_USER_EVENTS,
+    LOADING, LOADED,
     REMOVE_ALL_FILTERS, REMOVE_FILTER,
     SET_FILTER, SORT_EVENTS
 } from "./eventTypes";
+
+const dataLoading = () => ({
+    type: LOADING
+});
+
+const dataLoaded = () => ({
+   type: LOADED
+});
 
 const grabAllEvents = data => ({
     type: GET_ALL_EVENTS,
@@ -81,4 +90,6 @@ export {
     grabFilteredEvents,
     eventsWithoutFilters,
     sortEventsAction,
+    dataLoading,
+    dataLoaded,
 };
