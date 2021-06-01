@@ -26,8 +26,8 @@ const DropdownMenu = ({ data = [], title, add, remove, filterKey}) => {
     const items = data.map((item) => {
         let title = item.category || item.type;
         return (
-            <>
-                <span key={item.id} onClick = {() => add(filterKey, item.id) } >
+            <div key={item.id}>
+                <span onClick = {() => add(filterKey, item.id) } >
                     <DropdownItem>
                         <div className="filters-block-list-item-caption">
                             <span> { title } </span>
@@ -37,7 +37,7 @@ const DropdownMenu = ({ data = [], title, add, remove, filterKey}) => {
                 <span className="filters-block-list-item-cancel mr-3" onClick = { () => remove(filterKey) }>
                     <i className="fa fa-times-circle" aria-hidden="true"></i>
                 </span>
-            </>
+            </div>
         );
     });
 

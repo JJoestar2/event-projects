@@ -17,7 +17,7 @@ class EventController extends Controller
 {
     public function getAllEvents()
     {
-        return EventsResource::collection(Event::all());
+        return EventsResource::collection(Event::paginate(3));
     }
 
     public function getEventById($id)

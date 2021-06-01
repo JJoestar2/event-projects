@@ -19,7 +19,7 @@ const dataLoaded = () => ({
 const grabAllEvents = data => ({
     type: GET_ALL_EVENTS,
     payload: {
-        data
+        events: data
     }
 });
 

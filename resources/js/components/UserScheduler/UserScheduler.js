@@ -18,12 +18,12 @@ import {
 const UserScheduler = (props) => {
 
         const [currentViewName, setСurrentViewName] = useState('work-week');
-        const {data} = props;
 
         let date = new Date().toISOString().slice(0, 10);
         return (
+
             <Paper>
-                <Scheduler data={data} height={600}>
+                <Scheduler data={props.data} height={600}>
 
                     <ViewState
                         defaultCurrentDate={date}

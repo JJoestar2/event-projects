@@ -4,8 +4,7 @@ import SearchBox from "../SearchBox";
 import SortBox from "../SortBox";
 import FiltersList from "../Filters";
 import Sidebar from "../Sidebar";
-
-import {EventListContainer} from "../../containers";
+import {EventListContainer} from '../../containers';
 
 const MainPageFeed = (props) => {
         return (

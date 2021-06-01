@@ -25,11 +25,11 @@ export const hideLoader = () => {
     };
 };
 
-export const getEvents = () => {
-    let events = getAllEvents();
+export const getEvents = (pageNumber) => {
+    let events = getAllEvents(pageNumber);
     return dispatch => {
         events.then((data) => {
-            dispatch(grabAllEvents(data.data))
+            dispatch(grabAllEvents(data))
         });
     };
 };

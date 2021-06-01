@@ -1,7 +1,7 @@
 
-const getAllEvents = async () =>
+const getAllEvents = async (pageNumber) =>
  {
-     let response = await fetch('/api/events/all', {
+     let response = await fetch(`/api/events/all?page=${pageNumber}`, {
          method: 'GET',
          headers: {
              'Content-Type': 'application/json'

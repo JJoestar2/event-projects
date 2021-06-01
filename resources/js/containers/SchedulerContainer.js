@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
 
+import UserScheduler from '../components/UserScheduler';
 import {getMemberedEvents} from "../components/Events/state/eventActions";
-import UserScheduler from "../components/UserScheduler";
+
 
 class SchedulerContainer extends Component {
 

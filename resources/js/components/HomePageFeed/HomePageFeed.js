@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { Suspense, lazy }  from 'react';
+
 import SearchBox from "../SearchBox";
 import Sidebar from "../Sidebar";
+import Spinner from "../Spinner";
 
-import {
-    UserEventsContainer,
-    MemberedEventsContainer,
-    SchedulerContainer
-} from "../../containers";
+const UserEventsContainer = lazy(() => import('../../containers/UserEventsContainer'));
+const MemberedEventsContainer = lazy(() => import('../../containers/MemberedEventsContainer'));
+const SchedulerContainer = lazy(() => import('../../containers/SchedulerContainer'));
 
 const HomePageFeed = (props) =>
 {
@@ -32,18 +32,20 @@ const HomePageFeed = (props) =>
                             <SearchBox />
                         </div>
                         <div className="tab-content" id="v-pills-tabContent">
-                            <div className="tab-pane fade show active" id="v-pills-home" role="tabpanel"
-                                 aria-labelledby="v-pills-home-tab">
-                                <UserEventsContainer id={id} />
-                            </div>
-                            <div className="tab-pane fade" id="v-pills-profile" role="tabpanel"
-                                 aria-labelledby="v-pills-profile-tab">
-                                <MemberedEventsContainer id={id} />
-                            </div>
-                            <div className="tab-pane fade" id="v-pills-messages" role="tabpanel"
-                                 aria-labelledby="v-pills-messages-tab">
-                                <SchedulerContainer id={id} />
-                            </div>
+                            <Suspense fallback={ <Spinner /> } >
+                                <div className="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                                     aria-labelledby="v-pills-home-tab">
+                                    <UserEventsContainer id={id} />
+                                </div>
+                                <div className="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                                     aria-labelledby="v-pills-profile-tab">
+                                    <MemberedEventsContainer id={id} />
+                                </div>
+                                <div className="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                                     aria-labelledby="v-pills-messages-tab">
+                                    <SchedulerContainer id={id} />
+                                </div>
+                            </Suspense>
                         </div>
                     </div>
                 </div>

@@ -20,7 +20,7 @@ function eventsReducer(state = initialState, action) {
         case GET_ALL_EVENTS:
             return {
                 ...state,
-                eventsList: action.payload
+                eventsList: action.payload.events
             };
 
         case LOADING:
@@ -51,20 +51,29 @@ function eventsReducer(state = initialState, action) {
             return {
               ...state,
                 sortFilter: action.payload.filter,
-                eventsList: action.payload.items
+                eventsList: {
+                  ...state.eventsList,
+                    data:action.payload.items.data
+                }
             };
 
         case FILTERED_EVENTS:
             return {
               ...state,
-              eventsList: action.payload
+              eventsList: {
+                  ...state.eventsList,
+                  data:action.payload.data
+              }
             };
 
         case DEFAULT_EVENT_LIST:
             return {
                 ...state,
-                eventsList: action.payload
-            }
+                eventsList: {
+                    ...state.eventsList,
+                    data:action.payload.data
+                }
+            };
 
         case SET_FILTER:
             return {
