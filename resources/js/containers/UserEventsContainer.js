@@ -12,7 +12,7 @@ class UserEventsContainer extends Component {
 
     render() {
         return (
-            <EventsList events={this.props.events.data} />
+            <EventsList events={this.props.events.data} userId={this.props.id} />
         );
     }
 }

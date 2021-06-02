@@ -79,7 +79,6 @@ export {
     setFilter,
     removeFilter,
     clearFilters,
-    grabFilteredEvents,
     eventsWithoutFilters,
     sortEventsAction,
     dataLoading,

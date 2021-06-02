@@ -113,6 +113,13 @@ class EventController extends Controller
         return redirect("/event/create");
     }
 
+    public function deleteEvent($id)
+    {
+        Event::destroy($id);
+
+        return redirect("/home");
+    }
+
     public function registerInEvent($userId, $eventId)
     {
         $event = Event::find($eventId);

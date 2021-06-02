@@ -4,6 +4,31 @@ import './event-card.css';
 function EventsListItem(props) {
         return (
             <div className="event event-shadow d-flex justify-content-between flex-column">
+                {
+                    props.userId && props.event.users_id === props.userId ?
+
+                    <div className="event-options">
+                        <div className="setting-icon">
+                            <i className="fa fa-cogs"
+                               aria-hidden="true" data-toggle="collapse"
+                               data-target="#collapseExample" aria-expanded="false"
+                               aria-controls="collapseExample"> </i>
+                        </div>
+                        <div className="collapse" id="collapseExample">
+                            <div className="card card-body participants-block"
+                                 data-toggle="collapse" data-target="#collapseExample"
+                                 aria-expanded="false" aria-controls="collapseExample">
+
+                                <a href={"/event/edit/" + props.event.id} className="btn btn-primary">
+                                    Update
+                                </a>
+                                <a href={"/api/event/remove/" + props.event.id} className="btn btn-primary">
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div> : null
+                }
                 <div className="event-preview">
                     <img src="/img_lights.jpg" alt="image" />
                 </div>

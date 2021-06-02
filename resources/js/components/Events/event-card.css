@@ -32,6 +32,7 @@ ul li {
     transition: 0.2s all ease;
     font-family: 'Noto Sans TC', sans-serif;
     background-color: #fff;
+    position: relative;
 }
 
 .event:hover {
@@ -74,6 +75,18 @@ ul li {
     font-size: 1.05rem;
     color: #b9b9bd;
     padding-left: 5px;
+}
+
+.event-options {
+    position: absolute;
+    right: 5px;
+    top:0;
+    cursor: pointer;
+}
+.setting-icon {
+    padding: 10px 15px;
+    background-color: #f9f9f9;
+    border-radius: 35px;
 }
 
 .btn-more {

@@ -25,6 +25,7 @@ Route::any('events/all', [EventController::class, 'getAllEvents']);
 Route::get('events/{title}', [EventController::class, 'findEventsByTitle']);
 Route::get('events/user/{id}', [EventController::class, 'getUserEvents']);
 Route::get('created-events/user/{id}', [EventController::class, 'getCreatedEvents']);
+Route::get('event/remove/{id}', [EventController::class, 'deleteEvent']);
 
 Route::get('type/all', [EventTypeController::class, 'getAllTypes']);
 Route::get('category/all', [EventCategoryController::class, 'getAllCategories']);
