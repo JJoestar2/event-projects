@@ -25,11 +25,35 @@ export const hideLoader = () => {
     };
 };
 
-export const getEvents = (pageNumber) => {
-    let events = getAllEvents(pageNumber);
+export const getEvents = (pageNumber, filters = []) => {
+    let events = getAllEvents(pageNumber, filters);
     return dispatch => {
         events.then((data) => {
             dispatch(grabAllEvents(data))
+        });
+    };
+};
+
+export const addFilter = (type, value) => {
+    return dispatch => {
+        dispatch(setFilter(type, value));
+    };
+};
+
+export const deleteFilter = (type) => {
+    return dispatch => {
+        dispatch(removeFilter(type));
+    };
+};
+
+export const clearEventsFilters = () => {
+    return dispatch => {
+
+        dispatch(clearFilters());
+        let events = getAllEvents(1, []);
+
+        events.then((data) => {
+            dispatch(eventsWithoutFilters(data))
         });
     };
 };
@@ -64,42 +88,3 @@ export const sortEvents = (filter, events) => (dispatch) => {
     return dispatch(sortEventsAction(filter, events));
 };
 
-export const eventsFiltering = (type, value) => {
-    return (dispatch, getState) => {
-        dispatch(setFilter(type, value));
-
-        const state = getState();
-        const {eventFilters} = state.events;
-        let events = filterEvents(eventFilters);
-
-        events.then((data) => {
-            dispatch(grabFilteredEvents(data.data))
-        });
-    };
-};
-
-export const eventsRemoveFilter = (type) => {
-    return (dispatch, getState) => {
-        dispatch(removeFilter(type));
-
-        const state = getState();
-        const {eventFilters} = state.events;
-        let events = filterEvents(eventFilters);
-
-        events.then((data) => {
-            dispatch(grabFilteredEvents(data.data))
-        });
-    };
-};
-
-export const clearEventsFilters = () => {
-    let events = getAllEvents();
-    return dispatch => {
-
-        dispatch(clearFilters());
-
-        events.then((data) => {
-            dispatch(eventsWithoutFilters(data.data))
-        });
-    };
-};

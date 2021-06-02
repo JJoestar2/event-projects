@@ -1,6 +1,5 @@
 import {
     DEFAULT_EVENT_LIST,
-    FILTERED_EVENTS,
     GET_ALL_EVENTS,
     GET_CREATED_USER_EVENTS, GET_MEMBERED_USER_EVENTS,
     LOADING, LOADED,
@@ -44,14 +43,7 @@ const clearFilters = () => ({
 const eventsWithoutFilters = data => ({
     type: DEFAULT_EVENT_LIST,
     payload: {
-        data
-    }
-});
-
-const grabFilteredEvents = data => ({
-    type: FILTERED_EVENTS,
-    payload: {
-        data
+        events: data
     }
 });
 

@@ -1,11 +1,13 @@
 
-const getAllEvents = async (pageNumber) =>
+const getAllEvents = async (pageNumber = 1, filters = []) =>
  {
      let response = await fetch(`/api/events/all?page=${pageNumber}`, {
-         method: 'GET',
+         method: 'POST',
          headers: {
              'Content-Type': 'application/json'
-         }});
+         },
+         body: JSON.stringify({filters})
+     });
      return await response.json();
  }
 
@@ -18,21 +20,7 @@ const getAllEvents = async (pageNumber) =>
     return await response.json();
  }
 
- const filterEvents = async (data) => {
-    if(data) {
-        let response = await fetch(`/api/events/filter`, {
-           method: 'POST',
-           headers: {
-                'Content-Type': 'application/json'
-           },
-            body: JSON.stringify({data})
-        });
-
-        return await response.json();
-    }
-}
-
-const getCreatedUserEvents = async (id) => {
+ const getCreatedUserEvents = async (id) => {
     let response = await fetch(`/api/created-events/user/${id}`, {
         method: 'GET',
         headers: {
@@ -55,7 +43,6 @@ const getMemberedUserEvents = async (id) => {
 export {
     getAllEvents,
     searchEventByTitle,
-    filterEvents,
     getCreatedUserEvents,
     getMemberedUserEvents,
 };

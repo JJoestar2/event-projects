@@ -6,7 +6,7 @@ import FilterDropdown from "../FilterDropdown";
 import FilterListItem from "./FilterListItem";
 
 import {getFilterTypes} from "./state/filterActions";
-import {eventsFiltering, clearEventsFilters, eventsRemoveFilter} from "../Events/state/eventActions";
+import {addFilter, clearEventsFilters, deleteFilter} from "../Events/state/eventActions";
 
 class FiltersList extends Component {
 
@@ -56,8 +56,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
     return {
         grabFilters: () => dispatch(getFilterTypes()),
-        setFilter: (type, value) => dispatch(eventsFiltering(type, value)),
-        removeFilter: (type) => dispatch(eventsRemoveFilter(type)),
+        setFilter: (type, value) => dispatch(addFilter(type, value)),
+        removeFilter: (type) => dispatch(deleteFilter(type)),
         clearFilters: () => dispatch(clearEventsFilters()),
     };
 };

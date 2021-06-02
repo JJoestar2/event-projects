@@ -9,7 +9,13 @@ const Paginator = lazy(() => import('../components/Paginator'));
 
 class EventListContainer extends Component {
     UNSAFE_componentWillMount() {
-        this.props.getEvents(1);
+        this.props.getEvents(1, []);
+    }
+
+    componentDidUpdate(prevProps) {
+        if(this.props.filters !== prevProps.filters) {
+            this.props.getEvents(1, this.props.filters);
+        }
     }
 
     render() {
@@ -19,22 +25,24 @@ class EventListContainer extends Component {
                 <div>
                     <EventsList events={data} />
                     <div className="mt-3">
-                        <Paginator meta={this.props.events.meta} getData={this.props.getEvents} />
+                        <Paginator meta={this.props.events.meta} filters={this.props.filters} getData={this.props.getEvents} />
                      </div>
                 </div>
             </Suspense>
         );
     }
-
 }
 
 const mapStateToProps = state => {
-    return { events: state.events.eventsList};
+    return {
+        events: state.events.eventsList,
+        filters: state.events.eventFilters
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getEvents: (pageNumber) => dispatch(getEvents(pageNumber))
+        getEvents: (pageNumber, filters) => dispatch(getEvents(pageNumber, filters))
     };
 };
 

@@ -15,9 +15,14 @@ use Illuminate\Http\Request;
 use Auth;
 class EventController extends Controller
 {
-    public function getAllEvents()
+
+    public function getAllEvents(Request $request)
     {
-        return EventsResource::collection(Event::paginate(3));
+        if(!$request->filters) {
+            return EventsResource::collection(Event::paginate(3));
+        } else {
+            return $this->filterEvents($request->filters);
+        }
     }
 
     public function getEventById($id)
@@ -108,31 +113,6 @@ class EventController extends Controller
         return redirect("/event/create");
     }
 
-    public function filterEvents(Request $request)
-    {
-        if(!$request->data) {
-            return EventsResource::collection(Event::all());
-        }
-
-        $eventQuery = Event::query();
-
-        foreach ($request->data as $item)
-        {
-            if($item['type'] == 'category')
-            {
-                $eventQuery = $eventQuery->where('category_id', $item['value']);
-            }
-
-            if($item['type'] == 'type')
-            {
-                $eventQuery = $eventQuery->where('type_id', $item['value']);
-            }
-        }
-
-        $results = $eventQuery->get();
-        return EventsResource::collection($results);
-    }
-
     public function registerInEvent($userId, $eventId)
     {
         $event = Event::find($eventId);
@@ -166,6 +146,27 @@ class EventController extends Controller
         } else $event->users()->detach($userId); // places are unlimited so we can delete our user from event
 
         return redirect("/event/$eventId");
+    }
+
+    private function filterEvents($filters)
+    {
+        $eventQuery = Event::query();
+
+        foreach ($filters as $item)
+        {
+            if($item['type'] == 'category')
+            {
+                $eventQuery = $eventQuery->where('category_id', $item['value']);
+            }
+
+            if($item['type'] == 'type')
+            {
+                $eventQuery = $eventQuery->where('type_id', $item['value']);
+            }
+        }
+
+        $results = $eventQuery->paginate(3);
+        return EventsResource::collection($results);
     }
 
     private function checkIfUserInEvent($event, $userId)

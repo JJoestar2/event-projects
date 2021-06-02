@@ -21,13 +21,15 @@ __webpack_require__.r(__webpack_exports__);
 var Paginator = function Paginator(_ref) {
   var _ref$meta = _ref.meta,
       meta = _ref$meta === void 0 ? [] : _ref$meta,
+      _ref$filters = _ref.filters,
+      filters = _ref$filters === void 0 ? [] : _ref$filters,
       getData = _ref.getData;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_js_pagination__WEBPACK_IMPORTED_MODULE_1__.default, {
     activePage: meta.current_page,
     totalItemsCount: meta.total,
     itemsCountPerPage: meta.per_page,
     onChange: function onChange(pageNumber) {
-      return getData(pageNumber);
+      return getData(pageNumber, filters);
     },
     itemClass: "page-item",
     linkClass: "page-link",

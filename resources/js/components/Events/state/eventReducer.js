@@ -1,6 +1,6 @@
 import {
     GET_ALL_EVENTS, GET_CREATED_USER_EVENTS, GET_MEMBERED_USER_EVENTS,
-    SORT_EVENTS, FILTERED_EVENTS, DEFAULT_EVENT_LIST,
+    SORT_EVENTS, DEFAULT_EVENT_LIST,
     SET_FILTER, REMOVE_FILTER, REMOVE_ALL_FILTERS, LOADING, LOADED
 } from "./eventTypes";
 
@@ -57,22 +57,10 @@ function eventsReducer(state = initialState, action) {
                 }
             };
 
-        case FILTERED_EVENTS:
-            return {
-              ...state,
-              eventsList: {
-                  ...state.eventsList,
-                  data:action.payload.data
-              }
-            };
-
-        case DEFAULT_EVENT_LIST:
+            case DEFAULT_EVENT_LIST:
             return {
                 ...state,
-                eventsList: {
-                    ...state.eventsList,
-                    data:action.payload.data
-                }
+                eventsList: action.payload.events
             };
 
         case SET_FILTER:
