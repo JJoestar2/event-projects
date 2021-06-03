@@ -122,7 +122,6 @@ ul {
     background-color: #fff;
 }
 
-
 .event-description {
     width: 65%;
 }
@@ -184,6 +183,12 @@ ul {
 
 .participants-block {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.participants-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .participants-list-item:not(:last-child) {

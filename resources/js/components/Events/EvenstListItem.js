@@ -1,32 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './event-card.css';
 
 function EventsListItem(props) {
+        const [showMenu, setShowMenu] = useState(false);
+        const activeClass = showMenu ? "setting-menu-item_active" : "";
+
         return (
             <div className="event event-shadow d-flex justify-content-between flex-column">
                 {
                     props.userId && props.event.users_id === props.userId ?
 
-                    <div className="event-options">
-                        <div className="setting-icon">
-                            <i className="fa fa-cogs"
-                               aria-hidden="true" data-toggle="collapse"
-                               data-target="#collapseExample" aria-expanded="false"
-                               aria-controls="collapseExample"> </i>
-                        </div>
-                        <div className="collapse" id="collapseExample">
-                            <div className="card card-body participants-block"
-                                 data-toggle="collapse" data-target="#collapseExample"
-                                 aria-expanded="false" aria-controls="collapseExample">
-
-                                <a href={"/event/edit/" + props.event.id} className="btn btn-primary">
-                                    Update
-                                </a>
-                                <a href={"/api/event/remove/" + props.event.id} className="btn btn-primary">
-                                    Delete
-                                </a>
-                            </div>
-                        </div>
+                    <div className={`event-options ${activeClass}`} onClick={() => setShowMenu(!showMenu)}>
+                            <span className="setting-menu setting-icon">
+                                <i className="fa fa-cogs" aria-hidden="true"></i>
+                            </span>
+                            <a href={"/event/edit/" + props.event.id} className="setting-icon setting-menu-item">
+                                <i className="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                            <a href={"/api/event/remove/" + props.event.id} className="setting-icon setting-menu-item">
+                                <i className="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>
                     </div> : null
                 }
                 <div className="event-preview">

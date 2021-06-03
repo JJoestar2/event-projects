@@ -29,7 +29,7 @@ class EventController extends Controller
     {
         $event = Event::find($id);
         $item =  $event->where('id', $id)->with(['category', 'type'])->get();
-        $users = $event->users()->select(['name', 'surname'])->get();
+        $users = $event->users()->select(['user_id', 'name', 'surname'])->get();
 
         if(!Auth::user()) {
             return view('event-details', ['event' => $item, 'participants' => $users, 'eventObj' => $event]);

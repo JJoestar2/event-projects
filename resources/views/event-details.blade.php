@@ -80,7 +80,7 @@
                                 <div class="card card-body participants-block">
                                     <ul class="participants-list">
                                         @foreach($participants as $item)
-                                            <li class="participants-list-item">{{ $item->name . ' ' . $item->surname }}</li>
+                                            <li class="participants-list-item">{{$item->name . ' ' . $item->surname }} {!! Auth::id() == $item->user_id ? '<i class="fa fa-star" aria-hidden="true"></i>' : ""  !!}</li>
                                         @endforeach
                                     </ul>
                                 </div>
