@@ -2,7 +2,7 @@ import {
     DEFAULT_EVENT_LIST,
     GET_ALL_EVENTS,
     GET_CREATED_USER_EVENTS, GET_MEMBERED_USER_EVENTS,
-    LOADING, LOADED,
+    LOADING, LOADED, GET_USER_SCHEDULE,
     REMOVE_ALL_FILTERS, REMOVE_FILTER,
     SET_FILTER, SORT_EVENTS
 } from "./eventTypes";
@@ -22,17 +22,24 @@ const grabAllEvents = data => ({
     }
 });
 
+const setSchedule = data => ({
+    type: GET_USER_SCHEDULE,
+    payload: {
+        events: data
+    }
+});
+
 const grabAllCreatedEvents = data => ({
     type: GET_CREATED_USER_EVENTS,
     payload: {
-        data
+        events: data
     }
 });
 
 const grabAllMemberedEvents = data => ({
     type: GET_MEMBERED_USER_EVENTS,
     payload: {
-        data
+        events: data
     }
 });
 
@@ -77,6 +84,7 @@ export {
     grabAllCreatedEvents,
     grabAllMemberedEvents,
     setFilter,
+    setSchedule,
     removeFilter,
     clearFilters,
     eventsWithoutFilters,

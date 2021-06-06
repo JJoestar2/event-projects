@@ -1,15 +1,14 @@
 import {
     clearFilters, eventsWithoutFilters,
     grabAllCreatedEvents, grabAllMemberedEvents,
-    grabAllEvents,
-    grabFilteredEvents,
+    grabAllEvents, setSchedule,
     setFilter, removeFilter,
     sortEventsAction, dataLoading, dataLoaded,
 } from "./eventActionCreators";
 
 import {
         getAllEvents, getCreatedUserEvents,
-        getMemberedUserEvents, filterEvents
+        getMemberedUserEvents, getUserSchedule,
 } from "../../../services/EventsService";
 
 
@@ -34,6 +33,33 @@ export const getEvents = (pageNumber, filters = []) => {
     };
 };
 
+export const getCreatedEventsByUser = (pageNumber, id) => {
+    let events = getCreatedUserEvents(pageNumber, id);
+    return dispatch => {
+        events.then((data) => {
+            dispatch(grabAllCreatedEvents(data))
+        });
+    };
+};
+
+export const getMemberedEvents = (pageNumber, id) => {
+    let events = getMemberedUserEvents(pageNumber, id);
+    return dispatch => {
+        events.then((data) => {
+            dispatch(grabAllMemberedEvents(data))
+        });
+    };
+};
+
+export const getEventSchedule = (id) => {
+    let events = getUserSchedule(id);
+    return dispatch => {
+        events.then((data) => {
+            dispatch(setSchedule(data.data))
+        });
+    };
+};
+
 export const addFilter = (type, value) => {
     return dispatch => {
         dispatch(setFilter(type, value));
@@ -54,24 +80,6 @@ export const clearEventsFilters = () => {
 
         events.then((data) => {
             dispatch(eventsWithoutFilters(data))
-        });
-    };
-};
-
-export const getCreatedEventsByUser = (id) => {
-    let events = getCreatedUserEvents(id);
-    return dispatch => {
-        events.then((data) => {
-            dispatch(grabAllCreatedEvents(data.data))
-        });
-    };
-};
-
-export const getMemberedEvents = (id) => {
-    let events = getMemberedUserEvents(id);
-    return dispatch => {
-        events.then((data) => {
-            dispatch(grabAllMemberedEvents(data.data))
         });
     };
 };

@@ -8,8 +8,8 @@ function SortBox(props) {
             <select className="form-control" value={props.filter}
             onChange={(e) => props.sort(e.target.value, props.events.data)}>
                 <option value="ALL">All</option>
-                <option value="DESC">Desc</option>
-                <option value="ASC">Asc</option>
+                <option value="DESC">Newest</option>
+                <option value="ASC">Oldest</option>
                 <option value="DATE">Date</option>
             </select>
         </div>

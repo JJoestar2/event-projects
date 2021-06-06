@@ -1,18 +1,29 @@
-import React, {Component} from 'react';
+import React, {Component, lazy, Suspense} from 'react';
 import { connect } from "react-redux";
-import EventsList from "../components/Events";
 import {getMemberedEvents} from "../components/Events/state/eventActions";
+
+const EventsList = lazy(() => import('../components/Events'));
+const ProfilePaginator = lazy(() => import('../components/Paginator/ProfilePaginator'));
+import Spinner from "../components/Spinner";
 
 class MemberedEventsContainer extends Component {
 
-    componentDidMount() {
+    UNSAFE_componentWillMount() {
         let id = this.props.id;
-        this.props.getEvents(id);
+        this.props.getEvents(1, id);
     }
 
     render() {
+        const {data} = this.props.events;
         return (
-            <EventsList events={this.props.events.data} />
+            <Suspense fallback={ <Spinner /> } >
+                <div>
+                    <EventsList events={data} />
+                    <div className="mt-3">
+                        <ProfilePaginator meta={this.props.events.meta} id={this.props.id} getData={this.props.getEvents} />
+                    </div>
+                </div>
+            </Suspense>
         );
     }
 }
@@ -23,7 +34,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getEvents: (id) => dispatch(getMemberedEvents(id))
+        getEvents: (pageNumber, id) => dispatch(getMemberedEvents(pageNumber, id))
     };
 };
 

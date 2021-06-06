@@ -1,3 +1,8 @@
 import Paginator from "./Paginator";
+import ProfilePaginator from "./ProfilePaginator";
 
-export default Paginator;
+export {
+    Paginator,
+    ProfilePaginator,
+};
+

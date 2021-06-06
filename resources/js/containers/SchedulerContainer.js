@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from "react-redux";
 
 import UserScheduler from '../components/UserScheduler';
-import {getMemberedEvents} from "../components/Events/state/eventActions";
+import {getEventSchedule} from "../components/Events/state/eventActions";
 
 
 class SchedulerContainer extends Component {
@@ -28,7 +28,7 @@ class SchedulerContainer extends Component {
     }
 
     render() {
-        let data = this.setCalendarData(this.props.events.data);
+        let data = this.setCalendarData(this.props.events);
         return (
             <UserScheduler data={data} />
         );
@@ -37,13 +37,13 @@ class SchedulerContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        events: state.events.memberedEvents
+        events: state.events.schedule
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getEvents: (id) => dispatch(getMemberedEvents(id))
+        getEvents: (id) => dispatch(getEventSchedule(id))
     };
 };
 

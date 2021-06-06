@@ -42,6 +42,47 @@ var Paginator = function Paginator(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Paginator/ProfilePaginator.js":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/Paginator/ProfilePaginator.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_js_pagination__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-js-pagination */ "./node_modules/react-js-pagination/dist/Pagination.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+var ProfilePaginator = function ProfilePaginator(_ref) {
+  var _ref$meta = _ref.meta,
+      meta = _ref$meta === void 0 ? [] : _ref$meta,
+      id = _ref.id,
+      getData = _ref.getData;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_js_pagination__WEBPACK_IMPORTED_MODULE_1__.default, {
+    activePage: meta.current_page,
+    totalItemsCount: meta.total,
+    itemsCountPerPage: meta.per_page,
+    onChange: function onChange(pageNumber) {
+      return getData(pageNumber, id);
+    },
+    itemClass: "page-item",
+    linkClass: "page-link",
+    firstPageText: "First",
+    lastPageText: "Last"
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProfilePaginator);
+
+/***/ }),
+
 /***/ "./resources/js/components/Paginator/index.js":
 /*!****************************************************!*\
   !*** ./resources/js/components/Paginator/index.js ***!
@@ -51,11 +92,14 @@ var Paginator = function Paginator(_ref) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "Paginator": () => (/* reexport safe */ _Paginator__WEBPACK_IMPORTED_MODULE_0__.default),
+/* harmony export */   "ProfilePaginator": () => (/* reexport safe */ _ProfilePaginator__WEBPACK_IMPORTED_MODULE_1__.default)
 /* harmony export */ });
 /* harmony import */ var _Paginator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Paginator */ "./resources/js/components/Paginator/Paginator.js");
+/* harmony import */ var _ProfilePaginator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProfilePaginator */ "./resources/js/components/Paginator/ProfilePaginator.js");
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_Paginator__WEBPACK_IMPORTED_MODULE_0__.default);
+
+
 
 /***/ }),
 

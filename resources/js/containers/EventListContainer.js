@@ -5,7 +5,7 @@ import {getEvents} from "../components/Events/state/eventActions";
 import Spinner from "../components/Spinner";
 
 const EventsList = lazy(() => import('../components/Events'));
-const Paginator = lazy(() => import('../components/Paginator'));
+const Paginator = lazy(() => import('../components/Paginator/Paginator'));
 
 class EventListContainer extends Component {
     UNSAFE_componentWillMount() {

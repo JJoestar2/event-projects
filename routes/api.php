@@ -24,6 +24,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::any('events/all', [EventController::class, 'getAllEvents']);
 Route::get('events/{title}', [EventController::class, 'findEventsByTitle']);
 Route::get('events/user/{id}', [EventController::class, 'getUserEvents']);
+Route::get('event/schedule/user/{id}', [EventController::class, 'getUserSchedule']);
 Route::get('created-events/user/{id}', [EventController::class, 'getCreatedEvents']);
 Route::get('event/remove/{id}', [EventController::class, 'deleteEvent']);
 

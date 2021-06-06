@@ -1,18 +1,29 @@
-import React, {Component} from 'react';
+import React, {Component, lazy, Suspense} from 'react';
 import { connect } from "react-redux";
 
 import {getCreatedEventsByUser} from "../components/Events/state/eventActions";
-import EventsList from "../components/Events";
+import Spinner from "../components/Spinner";
+const EventsList = lazy(() => import('../components/Events'));
+const ProfilePaginator= lazy(() => import('../components/Paginator/ProfilePaginator'));
 
 class UserEventsContainer extends Component {
-    componentDidMount() {
+
+    UNSAFE_componentWillMount() {
         let id = this.props.id;
-        this.props.getEvents(id);
+        this.props.getEvents(1, id);
     }
 
     render() {
+        const {data} = this.props.events;
         return (
-            <EventsList events={this.props.events.data} userId={this.props.id} />
+            <Suspense fallback={ <Spinner /> } >
+                <div>
+                    <EventsList events={data} userId={this.props.id} />
+                    <div className="mt-3">
+                        <ProfilePaginator meta={this.props.events.meta} id={this.props.id} getData={this.props.getEvents} />
+                    </div>
+                </div>
+            </Suspense>
         );
     }
 }
@@ -23,7 +34,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getEvents: (id) => dispatch(getCreatedEventsByUser(id))
+        getEvents: (pageNumber, id) => dispatch(getCreatedEventsByUser(pageNumber, id))
     };
 };
 
