@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
+import FilterDropdownItem from "./FilterDropdownItem";
 
 const DropdownMenu = ({ data = [], title, add, remove, filterKey}) => {
     const [activeMenu, setActiveMenu] = useState('main');
     const [menuHeight, setMenuHeight] = useState(null);
-    const [isSelected, setSelected] = useState(false);
 
     function calcHeight(el) {
         let height = el.offsetHeight;
@@ -26,18 +26,18 @@ const DropdownMenu = ({ data = [], title, add, remove, filterKey}) => {
     const items = data.map((item) => {
         let title = item.category || item.type;
         return (
-            <div className="filters-item" key={item.id}>
-                <span onClick = {() => add(filterKey, item.id) } >
-                    <DropdownItem>
-                        <div className="filters-block-list-item-caption">
-                            <span> { title } </span>
-                        </div>
-                    </DropdownItem>
-                </span>
-                <span className="filters-block-list-item-cancel mr-3" onClick = { () => remove(filterKey) }>
-                    <i className="fa fa-times-circle" aria-hidden="true"></i>
-                </span>
-            </div>
+            <FilterDropdownItem key={item.id}
+                id={item.id}
+                filterKey={filterKey}
+                addFilter={add}
+                removeFilter={remove}
+            >
+                <DropdownItem>
+                    <div className="filters-block-list-item-caption">
+                        <span> { title } </span>
+                    </div>
+                </DropdownItem>
+            </FilterDropdownItem>
         );
     });
 

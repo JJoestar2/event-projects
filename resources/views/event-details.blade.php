@@ -30,7 +30,9 @@
                 <span>About this Event</span>
 
                 @if(!Auth::user())
-                    <span>Log-in or Register</span>
+                    <span>
+                        <a href="/login"> Log-in</a> or <a href="/register">Register</a>
+                    </span>
                 @endif
 
                 @isset($member)
@@ -56,8 +58,17 @@
                     {!! $item->description !!}
                 </div>
                 <div class="event-aside">
-                    <span><span class="event-place">Location<span class="event-locations"> {{$item->location}} </span></span></span>
-                    <span><span class="event-date-time">Date and Time<span class="event-dates"> {{ $item->date_start }} - {{$item->date_end}} </span> </span></span>
+                    <span>
+                        <span class="event-place"><i class="fa fa-map-marker" aria-hidden="true"></i> Location
+                            <span class="event-locations"> {{$item->location}} </span>
+                        </span>
+                    </span>
+                    <span>
+                        <span class="event-date-time">Date and Time
+                            <span class="event-dates"> <i class="fa fa-play" aria-hidden="true"></i> {{ $item->date_start }}</span>
+                            <span class="event-dates"> <i class="fa fa-flag-checkered" aria-hidden="true"></i> {{ $item->date_end }} </span>
+                        </span>
+                    </span>
                     <a href="#" class="google-notify-link">Add to Google Calendar</a>
                     <span class="event-type">
                         <span class="event-type-category">Category: <span>{{$item->category->category}}</span></span>

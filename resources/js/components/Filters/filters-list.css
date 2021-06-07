@@ -30,8 +30,16 @@
     position: relative;
 }
 
-.filters-block-list-item-cancel{
+.filters-block-list-item-cancel {
     position: absolute;
     top: 14px;
     right: -5px;
+}
+
+.filters-block-list-item:hover {
+    background-color: #caf9f9;
+}
+
+.filter-active {
+    border: 1px solid #4c110f;
 }

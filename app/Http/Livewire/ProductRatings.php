@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Event;
 use Livewire\Component;
 
 class ProductRatings extends Component
@@ -16,7 +15,6 @@ class ProductRatings extends Component
     public function mount($event, $userId, $member)
     {
         $this->userId = $userId;
-        //$event = Event::find($eventId);
         $this->event = $event;
         $this->member = $member;
 

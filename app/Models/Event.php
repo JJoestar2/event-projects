@@ -40,4 +40,9 @@ class Event extends Model
     {
         return $this->belongsToMany(User::class)->withPivot('rating');
     }
+
+    public function photos()
+    {
+        return $this->hasMany(EventPhoto::class);
+    }
 }
