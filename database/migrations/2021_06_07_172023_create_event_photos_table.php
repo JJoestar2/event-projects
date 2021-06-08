@@ -17,6 +17,7 @@ class CreateEventPhotosTable extends Migration
             $table->unsignedBigInteger('id', true);
             $table->foreignId('event_id')->constrained('events')->cascadeOnDelete();
             $table->text('path');
+            $table->boolean('is_preview')->default(false);
             $table->timestamps();
         });
     }

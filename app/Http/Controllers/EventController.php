@@ -42,7 +42,7 @@ class EventController extends Controller
     public function getUserEvents($id)
     {
         $user = User::find($id);
-        $events = $user->events()->paginate(2);
+        $events = $user->events()->where('users_id', '!=', $id)->paginate(2);
 
         return EventsResource::collection($events);
     }
