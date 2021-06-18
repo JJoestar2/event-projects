@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 /**
  * @mixin IdeHelperEvent
@@ -44,5 +45,14 @@ class Event extends Model
     public function photos()
     {
         return $this->hasMany(EventPhoto::class);
+    }
+
+    public function changeStatus()
+    {
+        /*Event::where('status', 'like','%Planing%')
+             ->where(function ($q) {
+               $q->whereDate('date_start', '<=', date('Y-m-d H:i'))
+                   ->update(['status' => 'In Process']);
+             });*/
     }
 }

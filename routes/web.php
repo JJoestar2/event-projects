@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,3 +38,25 @@ Route::post('/event/save', [EventController::class, 'saveEvent']);
 Route::get('/user/edit', [UserController::class, 'editUser']);
 Route::post('/user/save/{id}', [UserController::class, 'saveUser']);
 Route::post('/user/change-password/{id}', [UserController::class, 'saveUserPassword']);
+
+
+/*======================= Admin Routes ================*/
+Route::group(['middleware' => ['role:admin']], function () {
+
+    Route::get('/admin/index', [AdminController::class, 'index'])->name('admin');
+    Route::get('/admin/category/create', [AdminController::class, 'create']);
+    Route::get('/admin/category/{id}', [AdminController::class, 'edit']);
+
+    Route::post('/admin/category/save', [AdminController::class, 'save']);
+    Route::post('/admin/category/{id}/update', [AdminController::class, 'updateCategory']);
+
+
+    Route::get('/admin/types', [AdminController::class, 'types']);
+    Route::get('/admin/type/create', [AdminController::class, 'createType']);
+    Route::get('/admin/type/{id}', [AdminController::class, 'editType']);
+
+    Route::post('/admin/type/save', [AdminController::class, 'saveType']);
+    Route::post('/admin/type/{id}/update', [AdminController::class, 'updateType']);
+
+});
+
