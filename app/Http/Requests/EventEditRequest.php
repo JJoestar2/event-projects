@@ -33,6 +33,7 @@ class EventEditRequest extends FormRequest
             'status' => 'required',
             'location' => 'required|max:45',
             'count' => 'max:100',
+            'preview' => 'mimes:jpg,png,jpeg|max:5048',
         ];
     }
 }

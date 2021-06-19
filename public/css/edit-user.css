@@ -148,3 +148,14 @@ input.input2 + .focus-input2::after {
     color: #fff;
     line-height: 1.2;
 }
+
+#upload {
+    opacity: 0;
+}
+
+#upload-label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+}

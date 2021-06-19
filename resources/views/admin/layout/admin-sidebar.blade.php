@@ -10,7 +10,11 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
             <div class="image">
-                <i class="fa fa-user text-white" aria-hidden="true"></i>
+                @if(Auth::user()->photo)
+                    <img width="80" height="80" class="rounded-circle" src="{{ asset('/images/avatars'). '/' .Auth::user()->photo }}">
+                @else
+                    <i class="fa fa-user text-white" aria-hidden="true"></i>
+                @endif
             </div>
             <div class="info">
                 <span class="d-block text-white">{{ Auth::user()->name . ' ' . Auth::user()->surname }}</span>

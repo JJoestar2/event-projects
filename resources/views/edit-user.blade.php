@@ -129,6 +129,34 @@
                         </button>
                     </form>
                 </div>
+                <div class="wrap-contact2">
+                    <form class="contact2-form" method="POST" action="/user/change-photo/{{ $item['id'] }}" enctype="multipart/form-data">
+                        @csrf
+                        <span class="contact2-form-title">Change Avatar</span>
+
+                        <div class="input-group mb-3 px-2 py-2 rounded-pill bg-gradient-lightblue shadow-sm">
+                            <input id="upload" type="file" name="photo" class="@error('photo') is-invalid @enderror form-control border-0"
+                                   autocomplete="photo" autofocus>
+                            <label id="upload-label" for="upload" class="font-weight-light text-white">Choose file</label>
+                            <div class="input-group-append">
+                                <label for="upload" class="btn btn-light m-0 rounded-pill px-4">
+                                    <i class="fa fa-cloud-upload mr-2 text-muted"></i>
+                                    <small class="text-uppercase font-weight-bold text-muted">Choose file</small>
+                                </label>
+                            </div>
+                            @error('photo')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <input id="old_photo" class="form-control" name="old_photo" type="hidden" value="{{ $item['photo'] }}">
+                        <button class="contact2-form-btn" type="submit">
+                            Save Photo
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

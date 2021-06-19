@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\EventsResource;
 use App\Models\Category;
 use App\Models\Event;
+use App\Models\EventPhoto;
 use App\Models\Type;
 use App\Http\Requests\EventCreateRequest;
 use App\Http\Requests\EventEditRequest;
@@ -13,13 +14,14 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 use Auth;
+use File;
 class EventController extends Controller
 {
 
     public function getAllEvents(Request $request)
     {
         if(!$request->filters) {
-            return EventsResource::collection(Event::paginate(3));
+            return EventsResource::collection(Event::with('photos')->paginate(3));
         } else {
             return $this->filterEvents($request->filters);
         }
@@ -28,7 +30,7 @@ class EventController extends Controller
     public function getEventById($id)
     {
         $event = Event::find($id);
-        $item =  $event->where('id', $id)->with(['category', 'type'])->get();
+        $item =  $event->where('id', $id)->with(['category', 'type', 'photos'])->get();
         $users = $event->users()->select(['user_id', 'name', 'surname'])->get();
 
         if(!Auth::user()) {
@@ -81,7 +83,7 @@ class EventController extends Controller
     {
         $category = Category::all();
         $type = Type::all();
-        $event = Event::where('id', $id)->get();
+        $event = Event::where('id', $id)->with('photos')->get();
 
         return view('edit-event', ['event'=> $event, 'category' => $category, 'type' => $type]);
     }
@@ -90,6 +92,21 @@ class EventController extends Controller
     {
         if($request->validated())
         {
+            if($request->preview != null)
+            {
+                    File::delete('images/events/' . "$request->old_preview");
+
+                    $imageName = time() . '-' . "{$id}" . '.' . $request->preview->extension();
+                    $request->preview->move(public_path('images/events'), $imageName);
+
+                    EventPhoto::where('event_id', $id)
+                        ->update([
+                        'event_id' => $id,
+                        'path'=> $imageName,
+                        'is_preview' => 1
+                    ]);
+            }
+
             Event::where('id', $id)
                 ->update([
                     'category_id' => $request->input('category_id'),
@@ -111,13 +128,20 @@ class EventController extends Controller
 
     public function saveEvent(EventCreateRequest $request)
     {
-        $event = Event::create($request->validated());
-        if($event)
+        if($request->validated())
         {
+            $event = Event::create($request->validated());
             $event->users()->attach($request->input('users_id'));
-            return redirect("/event/create");
-        }
 
+            $imageName = time() . '-' . "{$event->id}" . '.' . $request->preview->extension();
+            $request->preview->move(public_path('images/events'), $imageName);
+
+            EventPhoto::create([
+                'event_id' => $event->id,
+                'path' => $imageName,
+                'is_preview' => 1
+            ]);
+        }
         return redirect("/event/create");
     }
 

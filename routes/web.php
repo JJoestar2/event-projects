@@ -38,6 +38,7 @@ Route::post('/event/save', [EventController::class, 'saveEvent']);
 Route::get('/user/edit', [UserController::class, 'editUser']);
 Route::post('/user/save/{id}', [UserController::class, 'saveUser']);
 Route::post('/user/change-password/{id}', [UserController::class, 'saveUserPassword']);
+Route::post('/user/change-photo/{id}', [UserController::class, 'changePhoto']);
 
 
 /*======================= Admin Routes ================*/

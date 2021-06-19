@@ -12,6 +12,7 @@ class EventPhoto extends Model
     protected $fillable = [
       'event_id',
       'path',
+      'is_preview',
     ];
 
     public function event()

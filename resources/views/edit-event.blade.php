@@ -9,7 +9,7 @@
                     <div class="card-header">{{ __('Edit Event') }}</div>
                     <div class="card-body">
                         @foreach($event as $item)
-                        <form method="POST" action="/event/update/{{ $item->id }}">
+                        <form method="POST" action="/event/update/{{ $item->id }}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group row">
                                 <label for="title"
@@ -155,6 +155,38 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="upload"
+                                       class="col-md-4 col-form-label text-md-right">{{ __('Preview') }}</label>
+
+                                <div class="col-md-6">
+                                    <div class="input-group mb-3 px-2 py-2 rounded-pill bg-gradient-lightblue shadow-sm">
+                                        <input id="upload" type="file" name="preview" class="@error('preview') is-invalid @enderror form-control border-0"
+                                               autocomplete="preview" autofocus>
+                                        <label id="upload-label" for="upload" class="font-weight-light text-white">Choose preview</label>
+                                        <div class="input-group-append">
+                                            <label for="upload" class="btn btn-light m-0 rounded-pill px-4">
+                                                <i class="fa fa-cloud-upload mr-2 text-muted"></i>
+                                                <small class="text-uppercase font-weight-bold text-muted">Choose preview</small>
+                                            </label>
+                                        </div>
+                                        @error('preview')
+                                        <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <input id="old_preview" type="hidden"
+                                           class="form-control" name="old_preview"
+                                           value="{{ count($item->photos) > 0 ? $item->photos[0]->path : '' }}" >
                                 </div>
                             </div>
 

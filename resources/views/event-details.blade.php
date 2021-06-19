@@ -7,7 +7,11 @@
         <div class="event-block__top">
             <div class="d-flex justify-content-between">
                 <div class="event-image">
-                    <img src="{{asset('img_lights.jpg')}}" alt="#">
+                    @if(count($item->photos) == 0)
+                        <img src="{{asset('/images/events/img_lights.jpg')}}" alt="preview">
+                    @else
+                        <img src="{{asset('images/events'). '/' .$item->photos[0]->path}}" alt="preview">
+                    @endif
                 </div>
                 <div class="event-heading">
                     <span>{{ date("F", strtotime($item->date_start)) }} {{  date("d", strtotime($item->date_start)) }} </span>

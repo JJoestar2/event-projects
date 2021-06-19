@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 use Auth;
+use File;
 class UserController extends Controller
 {
     public function __construct()
@@ -19,7 +20,7 @@ class UserController extends Controller
 
     public function editUser()
     {
-        $user = User::select(['id', 'name', 'surname', 'email', 'phone', 'country', 'city'])
+        $user = User::select(['id', 'name', 'surname', 'email', 'phone', 'country', 'city', 'photo'])
             ->where('id', Auth::id())
             ->get();
         return view('edit-user', ['user' => $user]);
@@ -55,5 +56,27 @@ class UserController extends Controller
         }
 
         return redirect("/user/edit");
+    }
+
+    public function changePhoto(Request $request, $id)
+    {
+        $request->validate([
+            'photo' => 'required|mimes:jpg,png,jpeg|max:5048'
+        ]);
+
+        if($request->old_photo != '') {
+            File::delete('images/avatars/' . "$request->old_photo");
+        }
+
+        $imageName = time() . '-' . "{$id}" . '.' . $request->photo->extension();
+        $request->photo->move(public_path('images/avatars'), $imageName);
+
+        User::where('id', $id)
+            ->update([
+                'photo' => $imageName
+            ]);
+
+        return redirect("/user/edit");
+
     }
 }

@@ -23,7 +23,6 @@ class Event extends Model
         'date_end',
         'status',
         'location',
-        'preview',
         'count',
     ];
 

@@ -22,8 +22,7 @@ class MoveEventsinfoColumnsToEvents extends Migration
             $table->dateTime('date_end')->after('date_start');
             $table->string('status', 128)->after('date_end');
             $table->string('location', 128)->after('status');
-            $table->text('preview')->after('location');
-            $table->integer('count')->nullable(true)->after('preview');
+            $table->integer('count')->nullable(true)->after('location');
         });
     }
 
@@ -41,7 +40,6 @@ class MoveEventsinfoColumnsToEvents extends Migration
             $table->dropColumn('date_end');
             $table->dropColumn('status');
             $table->dropColumn('location');
-            $table->dropColumn('preview');
         });
 
         Schema::create('eventsinfo', function (Blueprint $table) {
@@ -52,7 +50,6 @@ class MoveEventsinfoColumnsToEvents extends Migration
             $table->dateTime('date_end');
             $table->string('status', 15);
             $table->string('location', 150);
-            $table->text('preview');
             $table->foreignId('event_id')->constrained('events');
             $table->timestamps();
         });

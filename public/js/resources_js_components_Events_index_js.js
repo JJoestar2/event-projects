@@ -38,6 +38,10 @@ function EventsListItem(props) {
       setShowMenu = _useState2[1];
 
   var activeClass = showMenu ? "setting-menu-item_active" : "";
+  var photo = '';
+  props.event.photos ? props.event.photos.map(function (item) {
+    photo = item.path;
+  }) : '';
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "event event-shadow d-flex justify-content-between flex-column",
     children: [props.userId && props.event.users_id === props.userId ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -68,8 +72,11 @@ function EventsListItem(props) {
       })]
     }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "event-preview",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-        src: "/img_lights.jpg",
+      children: photo ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+        src: "/images/events/".concat(photo),
+        alt: "image"
+      }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+        src: "/images/events/img_lights.jpg",
         alt: "image"
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {

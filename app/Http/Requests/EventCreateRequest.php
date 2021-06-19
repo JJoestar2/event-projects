@@ -34,6 +34,7 @@ class EventCreateRequest extends FormRequest
             'status' => 'required',
             'location' => 'required|max:45',
             'count' => 'max:100',
+            'preview' => 'required|mimes:jpg,png,jpeg|max:5048',
         ];
     }
 }

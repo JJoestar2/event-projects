@@ -4,7 +4,10 @@ import './event-card.css';
 function EventsListItem(props) {
         const [showMenu, setShowMenu] = useState(false);
         const activeClass = showMenu ? "setting-menu-item_active" : "";
-
+        let photo = '';
+        props.event.photos ? props.event.photos.map((item) => {
+           photo = item.path
+        }) : '';
         return (
             <div className="event event-shadow d-flex justify-content-between flex-column">
                 {
@@ -23,7 +26,10 @@ function EventsListItem(props) {
                     </div> : null
                 }
                 <div className="event-preview">
-                    <img src="/img_lights.jpg" alt="image" />
+                    {
+                        photo ? <img src={`/images/events/${photo}`} alt="image" /> :
+                            <img src="/images/events/img_lights.jpg" alt="image" />
+                    }
                 </div>
                 <div className="card-body">
                     <div className="event-info">
