@@ -46,6 +46,11 @@ class Event extends Model
         return $this->hasMany(EventPhoto::class);
     }
 
+    public function applications()
+    {
+        return $this->hasMany(EventApplication::class);
+    }
+
     public function changeStatus()
     {
         /*Event::where('status', 'like','%Planing%')

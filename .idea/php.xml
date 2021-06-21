@@ -122,6 +122,7 @@
       <path value="$PROJECT_DIR$/vendor/itsgoingd/clockwork" />
       <path value="$PROJECT_DIR$/vendor/livewire/livewire" />
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-permission" />
+      <path value="$PROJECT_DIR$/vendor/andyabih/laravel-to-uml" />
     </include_path>
   </component>
   <component name="PhpUnit">

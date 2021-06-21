@@ -40,21 +40,25 @@
                 @endif
 
                 @isset($member)
-                    @if(Auth::id() !== $item->users_id) <!--- check if user is creator of event --->
-                        @if($member)
-                            <a href="{{"/event/leave/" . Auth::id(). "/" . $item->id }}" class="btn-member btn-register">Leave Event</a>
-                        @else
-                            @if(!is_null($item->count))
-                                @if($item->count != 0)
+                    @isset($application)
+                        @if(Auth::id() !== $item->users_id) <!--- check if user is creator of event --->
+                            @if($application)
+                                <a href="{{"/event/application/remove/" . Auth::id(). "/" . $item->id }}" class="btn-member btn-register">Remove application</a>
+                            @elseif($member)
+                                <a href="{{"/event/leave/" . Auth::id(). "/" . $item->id }}" class="btn-member btn-register">Leave Event</a>
+                            @else
+                                @if(!is_null($item->count))
+                                    @if($item->count != 0)
+                                        <a href="{{"/event/register/" . Auth::id(). "/" . $item->id }}" class="btn-member btn-register">Register</a>
+                                    @else($item->count == 0)
+                                        <span> No More Places </span>
+                                    @endif
+                                @else <!--- it means places are unlimited --->
                                     <a href="{{"/event/register/" . Auth::id(). "/" . $item->id }}" class="btn-member btn-register">Register</a>
-                                @else($item->count == 0)
-                                    <span> No More Places </span>
                                 @endif
-                            @else <!--- it means places are unlimited --->
-                                <a href="{{"/event/register/" . Auth::id(). "/" . $item->id }}" class="btn-member btn-register">Register</a>
                             @endif
                         @endif
-                    @endif
+                    @endisset
                 @endisset
             </div>
             <div class="d-flex justify-content-between mt-3 px-3 pb-4">
@@ -78,6 +82,44 @@
                         <span class="event-type-category">Category: <span>{{$item->category->category}}</span></span>
                         <span class="event-type-format">Format: <span>{{$item->type->type}}</span> </span>
                     </span>
+                    @if(Auth::id() == $item->users_id)
+                        @if(sizeof($applications) !== 0)
+                            <div class="participants">
+                                <div class="participants-item mb-2">
+                                    <button class="btn btn-primary" type="button" data-toggle="collapse"
+                                            data-target="#collapseExample1" aria-expanded="false"
+                                            aria-controls="collapseExample1">
+                                        Users application for event
+                                    </button>
+                                    <span class="participants-count ml-2">
+                                        <i class="fa fa-users" aria-hidden="true"></i>
+                                        <span>{{ count($applications) }}</span>
+                                    </span>
+                                </div>
+                                <div class="collapse" id="collapseExample1">
+                                    <div class="card card-body participants-block">
+                                        <ul class="participants-list">
+                                            @foreach($applications as $application)
+                                                <li class="w-100 participants-list-item">
+                                                    <div class="d-flex flex-column">
+                                                        {{ $application->user->name . ' ' . $application->user->surname }}
+                                                        <div class="d-flex justify-content-between">
+                                                            <a href="/event/accept/{{$application->user_id}}/{{$application->event_id}}">
+                                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                                            </a>
+                                                            <a href="/event/decline/{{$application->user_id}}/{{$application->event_id}}">
+                                                                <i class="fa fa-ban" aria-hidden="true"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
                     @if(sizeof($participants) !== 0)
                         <div class="participants">
                             <div class="participants-item mb-2">

@@ -29,7 +29,12 @@ Route::post('/event/update/{id}', [EventController::class, 'eventUpdate']);
 
 Route::get('/event/{id}', [EventController::class, 'getEventById']);
 
-Route::any('/event/register/{userId}/{eventId}', [EventController::class, 'registerInEvent']);
+Route::any('/event/register/{userId}/{eventId}', [EventController::class, 'registerUserApplication']);
+
+Route::any('/event/accept/{userId}/{eventId}', [EventController::class, 'acceptUserApplicaton']);
+Route::any('/event/decline/{userId}/{eventId}', [EventController::class, 'declineUserApplicaton']);
+
+Route::any('/event/application/remove/{userId}/{eventId}', [EventController::class, 'removeApplication']);
 Route::any('/event/leave/{userId}/{eventId}', [EventController::class, 'leaveFromEvent']);
 
 Route::post('/event/save', [EventController::class, 'saveEvent']);

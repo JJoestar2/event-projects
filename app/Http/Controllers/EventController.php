@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\EventsResource;
 use App\Models\Category;
 use App\Models\Event;
+use App\Models\EventApplication;
 use App\Models\EventPhoto;
 use App\Models\Type;
 use App\Http\Requests\EventCreateRequest;
@@ -32,12 +33,14 @@ class EventController extends Controller
         $event = Event::find($id);
         $item =  $event->where('id', $id)->with(['category', 'type', 'photos'])->get();
         $users = $event->users()->select(['user_id', 'name', 'surname'])->get();
+        $applications = $event->applications()->with('user')->get();
 
         if(!Auth::user()) {
             return view('event-details', ['event' => $item, 'participants' => $users, 'eventObj' => $event]);
         } else {
             $member = $this->checkIfUserInEvent($event, Auth::id());
-            return view('event-details', ['event' => $item, 'member' => $member, 'participants' => $users, 'eventObj' => $event]);
+            $application = $this->checkIfUserInApplication($event, Auth::id());
+            return view('event-details', ['event' => $item, 'member' => $member, 'application' => $application, 'participants' => $users, 'eventObj' => $event, 'applications' => $applications]);
         }
     }
 
@@ -152,34 +155,63 @@ class EventController extends Controller
         return redirect("/home");
     }
 
+    public function registerUserApplication($userId, $eventId)
+    {
+        EventApplication::create([
+            'event_id' => $eventId,
+            'user_id' => $userId,
+        ]);
+
+        return redirect("/event/$eventId");
+    }
+
+    public function removeApplication($userId, $eventId)
+    {
+        EventApplication::where('event_id', $eventId)->where('user_id', $userId)->delete();
+
+        return redirect("/event/$eventId");
+    }
+
+    public function acceptUserApplicaton($userId, $eventId)
+    {
+        EventApplication::where('event_id', $eventId)->where('user_id', $userId)->delete();
+        $this->registerInEvent($userId, $eventId);
+
+        return redirect("/event/$eventId");
+    }
+
+    public function declineUserApplicaton($userId, $eventId)
+    {
+        EventApplication::where('event_id', $eventId)->where('user_id', $userId)->delete();
+        return redirect("/event/$eventId");
+    }
+
     public function registerInEvent($userId, $eventId)
     {
         $event = Event::find($eventId);
-        $palcesCount = $event->count;
+        $placesCount = $event->count;
 
-        if(!is_null($palcesCount))
+        if(!is_null($placesCount))
         {
-            if($palcesCount != 0)
+            if($placesCount != 0)
             {
                 $event->update([
-                    'count' => $palcesCount - 1
+                    'count' => $placesCount - 1
                 ]);
                 $event->users()->attach($userId);
             } else return redirect("/event/$eventId");
         } else $event->users()->attach($userId); // places are unlimited so we can register our user in event
-
-        return redirect("/event/$eventId");
     }
 
     public function leaveFromEvent($userId, $eventId)
     {
         $event = Event::find($eventId);
-        $palcesCount = $event->count;
+        $placesCount = $event->count;
 
-        if(!is_null($palcesCount))
+        if(!is_null($placesCount))
         {
             $event->update([
-                'count' => $palcesCount + 1
+                'count' => $placesCount + 1
             ]);
             $event->users()->detach($userId);
         } else $event->users()->detach($userId); // places are unlimited so we can delete our user from event
@@ -210,8 +242,11 @@ class EventController extends Controller
 
     private function checkIfUserInEvent($event, $userId)
     {
-        $member = $event->users()->select('user_id')->where('user_id', $userId)->get();
+        return count($event->users()->select('user_id')->where('user_id', $userId)->get()) > 0;
+    }
 
-        return count($member) > 0;
+    private function checkIfUserInApplication($event, $userId)
+    {
+        return count($event->applications()->select('user_id')->where('user_id', $userId)->get()) > 0;
     }
 }

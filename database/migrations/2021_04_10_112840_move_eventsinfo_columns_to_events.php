@@ -20,7 +20,7 @@ class MoveEventsinfoColumnsToEvents extends Migration
             $table->text('description')->after('title');
             $table->dateTime('date_start')->after('description');
             $table->dateTime('date_end')->after('date_start');
-            $table->string('status', 128)->after('date_end');
+            $table->string('status', 128)->default('Planing')->after('date_end');
             $table->string('location', 128)->after('status');
             $table->integer('count')->nullable(true)->after('location');
         });

@@ -34,7 +34,7 @@
                                 <a href="/event/create"><i class="fa fa-plus-square" aria-hidden="true"></i> Create Event </a>
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     @if(Auth::user()->photo)
-                                        <img class="image rounded-circle" width="60" height="60" src="{{ asset('images/avatars'). '/' . Auth::user()->photo }}" alt="avatar">
+                                        <img class="image rounded-circle" width="30" height="30" src="{{ asset('images/avatars'). '/' . Auth::user()->photo }}" alt="avatar">
                                     @else
                                         <i class="fa fa-user" aria-hidden="true"></i>
                                     @endif
